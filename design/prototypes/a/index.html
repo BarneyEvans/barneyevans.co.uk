@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Online GCSE &amp; A-Level Computer Science Tutor — Barney Evans</title>
+  <meta name="description" content="Personalised tutoring in Computer Science. 1-to-1, online via Zoom. GCSE Computer Science: £34/hour. A-Level Computer Science, AQA only: £45/hour.">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Poppins:wght@600;700&amp;display=swap">
+  <!-- Direction A — familiar, quieter. Static homepage mockup, not production.
+       Production route map: #top → /; #gcse → /gcse-computer-science-tutoring/;
+       #a-level → /a-level-computer-science-tutoring/; #engineering → /about/;
+       #contact → /contact/; #offers → /#offers. Card detail links preview #lessons.
+       Enquire destination: GOOGLE_FORM_URL_PLACEHOLDER. Deliberately disabled.
+       Copy provenance: design/DESIGN-BRIEF.md §3–4, design/prototype-brief.md;
+       business facts and approved LinkedIn/MyTutor extracts: design/00-context.md.
+       Old-site copy: Home.tsx, PrivateTutoring.tsx, Layout.tsx, LessonFlow.tsx,
+       CodeWindow.tsx and constants.ts, as authorised by the exact copy register. -->
+  <style>
+    :root {
+      --cream: #fff9eb; --paper: #fff; --ink: #1a1a1a;
+      --pink: #ff69b4; --blush: #ffe0f1; --link: #9c1456; --muted: #59504f;
+      --heading: 'Poppins', Arial, sans-serif;
+      --body: 'DM Sans', Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body { margin: 0; background: var(--cream); color: var(--ink); font: 400 1rem/1.625 var(--body); overflow-wrap: anywhere; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+    a:visited { color: var(--link); }
+    a:hover { color: var(--ink); text-decoration-thickness: 2px; }
+    a:active { text-decoration-thickness: 3px; }
+    :focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+    [hidden] { display: none !important; }
+    .container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: 1rem; }
+    .section { padding-block: 3rem; }
+    h1, h2, h3, p, figure, blockquote { margin: 0; }
+    h1, h2, h3 { font-family: var(--heading); overflow-wrap: break-word; }
+    h1 { font-size: 2.25rem; line-height: 2.75rem; font-weight: 700; letter-spacing: -.025em; max-width: 18ch; }
+    h2 { font-size: 1.75rem; line-height: 2.25rem; font-weight: 600; letter-spacing: -.015em; }
+    h3 { font-size: 1.375rem; line-height: 1.875rem; font-weight: 600; letter-spacing: -.01em; }
+    p { max-width: 65ch; }
+    .intro { margin-top: 1rem; }
+    .small { font-size: .875rem; line-height: 1.375rem; }
+    .muted { color: var(--muted); }
+    .skip { position: absolute; left: 1rem; top: 1rem; z-index: 5; padding: .75rem 1.5rem; border: 2px solid var(--ink); border-radius: .75rem; background: var(--paper); color: var(--ink); transform: translateY(-200%); }
+    .skip:focus { transform: none; }
+    .site-header { background: var(--paper); border-bottom: 2px solid var(--ink); }
+    .header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: .75rem; }
+    .brand, .brand:visited { font: 700 1.25rem/1.75rem var(--heading); color: var(--ink); text-decoration: none; max-width: 13rem; }
+    .brand span { background: linear-gradient(var(--pink), var(--pink)) left bottom / 3rem 3px no-repeat; padding-bottom: .375rem; }
+    button.menu-toggle { display: none; }
+    .enhanced .menu-toggle { display: inline-flex; }
+    .button { min-height: 3rem; min-width: 3rem; display: inline-flex; justify-content: center; align-items: center; gap: .5rem; padding: .75rem 1.5rem; border: 2px solid var(--ink); border-radius: .75rem; background: var(--cream); color: var(--ink); font: 700 1rem/1.5rem var(--body); text-align: center; text-decoration: none; box-shadow: 4px 4px 0 var(--ink); transition: background-color 120ms ease-out, box-shadow 120ms ease-out, transform 120ms ease-out; }
+    a.button:visited, a.button:hover { color: var(--ink); }
+    .button.primary { background: var(--pink); }
+    .button:disabled { color: var(--ink); background: var(--cream); border-style: dashed; box-shadow: none; opacity: 1; cursor: default; transform: none; transition: none; }
+    .pending { display: flex; flex-direction: column; align-items: stretch; gap: .5rem; min-width: 0; }
+    .pending-label { color: var(--muted); font-size: .875rem; line-height: 1.375rem; }
+    .main-nav { flex: 1 0 100%; display: flex; flex-direction: column; align-items: stretch; gap: .5rem; padding: .5rem 0 1rem; }
+    .main-nav > a { min-height: 3rem; padding: .75rem .5rem; font-size: 1rem; line-height: 1.5rem; font-weight: 700; text-decoration: none; }
+    .main-nav > a:hover { text-decoration: underline; }
+    .main-nav [aria-current] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; }
+    .main-nav .pending { margin-top: .5rem; }
+    .hero-grid { display: grid; gap: 3rem; }
+    .hero-copy { min-width: 0; }
+    .role { font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; max-width: 40ch; margin-bottom: 1.5rem; }
+    .hero h1 span { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 6px; text-underline-offset: 6px; text-decoration-skip-ink: none; }
+    .degree { margin-top: 1.5rem; }
+    .format { margin-top: 1rem; font-weight: 500; }
+    .offer-summary { margin-top: 1.5rem; border-top: 1px solid var(--ink); }
+    .summary-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; align-items: center; min-height: 3rem; padding: .75rem 0; border-bottom: 1px solid var(--ink); text-decoration: none; color: var(--ink); }
+    .summary-row:visited { color: var(--ink); }
+    .summary-row strong { display: block; font-weight: 700; }
+    .summary-row .board { color: var(--muted); }
+    .summary-row .summary-price { font-weight: 700; white-space: nowrap; }
+    .summary-row:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+    .hero-actions { display: flex; flex-direction: column; gap: 1rem; align-items: stretch; margin-top: 1.5rem; padding-right: .5rem; }
+    .hero-actions > .button { align-self: stretch; }
+    .trust { margin-top: 1.5rem; }
+    .dbs { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .75rem; background: var(--blush); border: 1px solid var(--ink); border-radius: 999px; font-size: .875rem; line-height: 1.375rem; font-weight: 500; }
+    .dbs svg { width: 1.125rem; height: 1.125rem; flex: 0 0 auto; }
+    .evidence { margin-top: 1rem; }
+    .evidence a { display: inline-block; margin-top: .5rem; }
+    .portrait-space { padding: 0 .75rem .75rem 0; align-self: center; justify-self: center; width: 100%; max-width: 18.25rem; }
+    .portrait { position: relative; isolation: isolate; background: var(--paper); border: 3px solid var(--ink); border-radius: 1.5rem; padding: .5rem; box-shadow: 6px 6px 0 var(--ink); }
+    .portrait::before { content: ''; position: absolute; inset: 3px -9px -9px 3px; background: var(--blush); border: 2px solid var(--ink); border-radius: 1.5rem; z-index: -2; }
+    .portrait::after { content: ''; position: absolute; inset: 0; background: var(--paper); border-radius: 1.25rem; z-index: -1; }
+    .portrait img { display: block; width: 100%; height: auto; aspect-ratio: 4/5; border-radius: .75rem; }
+    .section-heading { margin-bottom: 1.5rem; }
+    .two-up { display: grid; gap: 1.5rem; padding-right: .5rem; padding-bottom: .5rem; }
+    .card { min-width: 0; background: var(--paper); border: 2px solid var(--ink); border-radius: 1.25rem; padding: 1.25rem; box-shadow: 2px 2px 0 var(--ink); }
+    .offer-card { display: flex; flex-direction: column; align-items: flex-start; }
+    .offer-card .board { margin-top: .75rem; }
+    .price { display: inline-flex; flex-wrap: wrap; align-items: baseline; max-width: 100%; margin-top: 1.5rem; padding: .5rem 1rem; background: var(--pink); border: 2px solid var(--ink); border-radius: .75rem; font: 700 2.25rem/2.75rem var(--heading); letter-spacing: -.02em; }
+    .price > span { min-width: 0; }
+    .price .unit { font: 400 1rem/1.5rem var(--body); letter-spacing: 0; }
+    .offer-card .format { margin-top: 1.5rem; }
+    .detail-link { display: inline-block; margin-top: 1.5rem; }
+    .offer-card .pending { align-self: stretch; margin-top: auto; padding-top: 1.5rem; }
+    .lesson-section { background: var(--paper); border-block: 2px solid var(--ink); }
+    .lesson-prose { max-width: 65ch; }
+    .lesson-prose p + p { margin-top: 1rem; }
+    .timing-label { margin-top: 2rem; font-weight: 700; }
+    .timeline { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
+    .timeline li { min-width: 0; position: relative; padding-left: 2.5rem; }
+    .timeline li::before { content: ''; position: absolute; left: 0; top: .25rem; width: 1.5rem; height: 1.5rem; background: var(--pink); border: 2px solid var(--ink); border-radius: 50%; z-index: 1; }
+    .timeline li:not(:last-child)::after { content: ''; position: absolute; width: 2px; background: var(--ink); left: .6875rem; top: 1.5rem; bottom: -2rem; }
+    .time { display: inline-block; padding: .25rem .5rem; border: 1px solid var(--ink); border-radius: .5rem; background: var(--blush); font: 400 .875rem/1.375rem var(--mono); }
+    .timeline h3 { font-size: 1.125rem; line-height: 1.625rem; letter-spacing: 0; margin-top: .75rem; }
+    .timeline p { margin-top: .5rem; }
+    .review-summary { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+    .review-summary > a { font-weight: 700; }
+    .review-facts { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-block: .5rem; }
+    .review-facts span { font-weight: 500; }
+    .review-card { padding: 1.5rem; display: flex; flex-direction: column; }
+    .quote-icon { display: block; width: 1.5rem; height: 1.5rem; margin-bottom: 1rem; color: var(--ink); }
+    .review-card blockquote { max-width: 60ch; }
+    .review-card figcaption { margin-top: 1rem; color: var(--muted); font-size: .875rem; line-height: 1.375rem; }
+    .review-card cite { font-style: normal; display: block; }
+    .review-card time { display: block; margin-top: .25rem; }
+    .review-card > a { align-self: flex-start; margin-top: .5rem; }
+    .reviews-action { margin-top: 1.5rem; max-width: 16rem; }
+    .engineering { border-top: 1px solid var(--ink); }
+    .engineering-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: center; }
+    .engineering-copy { min-width: 0; }
+    .engineering-copy p { margin-top: 1rem; }
+    .intern-role { font-weight: 700; }
+    .engineering-copy > a { display: inline-block; margin-top: 1.5rem; }
+    .code-window { min-width: 0; background: var(--ink); color: var(--cream); border: 2px solid var(--ink); border-radius: 1.25rem; box-shadow: 4px 4px 0 var(--ink); margin-right: .5rem; }
+    .code-title { border-bottom: 2px solid var(--ink); border-radius: 1.125rem 1.125rem 0 0; padding: .75rem 1.25rem; background: var(--cream); color: var(--ink); font: 400 .875rem/1.375rem var(--mono); }
+    .code-window pre { margin: 0; padding: 1.25rem; overflow-x: auto; font: 400 .875rem/1.375rem var(--mono); }
+    .code-window code { font: inherit; }
+    .code-comment { color: var(--blush); }
+    .code-keyword { color: var(--pink); }
+    .contact-section { padding-top: 0; }
+    .contact-panel { margin-right: .5rem; background: var(--paper); border: 3px solid var(--ink); border-radius: 1.5rem; padding: 1.5rem; box-shadow: 4px 4px 0 var(--ink); }
+    .contact-panel > p { margin-top: 1rem; }
+    .contact-actions { display: flex; flex-direction: column; align-items: stretch; gap: 1rem; margin-top: 1.5rem; padding-right: .25rem; }
+    .email-address { display: inline-block; overflow-wrap: anywhere; margin-top: 1.5rem; }
+    .site-footer { background: var(--ink); color: var(--cream); padding-block: 2rem; }
+    .site-footer a, .site-footer a:visited { color: var(--pink); }
+    .site-footer a:hover, .site-footer a:active { color: var(--blush); }
+    .site-footer :focus-visible { outline-color: var(--cream); }
+    .site-footer .brand, .site-footer .brand:visited { color: var(--cream); }
+    .footer-grid { display: grid; gap: 1.5rem; }
+    .footer-nav { display: flex; flex-wrap: wrap; align-items: flex-start; gap: .5rem 1.5rem; }
+    .footer-nav > a { display: inline-flex; align-items: center; min-height: 3rem; min-width: 3rem; }
+    .footer-nav .pending { flex-basis: 100%; max-width: 16rem; margin-top: .5rem; }
+    .site-footer .pending-label { color: var(--cream); }
+    .footer-sources { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1rem; }
+    .footer-contact .email-address { margin-top: 0; }
+    .copyright { font-size: .875rem; line-height: 1.375rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--cream); }
+    @media (min-width: 768px) {
+      body { font-size: 1.125rem; line-height: 1.75rem; }
+      .container { padding-inline: 1.5rem; }
+      .section { padding-block: 4rem; }
+      h1 { font-size: 2.75rem; line-height: 3.25rem; }
+      h2 { font-size: 2rem; line-height: 2.5rem; }
+      h3 { font-size: 1.5rem; line-height: 2rem; }
+      .hero-actions { flex-direction: row; align-items: flex-start; gap: 1.5rem; }
+      .hero-actions > .button { align-self: flex-start; }
+      .two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card { padding: 2rem; }
+      .review-card { padding: 1.5rem; }
+      .price { font-size: 2.5rem; line-height: 3rem; }
+      .timeline h3 { font-size: 1.25rem; line-height: 1.75rem; }
+      .section-heading { margin-bottom: 2rem; }
+      .contact-section { padding-top: 0; }
+      .contact-panel { padding: 2.5rem; }
+      .contact-actions { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 1.5rem; }
+      .contact-actions .pending { min-width: 11rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .footer-grid > .brand { grid-column: 1/-1; max-width: none; }
+      .site-footer { padding-block: 2.5rem; }
+    }
+    @media (min-width: 1000px) {
+      .container { padding-inline: 2rem; }
+      .section { padding-block: 5rem; }
+      h1 { font-size: 3.5rem; line-height: 4rem; }
+      h2 { font-size: 2.25rem; line-height: 2.75rem; }
+      .header-inner { justify-content: flex-start; gap: 1.5rem; }
+      .header-inner .brand { max-width: 12rem; }
+      .enhanced .menu-toggle { display: none; }
+      .main-nav, .main-nav[hidden] { display: flex !important; flex: 1 1 36rem; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 1.5rem; padding: 0; }
+      .main-nav > a { padding-inline: 0; }
+      .main-nav .pending { margin: 0; max-width: 11rem; }
+      .main-nav .pending-label { font-size: .875rem; }
+      .hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 3rem; }
+      .role { font-size: 1.25rem; line-height: 2rem; }
+      .portrait-space { max-width: 23.25rem; }
+      .timeline { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .timeline li { padding: 3rem 0 0; }
+      .timeline li::before { top: .25rem; }
+      .timeline li:not(:last-child)::after { height: 2px; width: calc(100% + 1.5rem); left: .75rem; top: .9375rem; bottom: auto; }
+      .engineering-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 3rem; }
+      .code-window pre { font-size: 1rem; line-height: 1.5rem; padding: 1.5rem; }
+      .contact-section { padding-top: 0; }
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .button:not(:disabled):hover { background: var(--blush); transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+      .button:not(:disabled):active { background: var(--blush); transform: translate(4px, 4px); box-shadow: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+      .button:not(:disabled):hover, .button:not(:disabled):active { transform: none; }
+    }
+  </style>
+</head>
+<body id="top">
+  <a class="skip" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" data-production-href="/"><span>Barney Evans Tutoring</span></a>
+      <button class="button menu-toggle" type="button" aria-expanded="true" aria-controls="main-navigation">Menu</button>
+      <nav id="main-navigation" class="main-nav" aria-label="Main">
+        <a href="#top" data-production-href="/" aria-current="page">Home</a>
+        <a href="#gcse" data-production-href="/gcse-computer-science-tutoring/" aria-label="GCSE Computer Science tutoring">GCSE</a>
+        <a href="#a-level" data-production-href="/a-level-computer-science-tutoring/" aria-label="A-Level Computer Science tutoring">A-Level</a>
+        <a href="#engineering" data-production-href="/about/">About</a>
+        <a href="#contact" data-production-href="/contact/">Contact</a>
+        <div class="pending"><button class="button" type="button" disabled>Enquire</button><span class="pending-label">Enquiry form pending</span></div>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content" tabindex="-1">
+    <section id="hero" class="section hero" aria-labelledby="hero-heading">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <!-- ROLE: LinkedIn. HOME-H1: old Home.tsx. DEGREE/FORMAT/OFFERS/DBS: business decisions. -->
+          <p class="role">Associate AI Engineer, Homeprotect Home Insurance</p>
+          <h1 id="hero-heading">Personalised tutoring in <span>Computer Science</span></h1>
+          <p class="degree">MEng Computer Science with Artificial Intelligence, University of Southampton</p>
+          <p class="format">1-to-1, online via Zoom</p>
+          <div class="offer-summary">
+            <a class="summary-row" href="#gcse" data-production-href="/gcse-computer-science-tutoring/"><span><strong>GCSE Computer Science</strong><span class="board">any exam board</span></span><span class="summary-price">£34/hour</span></a>
+            <a class="summary-row" href="#a-level" data-production-href="/a-level-computer-science-tutoring/"><span><strong>A-Level Computer Science</strong><span class="board">AQA only</span></span><span class="summary-price">£45/hour</span></a>
+          </div>
+          <div class="hero-actions">
+            <div class="pending"><button class="button" type="button" disabled>Enquire</button><span class="pending-label">Enquiry form pending</span></div>
+            <a class="button" href="#offers" data-production-href="/#offers">Tutoring and prices</a>
+          </div>
+          <div class="trust">
+            <p class="dbs"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 6v6c0 4 8 9 8 9s8-5 8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg>Enhanced DBS checked</p>
+            <!-- HOURS: approved LinkedIn tutoring extract; distinct from MyTutor's snapshot below. -->
+            <p class="evidence">300+ hours taught with a 5.0/5 rating.<br><a href="https://www.linkedin.com/in/barney-evans-400379280/">LinkedIn</a></p>
+          </div>
+        </div>
+        <div class="portrait-space"><figure class="portrait"><img src="../../../public/assets/grad_photo.jpg" width="720" height="900" alt="Barney Evans Graduation" fetchpriority="high"></figure></div>
+      </div>
+    </section>
+
+    <section id="offers" class="section" aria-labelledby="offers-heading">
+      <div class="container">
+        <div class="section-heading"><h2 id="offers-heading">Tutoring and prices</h2><p class="intro">Choose the option that best fits your needs.</p></div>
+        <div class="two-up">
+          <article class="card offer-card" id="gcse" tabindex="-1">
+            <h3>GCSE Computer Science</h3><p class="board">any exam board</p>
+            <p class="price"><span>£34</span><span class="unit">/hour</span></p><p class="format">1-to-1, online via Zoom</p>
+            <a class="detail-link" href="#lessons" data-production-href="/gcse-computer-science-tutoring/">GCSE Computer Science tutoring</a>
+            <div class="pending"><button class="button" type="button" disabled>Enquire</button><span class="pending-label">Enquiry form pending</span></div>
+          </article>
+          <article class="card offer-card" id="a-level" tabindex="-1">
+            <h3>A-Level Computer Science</h3><p class="board">AQA only</p>
+            <p class="price"><span>£45</span><span class="unit">/hour</span></p><p class="format">1-to-1, online via Zoom</p>
+            <a class="detail-link" href="#lessons" data-production-href="/a-level-computer-science-tutoring/">A-Level Computer Science tutoring</a>
+            <div class="pending"><button class="button" type="button" disabled>Enquire</button><span class="pending-label">Enquiry form pending</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="lessons" class="section lesson-section" aria-labelledby="lessons-heading" tabindex="-1">
+      <div class="container">
+        <div class="section-heading"><h2 id="lessons-heading">Typical 60-Minute Lesson</h2></div>
+        <!-- COLLABORATION: MyTutor About my sessions. SLIDES: old LessonFlow.tsx. Steps: old constants.ts general lessonFlow. -->
+        <div class="lesson-prose"><p>My lessons feature real-time document collaboration, allowing students to actively participate rather than passively watch.</p><p>Every lesson is built with a custom set of slides tailored to the current topic and progress which can be used for recap at a later stage.</p></div>
+        <p class="timing-label">Approximate timings</p>
+        <ol class="timeline">
+          <li><span class="time">5-10m</span><h3>Recap</h3><p>Reviewing previous concept or homework.</p></li>
+          <li><span class="time">20-25m</span><h3>Live Teaching</h3><p>New concept explained via interactive coding.</p></li>
+          <li><span class="time">20-25m</span><h3>Practice</h3><p>Student writes code with guidance &amp; feedback.</p></li>
+          <li><span class="time">5m</span><h3>Wrap Up</h3><p>Summary of lesson &amp; next steps.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="reviews" class="section" aria-labelledby="reviews-heading">
+      <div class="container">
+        <h2 id="reviews-heading">Parent reviews</h2>
+        <!-- MyTutor profile snapshot and full quotations: approved extracts, checked 5 November 2026. -->
+        <div class="review-summary" role="group" aria-label="MyTutor">
+          <a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor</a>
+          <div class="review-facts"><span>16 reviews</span><span>average rating 5</span><span>216 completed lessons</span></div>
+          <p class="small muted">Checked 5 November 2026</p>
+        </div>
+        <div class="two-up">
+          <figure class="card review-card">
+            <svg class="quote-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h8v8H6c0 3 2 4 4 4v3c-5 0-7-3-7-7Zm11 0h8v8h-5c0 3 2 4 4 4v3c-5 0-7-3-7-7Z"/></svg>
+            <blockquote>Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!</blockquote>
+            <figcaption><cite>Rahnuma, Parent from Norwich</cite><time datetime="2025-08-21">21 Aug 2025</time></figcaption>
+            <a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor</a>
+          </figure>
+          <figure class="card review-card">
+            <svg class="quote-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h8v8H6c0 3 2 4 4 4v3c-5 0-7-3-7-7Zm11 0h8v8h-5c0 3 2 4 4 4v3c-5 0-7-3-7-7Z"/></svg>
+            <blockquote>Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school.</blockquote>
+            <figcaption><cite>Suzanne, Parent from Hook</cite></figcaption>
+            <a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor</a>
+          </figure>
+        </div>
+        <div class="pending reviews-action"><button class="button" type="button" disabled>Enquire</button><span class="pending-label">Enquiry form pending</span></div>
+      </div>
+    </section>
+
+    <section id="engineering" class="section engineering" aria-labelledby="engineering-heading" tabindex="-1">
+      <div class="container engineering-grid">
+        <div class="engineering-copy">
+          <h2 id="engineering-heading">Engineering experience</h2>
+          <!-- INTERN-ROLE and INTERN-WORK: LinkedIn; this work belongs to the internship only. -->
+          <p class="intern-role">AI Developer Intern, Homeprotect, Jun 2026 – Sep 2026</p>
+          <p>Built a fully configurable, containerised RAG microservice on GCP using FastAPI and Docker.</p>
+          <a href="#engineering" data-production-href="/about/">About Barney</a>
+        </div>
+        <div class="code-window" aria-hidden="true"><div class="code-title">sort.py</div><pre><code><span class="code-comment"># Let's sort a list!</span>
+nums = [64, 34, 25, 12]
+<span class="code-keyword">print</span>(bubble_sort(nums))</code></pre></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section" aria-labelledby="contact-heading" tabindex="-1">
+      <div class="container"><div class="contact-panel">
+        <h2 id="contact-heading">Ready to get started?</h2><p>1-to-1, online via Zoom</p>
+        <div class="contact-actions">
+          <div class="pending"><button class="button" type="button" disabled>Enquire</button><span class="pending-label">Enquiry form pending</span></div>
+          <a class="button primary" href="mailto:ebarneytutoring@gmail.com">Email Barney</a>
+        </div>
+        <a class="email-address" href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a>
+      </div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <a class="brand" href="#top" data-production-href="/"><span>Barney Evans Tutoring</span></a>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="#top" data-production-href="/" aria-current="page">Home</a>
+          <a href="#gcse" data-production-href="/gcse-computer-science-tutoring/" aria-label="GCSE Computer Science tutoring">GCSE</a>
+          <a href="#a-level" data-production-href="/a-level-computer-science-tutoring/" aria-label="A-Level Computer Science tutoring">A-Level</a>
+          <a href="#engineering" data-production-href="/about/">About</a>
+          <a href="#contact" data-production-href="/contact/">Contact</a>
+          <div class="pending"><button class="button" type="button" disabled>Enquire</button><span class="pending-label">Enquiry form pending</span></div>
+        </nav>
+        <div class="footer-contact">
+          <a class="email-address" href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a>
+          <div class="footer-sources"><a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor</a><a href="https://www.linkedin.com/in/barney-evans-400379280/">LinkedIn</a></div>
+        </div>
+      </div>
+      <p class="copyright">© 2026 Barney Evans Tutoring. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    (() => {
+      const toggle = document.querySelector('.menu-toggle');
+      const nav = document.getElementById('main-navigation');
+      const desktop = window.matchMedia('(min-width: 1000px)');
+      const setOpen = (open) => {
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.textContent = open ? 'Close menu' : 'Menu';
+        nav.hidden = !open;
+      };
+      document.documentElement.classList.add('enhanced');
+      setOpen(desktop.matches);
+      toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !desktop.matches && toggle.getAttribute('aria-expanded') === 'true') {
+          setOpen(false);
+          toggle.focus();
+        }
+      });
+      nav.addEventListener('click', (event) => {
+        if (!desktop.matches && event.target.closest('a[href^="#"]')) setOpen(false);
+      });
+      desktop.addEventListener('change', (event) => setOpen(event.matches));
+    })();
+  </script>
+</body>
+</html>
