@@ -1,0 +1,172 @@
+{
+  "date": "2026-11-06T19:10:38.016Z",
+  "captures": [
+    {
+      "width": 390,
+      "id": "top",
+      "scroll": 0,
+      "zoom": 1.0002660119916305,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-top.png"
+    },
+    {
+      "width": 390,
+      "id": "subjects",
+      "scroll": 995,
+      "zoom": 1.6607989980019726,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-subjects.png"
+    },
+    {
+      "width": 390,
+      "id": "tutors",
+      "scroll": 2157,
+      "zoom": 2.1603870215639405,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-tutors.png"
+    },
+    {
+      "width": 390,
+      "id": "lessons",
+      "scroll": 3805,
+      "zoom": 3.0832075510012897,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-lessons.png"
+    },
+    {
+      "width": 390,
+      "id": "reviews",
+      "scroll": 5058,
+      "zoom": 2.176192186062218,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-reviews.png"
+    },
+    {
+      "width": 390,
+      "id": "contact",
+      "scroll": 6136,
+      "zoom": 1.0028359553981085,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-contact.png"
+    },
+    {
+      "width": 1440,
+      "id": "top",
+      "scroll": 0,
+      "zoom": 1.0096815672153636,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-top.png"
+    },
+    {
+      "width": 1440,
+      "id": "subjects",
+      "scroll": 793,
+      "zoom": 1.672995018679084,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-subjects.png"
+    },
+    {
+      "width": 1440,
+      "id": "tutors",
+      "scroll": 1758,
+      "zoom": 2.183661510919452,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-tutors.png"
+    },
+    {
+      "width": 1440,
+      "id": "lessons",
+      "scroll": 2864,
+      "zoom": 3.0515201905818348,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-lessons.png"
+    },
+    {
+      "width": 1440,
+      "id": "reviews",
+      "scroll": 3752,
+      "zoom": 2.123620748714125,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-reviews.png"
+    },
+    {
+      "width": 1440,
+      "id": "contact",
+      "scroll": 4441,
+      "zoom": 1,
+      "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-contact.png"
+    }
+  ],
+  "errors": [],
+  "checks": [
+    "320px: no horizontal overflow at top",
+    "320px: no horizontal overflow at subjects",
+    "320px: no horizontal overflow at tutors",
+    "320px: no horizontal overflow at lessons",
+    "320px: no horizontal overflow at reviews",
+    "320px: no horizontal overflow at contact",
+    "390px: no horizontal overflow at top",
+    "390px: no horizontal overflow at subjects",
+    "390px: no horizontal overflow at tutors",
+    "390px: no horizontal overflow at lessons",
+    "390px: no horizontal overflow at reviews",
+    "390px: no horizontal overflow at contact",
+    "barney: flips to reverse",
+    "barney: focus moves to reverse control",
+    "eugene: flips to reverse",
+    "eugene: focus moves to reverse control",
+    "Keyboard planting and Eugene selection",
+    "Touch planting on empty paper",
+    "Pause stops generations",
+    "Reduced motion: no automatic evolution or camera zoom",
+    "Reduced motion: instant card swap",
+    "MyTutor and overall teaching figures remain separate",
+    "Enquire links consistently target contact",
+    "Preview is noindex",
+    "1440px: no horizontal overflow at top",
+    "1440px: no horizontal overflow at subjects",
+    "1440px: no horizontal overflow at tutors",
+    "1440px: no horizontal overflow at lessons",
+    "1440px: no horizontal overflow at reviews",
+    "1440px: no horizontal overflow at contact",
+    "Without JavaScript, both tutor reverses are visible",
+    "Without JavaScript, no horizontal overflow",
+    "No browser JavaScript errors"
+  ],
+  "performance": [
+    {
+      "section": "subjects",
+      "cpuThrottle": 4,
+      "viewport": "390×844",
+      "grid": [
+        30,
+        505
+      ],
+      "pixelRatio": 2,
+      "renderSamples": 70,
+      "stepSamples": 3,
+      "drawP95": 1.5999999642372131,
+      "stepP95": 6.600000023841858,
+      "frameIntervalP95": 6.199999999998909
+    },
+    {
+      "section": "lessons",
+      "cpuThrottle": 4,
+      "viewport": "390×844",
+      "grid": [
+        30,
+        505
+      ],
+      "pixelRatio": 2,
+      "renderSamples": 69,
+      "stepSamples": 3,
+      "drawP95": 0.5,
+      "stepP95": 2.699999988079071,
+      "frameIntervalP95": 6.199999999998909
+    },
+    {
+      "section": "contact",
+      "cpuThrottle": 4,
+      "viewport": "390×844",
+      "grid": [
+        30,
+        505
+      ],
+      "pixelRatio": 2,
+      "renderSamples": 70,
+      "stepSamples": 3,
+      "drawP95": 2.5,
+      "stepP95": 2.300000011920929,
+      "frameIntervalP95": 6.199999999998909
+    }
+  ]
+}

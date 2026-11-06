@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Great Tutoring Circus — Barney &amp; Eugene</title>
+<meta name="description" content="Personalised tutoring in Computer Science, Physics & Maths">
+<style>
+  *{box-sizing:border-box}
+  :root{
+    --red:#7d1018;--red2:#a51c24;--cream:#f8e9c5;--gold:#e9b955;--ink:#1b0c09;
+    --teal:#0d4f4a;--pink:#e8a3b4;--line:rgba(27,12,9,.28);
+    --curtain:0;--scroll:0;--clap:0;--mx:50%;--my:28%;
+  }
+  html{scroll-behavior:smooth;scroll-padding-top:92px}
+  body{
+    margin:0;color:var(--cream);background:var(--ink);
+    font:17px/1.6 Georgia,"Times New Roman",serif;
+    overflow-x:hidden;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(circle at var(--mx) var(--my),rgba(255,240,183,.16),transparent 38%);
+  }
+  a{color:inherit}
+  h1,h2,h3,p,figure,blockquote{margin:0}
+  img{display:block;max-width:100%;height:auto}
+  button{font:inherit;cursor:pointer}
+
+  .skip{position:fixed;left:12px;top:-100px;z-index:100;background:var(--cream);color:var(--ink);padding:12px 18px;text-decoration:none}
+  .skip:focus{top:12px}
+
+  .curtains{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .arch{position:absolute;inset:0;background:
+      radial-gradient(ellipse at 50% 18%,rgba(233,185,85,.22),transparent 58%),
+      linear-gradient(180deg,#2b0b0e,#120606 65%,#1b0c09)}
+  .curtain{position:absolute;top:0;bottom:0;width:56vw;
+    background:repeating-linear-gradient(90deg,#5e0a10 0 13px,#8d131b 13px 27px,#6f0d14 27px 40px);
+    box-shadow:inset 0 0 90px #250507,0 0 70px #000a;will-change:transform}
+  .curtain::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0007,transparent 30%,#000a)}
+  .curtain.left{left:0;transform:translateX(calc(5vw + var(--curtain) * -66vw))}
+  .curtain.right{right:0;transform:translateX(calc(-5vw + var(--curtain) * 66vw))}
+  .valance{position:absolute;top:0;left:0;right:0;height:26px;background:
+      repeating-linear-gradient(90deg,#6d0e14 0 18px,#a51c24 18px 36px);
+    box-shadow:0 8px 30px #000a}
+
+  .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:22px;
+    justify-content:space-between;flex-wrap:wrap;padding:12px max(4vw,18px);
+    background:rgba(27,12,9,.9);border-bottom:2px solid var(--gold);backdrop-filter:blur(6px)}
+  .brand{font-size:16px;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;font-weight:bold}
+  .brand span{color:var(--gold)}
+  .top nav{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+  .top nav a{text-decoration:none;padding:8px 0;border-bottom:2px solid transparent}
+  .top nav a:hover{border-color:var(--gold)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;
+    padding:12px 26px;background:var(--gold);color:var(--ink);border:2px solid var(--ink);
+    text-decoration:none;font-weight:bold;letter-spacing:.1em;text-transform:uppercase;
+    box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--cream);outline-offset:4px}
+  .btn.small{min-height:42px;padding:8px 16px;font-size:12px;box-shadow:3px 3px 0 currentColor}
+
+  .act-sign{position:fixed;right:16px;bottom:16px;z-index:30;display:flex;align-items:center;gap:12px;
+    padding:10px 16px;background:var(--ink);color:var(--cream);border:1px solid var(--gold);
+    box-shadow:0 6px 24px #0009;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+  .act-sign strong{color:var(--gold)}
+  .act-sign.flash{animation:signflash .7s ease}
+  @keyframes signflash{0%,100%{background:var(--ink)}30%{background:var(--gold);color:var(--ink)}}
+
+  main{position:relative;z-index:2}
+  .act{position:relative;padding:clamp(58px,9vw,110px) max(5vw,20px);border-top:2px solid var(--gold)}
+  .wrap{max-width:1180px;margin:0 auto}
+  .kicker{display:flex;align-items:center;gap:14px;font-size:12px;letter-spacing:.3em;
+    text-transform:uppercase;margin-bottom:10px;color:var(--gold)}
+  .kicker::before{content:"";width:54px;height:2px;background:currentColor}
+  h1{font-size:clamp(38px,7vw,92px);line-height:.98;letter-spacing:-.03em;max-width:15ch;text-wrap:balance}
+  h2{font-size:clamp(34px,5.6vw,72px);line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
+  h3{font-size:clamp(22px,2.6vw,31px);line-height:1.15}
+  .lede{font-size:clamp(18px,2.1vw,23px);max-width:62ch;margin-top:18px}
+  .bulbs{height:18px;margin:0 0 22px;background-image:radial-gradient(circle,var(--gold) 0 4px,transparent 5px);
+    background-size:30px 18px;background-position:0 0;animation:bulbs 2.4s linear infinite}
+  @keyframes bulbs{to{background-position:30px 0}}
+  .ph{background:#fff3;border-bottom:2px dashed currentColor;font-style:italic;padding:0 .15em}
+  .small{font-size:13px;opacity:.82}
+
+  /* HERO */
+  .hero{padding-top:clamp(52px,7vw,96px);border-top:0;background:
+      radial-gradient(ellipse at 50% 0,rgba(233,185,85,.18),transparent 60%)}
+  .hero .wrap{display:grid;grid-template-columns:1.35fr .9fr;gap:clamp(24px,5vw,64px);align-items:center}
+  .bark{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .hero h1{color:var(--cream);text-shadow:0 3px 0 #0006}
+  .hero .lede{color:#f3d9a8}
+  .actions{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:28px}
+  .textlink{text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:4px;
+    letter-spacing:.1em;text-transform:uppercase;font-size:13px}
+  .rings{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .ring{position:relative;padding:10px;background:
+      radial-gradient(circle at 50% 35%,#3a1418,#1d0a0c 68%);
+    border:2px solid var(--gold);border-radius:50% 50% 10px 10px;text-align:center;
+    box-shadow:0 18px 50px #0008,inset 0 0 40px #0009}
+  .ring::before{content:"";position:absolute;inset:8px;border:1px dashed rgba(233,185,85,.5);border-radius:inherit}
+  .ring img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 22%;border-radius:4px;filter:sepia(.18) contrast(1.05)}
+  .ring:last-child img{aspect-ratio:1/1;object-position:55% 45%}
+  .ring figcaption{padding:10px 4px 4px;font-size:13px;line-height:1.35}
+  .ring figcaption strong{display:block;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+  .hero-strip{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:34px;padding-top:18px;
+    border-top:1px solid rgba(248,233,197,.28);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#e9cf9f}
+
+  /* PRICES */
+  .prices{background:linear-gradient(180deg,#801119,#5c0b11);color:var(--cream)}
+  .prices .kicker{color:var(--gold)}
+  .rig{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:clamp(30px,5vw,58px);align-items:start}
+  .trapeze{position:relative;padding-top:64px}
+  .trapeze::before,.trapeze::after{content:"";position:absolute;top:0;height:64px;width:2px;
+    background:linear-gradient(#e9b955,#b98a2f);box-shadow:0 0 8px #0007}
+  .trapeze::before{left:24%}.trapeze::after{right:24%}
+  .bar{position:absolute;top:0;left:8%;right:8%;height:7px;border-radius:7px;
+    background:linear-gradient(#f3d68f,#a97724);box-shadow:0 3px 0 #3d070a}
+  .car{transform-origin:50% 0;will-change:transform}
+  .act.lit .car{animation:swing var(--swing,5.2s) ease-in-out infinite}
+  .trapeze:nth-child(2) .car{animation-delay:-1.4s}
+  .trapeze:nth-child(3) .car{animation-delay:-2.6s}
+  @keyframes swing{0%,100%{transform:rotate(-2.4deg)}50%{transform:rotate(2.4deg)}}
+  .card{background:var(--cream);color:var(--ink);border:3px solid var(--ink);padding:22px 20px;
+    box-shadow:8px 8px 0 #3d070a;min-height:100%}
+  .card h3{font-size:24px}
+  .card .with{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#7d1018;margin:3px 0 16px}
+  .deal{border-top:2px solid var(--line);padding:13px 0}
+  .deal:last-of-type{border-bottom:2px solid var(--line)}
+  .deal .subject{display:block;font-weight:bold;font-size:17px}
+  .deal .board{display:block;font-size:13px;color:#553a30;margin:2px 0 7px}
+  .deal .price{display:block;font-size:clamp(30px,3.6vw,44px);line-height:1;letter-spacing:-.02em;color:#7d1018}
+  .card .format{font-size:13px;margin:14px 0 18px;color:#4a2a22}
+  .card .btn{width:100%;box-shadow:4px 4px 0 var(--ink)}
+  .prices .note{max-width:70ch;margin-top:30px;font-size:13px;color:#f0d6a4}
+
+  /* STARS */
+  .stars{background:var(--cream);color:var(--ink)}
+  .stars .kicker{color:#7d1018}
+  .star-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,70px);margin-top:42px}
+  .star-head{display:flex;gap:20px;align-items:center;margin-bottom:22px}
+  .portrait{flex:0 0 132px;width:132px;aspect-ratio:4/5;object-fit:cover;border:4px solid #7d1018;
+    border-radius:50% 50% 8px 8px;box-shadow:5px 5px 0 #7d1018}
+  .portrait.square{aspect-ratio:1/1;object-position:56% 45%}
+  .star-head h3{font-size:clamp(27px,3vw,38px);letter-spacing:-.01em}
+  .star-head .role{font-size:15px;color:#5b3128;margin-top:5px}
+  .creds{list-style:none;padding:0;margin:0 0 24px}
+  .creds li{border-top:1px solid var(--line);padding:10px 0 10px 24px;position:relative;font-size:15.5px}
+  .creds li::before{content:"✦";position:absolute;left:0;color:#7d1018}
+  .hours{background:#7d1018;color:var(--cream);padding:12px 16px;margin:0 0 24px;font-size:15px;
+    border-left:6px solid var(--gold)}
+  .subhead{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#7d1018;margin:22px 0 10px}
+  .cv{list-style:none;padding:0;margin:0}
+  .cv li{border-top:1px solid var(--line);padding:11px 0;font-size:15px}
+  .cv strong{display:block;font-size:15.5px}
+  .cv span{display:block;color:#5b3128;font-size:13px;margin:2px 0 5px}
+  .cv p{font-size:15px}
+  .links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:20px;font-size:13px;
+    letter-spacing:.1em;text-transform:uppercase}
+  .links a{text-underline-offset:4px}
+  .bio{border:2px dashed #7d1018;padding:16px;margin-top:18px;font-size:14px;background:#fff8e8}
+
+  /* LESSON */
+  .lesson{background:linear-gradient(180deg,#0d4f4a,#083b37);color:var(--cream)}
+  .lesson .kicker{color:var(--gold)}
+  .words{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:36px 0 10px}
+  .words blockquote{border-top:2px solid var(--gold);padding-top:16px;font-size:17px;line-height:1.5}
+  .words cite{display:block;margin-top:10px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-style:normal;color:var(--gold)}
+  .extras{max-width:70ch;margin:22px 0 0;font-size:14px;color:#d8f0e9}
+  .extras li{margin:4px 0}
+  .timing-note{display:inline-block;margin:36px 0 14px;padding:6px 12px;border:1px solid var(--gold);
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+  .wire{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:18px}
+  .wire::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold)}
+  .step{position:relative;padding:26px 16px 18px;border-left:1px solid rgba(248,233,197,.3)}
+  .step::before{content:"";position:absolute;top:-5px;left:-5px;width:11px;height:11px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 0 4px #0d4f4a}
+  .step .num{font-size:11px;letter-spacing:.2em;color:var(--gold)}
+  .step h3{font-size:22px;margin:8px 0 4px}
+  .step .time{font-size:26px;color:var(--gold);margin-bottom:8px}
+  .step p{font-size:15px}
+  .lesson .small{margin-top:22px;color:#cfebe3}
+
+  /* APPLAUSE */
+  .applause{background:linear-gradient(180deg,#e8a3b4,#d4899c);color:#2b0d13}
+  .applause .kicker{color:#7d1018}
+  .stats{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;margin:26px 0 8px;
+    padding:14px 0;border-top:2px solid #2b0d13;border-bottom:2px solid #2b0d13;font-size:14px}
+  .stats a{font-weight:bold}
+  .stats .checked{font-size:12px;letter-spacing:.06em;opacity:.8;margin-left:auto}
+  .clap-wrap{display:flex;align-items:center;gap:14px;margin:18px 0 8px}
+  .clap-label{font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+  .clap{flex:1;height:12px;background:#0002;border:2px solid #2b0d13;overflow:hidden}
+  .clap i{display:block;height:100%;width:calc(var(--clap) * 100%);background:#7d1018;
+    transition:width .1s linear}
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);margin-top:32px}
+  .quotes figure{background:#fff6ec;color:#2b0d13;border:3px solid #2b0d13;padding:24px;
+    box-shadow:7px 7px 0 #7d1018}
+  .quotes blockquote{font-size:19px;line-height:1.55;margin-bottom:18px}
+  .quotes figcaption{font-size:14px;font-weight:bold}
+  .quotes figcaption span{display:block;font-weight:normal;font-size:13px;margin-top:2px}
+  .quotes figcaption a{display:block;margin-top:10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+
+  /* CONTACT */
+  .contact{background:linear-gradient(180deg,#e9b955,#c99533);color:var(--ink);text-align:center}
+  .contact .kicker{color:#7d1018;justify-content:center}
+  .contact h2{font-size:clamp(38px,7vw,84px);max-width:16ch;margin:0 auto}
+  .contact .lede{margin:18px auto 0;max-width:56ch}
+  .contact .actions{justify-content:center}
+  .contact .btn{background:var(--ink);color:var(--gold);border-color:var(--ink);box-shadow:5px 5px 0 #fff6}
+  .emails{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 30px;margin-top:26px;font-size:16px}
+  .emails a{text-underline-offset:4px}
+  .form-note{margin-top:18px;font-size:13px}
+
+  footer{position:relative;z-index:2;background:#120606;color:var(--cream);
+    padding:30px max(5vw,20px) 86px;display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;
+    border-top:2px solid var(--gold);font-size:13px}
+  footer .brand{font-size:14px}
+  footer nav{display:flex;gap:16px;flex-wrap:wrap}
+  footer nav a{text-decoration:none;border-bottom:1px solid #ffffff33;padding-bottom:2px}
+  footer .copy{margin-left:auto}
+  .bow{background:transparent;color:var(--gold);border:1px solid var(--gold);padding:8px 14px;
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+
+  .confetti{position:fixed;z-index:90;pointer-events:none;width:10px;height:14px;border-radius:2px}
+
+  @media(max-width:900px){
+    .hero .wrap{grid-template-columns:1fr}
+    .rings{max-width:460px}
+    .rig{grid-template-columns:1fr;max-width:460px;margin-left:auto;margin-right:auto;gap:46px}
+    .trapeze:nth-child(2) .car,.trapeze:nth-child(3) .car{animation-delay:0s}
+    .star-grid{grid-template-columns:1fr}
+    .words{grid-template-columns:1fr}
+    .quotes{grid-template-columns:1fr}
+    .wire{grid-template-columns:1fr 1fr}
+    .wire::before{display:none}
+    .step{border-left:0;border-top:1px solid rgba(248,233,197,.4);padding-top:18px}
+    .step::before{top:-6px;left:0}
+  }
+  @media(max-width:620px){
+    .top{gap:10px}
+    .top nav{order:3;width:100%;justify-content:space-between;gap:8px;font-size:11px;
+      border-top:1px solid #ffffff22;padding-top:8px}
+    .top .btn{margin-left:auto}
+    .star-head{flex-wrap:wrap}
+    .portrait{flex-basis:104px;width:104px}
+    .wire{grid-template-columns:1fr}
+    .stats .checked{margin-left:0;width:100%}
+    footer .copy{margin-left:0;width:100%}
+    .act-sign{left:10px;right:auto;bottom:10px;font-size:10px;padding:8px 12px}
+    h1{max-width:100%}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the show</a>
+
+<div class="curtains" aria-hidden="true">
+  <div class="arch"></div>
+  <div class="valance"></div>
+  <div class="curtain left"></div>
+  <div class="curtain right"></div>
+</div>
+
+<header class="top">
+  <a class="brand" href="#show">Barney <span>&amp;</span> Eugene</a>
+  <nav aria-label="Acts">
+    <a href="#stars">The Stars</a>
+    <a href="#prices">Prices</a>
+    <a href="#lesson">The Lesson</a>
+    <a href="#applause">Applause</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="btn small" href="#contact">Enquire</a>
+</header>
+
+<div class="act-sign" id="act-sign" aria-live="polite">
+  <strong>Act I</strong><span>The Stars</span>
+</div>
+
+<main id="main">
+
+  <section id="show" class="act hero" data-num="Act I" data-name="The Stars">
+    <div class="wrap">
+      <div>
+        <p class="bark">Ladies and gentlemen! Roll up, roll up!</p>
+        <h1>Personalised tutoring in Computer Science, Physics &amp; Maths</h1>
+        <p class="lede">Two tutors, one centre ring. Barney takes Computer Science; Eugene takes Physics and
+          Maths. Lessons are built around the student in front of us.</p>
+        <div class="actions">
+          <a class="btn" href="#contact">Enquire</a>
+          <a class="textlink" href="#prices">See the price trapeze ↓</a>
+        </div>
+        <p class="hero-strip"><span>Computer Science</span><span>Physics</span><span>Maths</span><span>GCSE &amp; A-Level</span></p>
+      </div>
+      <div class="rings">
+        <figure class="ring">
+          <img src="grad_photo.jpg" alt="Barney Evans at his graduation" width="720" height="900">
+          <figcaption><strong>Barney Evans</strong>Computer Science</figcaption>
+        </figure>
+        <figure class="ring">
+          <img src="eugene.jpg" alt="Eugene Bevilacqua" width="800" height="800">
+          <figcaption><strong>Eugene Bevilacqua</strong>Physics &amp; Maths</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="prices" class="act prices" data-num="Act II" data-name="The Price Trapeze">
+    <div class="wrap">
+      <p class="kicker">Act II</p>
+      <h2>The Price Trapeze</h2>
+      <p class="lede">High above the centre ring, the official price list swings out over the audience.
+        Steady your nerves and read it at your leisure — every figure below is on the level.</p>
+      <div class="rig">
+        <article class="trapeze">
+          <span class="bar" aria-hidden="true"></span>
+          <div class="car">
+            <div class="card">
+              <h3>Computer Science</h3>
+              <p class="with">with Barney</p>
+              <div class="deal">
+                <span class="subject">GCSE Computer Science</span>
+                <span class="board">any exam board</span>
+                <span class="price">£34/hour</span>
+              </div>
+              <div class="deal">
+                <span class="subject">A-Level Computer Science</span>
+                <span class="board">AQA only</span>
+                <span class="price">£45/hour</span>
+              </div>
+              <p class="format">1-to-1, online via Zoom</p>
+              <a class="btn" href="#contact">Enquire</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="trapeze">
+          <span class="bar" aria-hidden="true"></span>
+          <div class="car">
+            <div class="card">
+              <h3>Physics</h3>
+              <p class="with">with Eugene</p>
+              <div class="deal">
+                <span class="subject">GCSE Physics</span>
+                <span class="board"><span class="ph">[exam boards to confirm]</span></span>
+                <span class="price"><span class="ph">£XX/hour</span></span>
+              </div>
+              <div class="deal">
+                <span class="subject">A-Level Physics</span>
+                <span class="board"><span class="ph">[exam boards to confirm]</span></span>
+                <span class="price"><span class="ph">£XX/hour</span></span>
+              </div>
+              <p class="format"><span class="ph">1-to-1, online via Zoom</span></p>
+              <a class="btn" href="#contact">Enquire</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="trapeze">
+          <span class="bar" aria-hidden="true"></span>
+          <div class="car">
+            <div class="card">
+              <h3>Maths</h3>
+              <p class="with">with Eugene</p>
+              <div class="deal">
+                <span class="subject">GCSE Maths</span>
+                <span class="board"><span class="ph">[exam boards to confirm]</span></span>
+                <span class="price"><span class="ph">£XX/hour</span></span>
+              </div>
+              <div class="deal">
+                <span class="subject">A-Level Maths</span>
+                <span class="board"><span class="ph">[exam boards to confirm]</span></span>
+                <span class="price"><span class="ph">£XX/hour</span></span>
+              </div>
+              <p class="format"><span class="ph">1-to-1, online via Zoom</span></p>
+              <a class="btn" href="#contact">Enquire</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="note">Dashed, italic entries are placeholders still awaiting their final measurements.
+        Everything else is final and ready for the ring.</p>
+    </div>
+  </section>
+
+  <section id="stars" class="act stars" data-num="Act III" data-name="The Stars">
+    <div class="wrap">
+      <p class="kicker">Act III</p>
+      <h2>Direct from the centre ring</h2>
+      <p class="lede">Two performers, introduced in the time-honoured fashion: credentials first, then the
+        story so far.</p>
+
+      <div class="star-grid">
+        <article>
+          <div class="star-head">
+            <img class="portrait" src="grad_photo.jpg" alt="Barney Evans at his graduation" width="720" height="900">
+            <div>
+              <h3>Barney Evans</h3>
+              <p class="role">Computer Science</p>
+            </div>
+          </div>
+          <ul class="creds">
+            <li>Associate AI Engineer, Homeprotect Home Insurance</li>
+            <li>MEng Computer Science with Artificial Intelligence, University of Southampton</li>
+            <li>A-Levels A* A* A (Chemistry, Computer Science, Maths)</li>
+            <li>Enhanced DBS checked</li>
+          </ul>
+          <p class="hours">300+ hours taught with a 5.0/5 rating.</p>
+          <p class="subhead">The story so far</p>
+          <ul class="cv">
+            <li><strong>AI Developer Intern, Homeprotect, Jun 2026 – Sep 2026</strong>
+              <span>Internship</span>
+              <p>Built a fully configurable, containerised RAG microservice on GCP using FastAPI and Docker.</p></li>
+            <li><strong>Private Tutor, self-employed, Dec 2024 – Present</strong>
+              <p>Tutoring students across GCSE Computer Science, all the way through to A-Level Computer Science.</p></li>
+            <li><strong>Academic Tutor, MyTutor.co.uk, Oct 2024 – Jun 2026</strong>
+              <p>Tailor made teaching material for each student. Taught GCSE and A-level students.</p></li>
+            <li><strong>Python/Engineering Instructor, Code Kids, Jun 2023 – May 2024</strong>
+              <p>Taught a class of children, aged 8–13, Python from the basics up to functions/classes.</p></li>
+          </ul>
+          <p class="links">
+            <a href="mailto:ebarneytutoring@gmail.com">Email Barney</a>
+            <a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor</a>
+            <a href="https://www.linkedin.com/in/barney-evans-400379280/">LinkedIn</a>
+          </p>
+        </article>
+
+        <article>
+          <div class="star-head">
+            <img class="portrait square" src="eugene.jpg" alt="Eugene Bevilacqua" width="800" height="800">
+            <div>
+              <h3>Eugene Bevilacqua</h3>
+              <p class="role">Physics &amp; Maths</p>
+            </div>
+          </div>
+          <ul class="creds">
+            <li>PhD student in Optics, Imperial College London</li>
+            <li>MSc Optics and Photonics, Distinction, Imperial College London</li>
+            <li>First-class degree in Physics, Durham University</li>
+            <li>Studied Physics for a year at Kyoto University, 2023–24</li>
+            <li>Enhanced DBS checked</li>
+          </ul>
+          <p class="subhead">The story so far</p>
+          <ul class="cv">
+            <li><strong>Academic Tutor, Ritz Education, Sep 2025 – Jul 2026</strong>
+              <p>Taught GCSE and A-Level Physics and Maths.</p></li>
+          </ul>
+          <p class="bio ph">Placeholder bio: Eugene will write a couple of sentences here about how he teaches Physics and Maths.</p>
+          <p class="links">
+            <a href="mailto:eugene@example.com"><span class="ph">Email Eugene — eugene@example.com</span></a>
+            <a href="https://www.linkedin.com/in/eugene-bevilacqua-4171b62a2/">LinkedIn</a>
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="lesson" class="act lesson" data-num="Act IV" data-name="The 60-Minute Tightrope">
+    <div class="wrap">
+      <p class="kicker">Act IV</p>
+      <h2>The 60-Minute Tightrope</h2>
+      <p class="lede">Typical 60-Minute Lesson. One hour, walked step by step, with no wobbles in the
+        structure.</p>
+      <div class="words">
+        <blockquote>My lessons feature real-time document collaboration, allowing students to actively
+          participate rather than passively watch.<cite>Barney, in the centre ring</cite></blockquote>
+        <blockquote>Every lesson is built with a custom set of slides tailored to the current topic and
+          progress which can be used for recap at a later stage.<cite>Barney, in the centre ring</cite></blockquote>
+        <blockquote>Rather than memorisation, I emphasise understanding core concepts and developing
+          problem-solving skills that will serve you beyond exams.<cite>Barney, in the centre ring</cite></blockquote>
+      </div>
+      <ul class="extras">
+        <li>Lessons are interactive discussions, not just passive listening.</li>
+        <li>Complex concepts are broken down into small, manageable steps.</li>
+        <li>Every new concept is immediately applied to real exam-style questions.</li>
+      </ul>
+      <p class="timing-note">Approximate timings</p>
+      <div class="wire">
+        <div class="step">
+          <span class="num">Step 01</span>
+          <h3>Recap</h3>
+          <p class="time">5-10m</p>
+          <p>Reviewing previous concept or homework.</p>
+        </div>
+        <div class="step">
+          <span class="num">Step 02</span>
+          <h3>Live Teaching</h3>
+          <p class="time">20-25m</p>
+          <p>New concept explained via interactive coding.</p>
+        </div>
+        <div class="step">
+          <span class="num">Step 03</span>
+          <h3>Practice</h3>
+          <p class="time">20-25m</p>
+          <p>Student writes code with guidance &amp; feedback.</p>
+        </div>
+        <div class="step">
+          <span class="num">Step 04</span>
+          <h3>Wrap Up</h3>
+          <p class="time">5m</p>
+          <p>Summary of lesson &amp; next steps.</p>
+        </div>
+      </div>
+      <p class="small">These steps come from Barney's Computer Science lessons; Eugene's may differ.
+        The timings above are approximate, not a stopwatch.</p>
+    </div>
+  </section>
+
+  <section id="applause" class="act applause" data-num="Act V" data-name="The Applause">
+    <div class="wrap">
+      <p class="kicker">Act V</p>
+      <h2>What parents say about Barney</h2>
+      <div class="stats">
+        <a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor</a>
+        <span>16 reviews</span>
+        <span>average rating 5</span>
+        <span>216 completed lessons</span>
+        <span class="checked">Checked 5 November 2026</span>
+      </div>
+      <div class="clap-wrap" aria-hidden="true">
+        <span class="clap-label">Applause</span>
+        <span class="clap"><i></i></span>
+      </div>
+      <div class="quotes">
+        <figure>
+          <blockquote>Barney has helped my daughter in her Computer Science GCSE making her much more
+            confident within a few months. Lessons were interactive and well planned. Highly recommend!</blockquote>
+          <figcaption>Rahnuma, Parent from Norwich
+            <span>21 Aug 2025</span>
+            <a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor</a>
+          </figcaption>
+        </figure>
+        <figure>
+          <blockquote>Really pleased with the work Barney is doing with my son for Computer Science GCSE,
+            he is helping build his confidence and knowledge base after an extended time out of school.</blockquote>
+          <figcaption>Suzanne, Parent from Hook
+            <a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor</a>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="act contact" data-num="Finale" data-name="The Ticket Office">
+    <div class="wrap">
+      <p class="kicker">Finale</p>
+      <h2>Ready to get started?</h2>
+      <p class="lede">Step up to the ticket office and say hello. One enquiry, and the next performance
+        could be yours.</p>
+      <div class="actions">
+        <a class="btn" href="#contact">Enquire</a>
+        <a class="textlink" href="mailto:ebarneytutoring@gmail.com">Email Barney</a>
+      </div>
+      <div class="emails">
+        <a href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a>
+        <a href="mailto:eugene@example.com"><span class="ph">eugene@example.com</span></a>
+      </div>
+      <p class="form-note"><a class="ph" href="#contact">Enquiry form</a> — the form doesn't exist yet, so
+        this points to the contact section for now.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a class="brand" href="#show">Barney <span>&amp;</span> Eugene</a>
+  <nav aria-label="Footer">
+    <a href="#stars">The Stars</a>
+    <a href="#prices">Prices</a>
+    <a href="#lesson">The Lesson</a>
+    <a href="#applause">Applause</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a href="mailto:ebarneytutoring@gmail.com">Email Barney</a>
+  <button class="bow" type="button" id="bow">Take a bow</button>
+  <p class="copy">© 2026 Barney &amp; Eugene. All rights reserved.</p>
+</footer>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const sections = [...document.querySelectorAll('main .act')];
+  const sign = document.getElementById('act-sign');
+  const signNum = sign.querySelector('strong');
+  const signName = sign.querySelector('span');
+  let ticking = false;
+  let lastAct = '';
+
+  function update() {
+    const y = window.scrollY || 0;
+    root.style.setProperty('--curtain', Math.min(1, y / 620).toFixed(3));
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    root.style.setProperty('--scroll', Math.min(1, y / max).toFixed(4));
+
+    let active = sections[0];
+    sections.forEach(s => {
+      const r = s.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.68) active = s;
+      if (r.top < window.innerHeight * 0.82) s.classList.add('lit');
+    });
+    if (active) {
+      const name = active.dataset.name;
+      if (name !== lastAct) {
+        lastAct = name;
+        signNum.textContent = active.dataset.num;
+        signName.textContent = name;
+        sign.classList.remove('flash');
+        void sign.offsetWidth;
+        sign.classList.add('flash');
+      }
+    }
+
+    const applause = document.getElementById('applause');
+    if (applause) {
+      const r = applause.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (r.height + window.innerHeight)));
+      root.style.setProperty('--clap', p.toFixed(3));
+    }
+    ticking = false;
+  }
+
+  function requestUpdate() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+
+  addEventListener('scroll', requestUpdate, { passive: true });
+  addEventListener('resize', requestUpdate);
+
+  addEventListener('pointermove', e => {
+    root.style.setProperty('--mx', e.clientX + 'px');
+    root.style.setProperty('--my', e.clientY + 'px');
+  }, { passive: true });
+
+  update();
+
+  const bow = document.getElementById('bow');
+  if (bow) {
+    bow.addEventListener('click', () => {
+      if (reduced.matches) return;
+      const colors = ['#e9b955', '#f8e9c5', '#a51c24', '#0d4f4a', '#e8a3b4'];
+      for (let i = 0; i < 54; i++) {
+        const bit = document.createElement('span');
+        bit.className = 'confetti';
+        bit.style.left = (35 + Math.random() * 30) + 'vw';
+        bit.style.top = '70vh';
+        bit.style.background = colors[i % colors.length];
+        bit.style.transform = 'translate(0,0) rotate(0deg)';
+        document.body.appendChild(bit);
+        const dx = (Math.random() - 0.5) * 90;
+        const dy = -(35 + Math.random() * 45);
+        bit.animate([
+          { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+          { transform: `translate(${dx}vw, ${dy}vh) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
+        ], { duration: 1400 + Math.random() * 900, easing: 'cubic-bezier(.2,.7,.3,1)' })
+          .onfinish = () => bit.remove();
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

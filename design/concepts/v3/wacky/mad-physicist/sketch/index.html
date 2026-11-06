@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gravitational Lens Landing Page — The Mad Physicist</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @font-face { font-family: 'Monospace'; src: local('Monospace'), local('Consolas'), local('Menlo'); }
+  
+  :root {
+    --bg: #0a0a0f;
+    --fg: #e8e8f0;
+    --muted: #6a6a8a;
+    --accent-cs: #00d4ff;
+    --accent-phys: #00ff88;
+    --accent-math: #ff6b35;
+    --event-horizon: #1a0a2e;
+    --singularity: #000000;
+  }
+
+  body {
+    font-family: 'Monospace', monospace;
+    background: var(--bg);
+    color: var(--fg);
+    overflow-x: hidden;
+    perspective: 1000px;
+  }
+
+  /* Spacetime canvas background */
+  #spacetime {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -2;
+    background: radial-gradient(ellipse at 50% 50%, #1a1a2e 0%, #0a0a0f 70%, #000000 100%);
+  }
+
+  #spacetime::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+      radial-gradient(2px 2px at 10% 20%, #ffffff33, transparent),
+      radial-gradient(1px 1px at 30% 40%, #00d4ff44, transparent),
+      radial-gradient(1px 1px at 70% 60%, #00ff8844, transparent),
+      radial-gradient(2px 2px at 90% 80%, #ffffff22, transparent);
+    background-size: 300px 300px;
+    animation: starDrift 60s linear infinite;
+  }
+
+  @keyframes starDrift {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-300px, -300px) rotate(360deg); }
+  }
+
+  /* Gravitational lensing distortion */
+  .lens-distortion {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--lens-x, 50%) var(--lens-y, 50%), 
+      transparent 0%, transparent 40%, rgba(0,212,255,0.03) 60%, transparent 100%);
+    filter: blur(80px);
+    transition: opacity 0.3s;
+  }
+
+  /* Accretion disk particles */
+  .particle {
+    position: fixed;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    animation: orbit 20s linear infinite;
+  }
+
+  .particle.cs { background: var(--accent-cs); box-shadow: 0 0 10px var(--accent-cs); }
+  .particle.phys { background: var(--accent-phys); box-shadow: 0 0 10px var(--accent-phys); }
+  .particle.math { background: var(--accent-math); box-shadow: 0 0 10px var(--accent-math); }
+
+  @keyframes orbit {
+    0% { transform: translate(var(--ox), var(--oy)) rotate(0deg) translateX(var(--orbit-r)) rotate(0deg); opacity: var(--op); }
+    100% { transform: translate(var(--ox), var(--oy)) rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg); opacity: var(--op); }
+  }
+
+  /* Sections as orbital shells */
+  .shell {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    transition: transform 0.1s linear;
+  }
+
+  .shell::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 200vw; height: 200vw;
+    border: 1px solid var(--shell-color, transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.1;
+    pointer-events: none;
+  }
+
+  /* Event Horizon Hero */
+  #event-horizon {
+    --shell-color: var(--accent-cs);
+    background: radial-gradient(ellipse at center, var(--event-horizon) 0%, var(--bg) 70%);
+  }
+
+  .singularity {
+    position: relative;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: var(--singularity);
+    box-shadow: 
+      0 0 60px var(--accent-cs),
+      0 0 120px var(--accent-cs),
+      inset 0 0 60px rgba(0,0,0,1);
+    z-index: 10;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 60px var(--accent-cs), 0 0 120px var(--accent-cs), inset 0 0 60px rgba(0,0,0,1); }
+    50% { box-shadow: 0 0 80px var(--accent-cs), 0 0 160px var(--accent-cs), inset 0 0 80px rgba(0,0,0,1); }
+  }
+
+  .accretion-disks {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; height: 400px;
+    pointer-events: none;
+  }
+
+  .disk {
+    position: absolute;
+    top: 50%; left: 50%;
+    border: 2px solid;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotateX(75deg) rotateZ(var(--rot));
+    opacity: 0.6;
+    animation: diskSpin 30s linear infinite;
+  }
+
+  .disk.cs { width: 320px; height: 320px; border-color: var(--accent-cs); --rot: 0deg; }
+  .disk.phys { width: 380px; height: 380px; border-color: var(--accent-phys); --rot: 45deg; animation-duration: 40s; animation-direction: reverse; }
+
+  @keyframes diskSpin {
+    from { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(0deg); }
+    to { transform: translate(-50%, -50%) rotateX(75deg) rotateZ(360deg); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--fg) 0%, var(--accent-cs) 50%, var(--accent-phys) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-content .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .tutor-orbit {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .tutor-card {
+    position: relative;
+    width: 160px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .tutor-card:hover { transform: scale(1.05); }
+
+  .tutor-photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 30px var(--glow-color);
+  }
+
+  .tutor-card.cs .tutor-photo { --border-color: var(--accent-cs); --glow-color: var(--accent-cs); }
+  .tutor-card.phys .tutor-photo { --border-color: var(--accent-phys); --glow-color: var(--accent-phys); }
+
+  .tutor-name {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: var(--border-color);
+  }
+
+  .tutor-subject {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* Mass Accretion Subjects */
+  #mass-accretion {
+    --shell-color: var(--accent-phys);
+    background: linear-gradient(180deg, var(--bg) 0%, #0d1a0d 50%, var(--bg) 100%);
+  }
+
+  .subject-field {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  .subject-card {
+    position: relative;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+  }
+
+  .subject-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px var(--glow-color);
+    border-color: var(--card-border-hover);
+  }
+
+  .subject-card.cs { --card-border: var(--accent-cs); --card-border-hover: var(--accent-cs); --glow-color: rgba(0,212,255,0.3); }
+  .subject-card.phys { --card-border: var(--accent-phys); --card-border-hover: var(--accent-phys); --glow-color: rgba(0,255,136,0.3); }
+  .subject-card.math { --card-border: var(--accent-math); --card-border-hover: var(--accent-math); --glow-color: rgba(255,107,53,0.3); }
+
+  .subject-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+  }
+
+  .subject-title { font-size: 1.1rem; font-weight: bold; color: var(--card-border); }
+  .subject-price { 
+    font-family: 'Monospace', monospace;
+    font-size: 1.5rem; 
+    font-weight: bold;
+    color: var(--card-border);
+    text-shadow: 0 0 20px var(--card-border);
+  }
+  .subject-price.placeholder { 
+    color: var(--muted); 
+    text-shadow: none;
+    animation: quantumFlicker 2s ease-in-out infinite;
+  }
+
+  @keyframes quantumFlicker {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .subject-details {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .subject-details .exam-board { color: var(--fg); }
+
+  /* Barney Singularity */
+  #barney-singularity {
+    --shell-color: var(--accent-cs);
+  }
+
+  .credits-field {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    max-width: 1000px;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .cred-line {
+    padding: 1rem;
+    background: linear-gradient(90deg, transparent, rgba(0,212,255,0.05), transparent);
+    border-left: 3px solid var(--accent-cs);
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cred-line::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,212,255,0.1), transparent);
+    animation: hawkingRadiation 4s ease-in-out infinite;
+  }
+
+  @keyframes hawkingRadiation {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .cred-line strong { color: var(--accent-cs); }
+  .cred-line .rating { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
+
+  /* Eugene Optical Cavity */
+  #eugene-cavity {
+    --shell-color: var(--accent-phys);
+    background: linear-gradient(180deg, var(--bg) 0%, #0d1a1a 50%, var(--bg) 100%);
+  }
+
+  .cavity-mirrors {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .mirror {
+    padding: 1.5rem 2rem;
+    background: rgba(0,255,136,0.05);
+    border: 1px solid var(--accent-phys);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mirror::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(0,255,136,0.02) 10px,
+      rgba(0,255,136,0.02) 20px
+    );
+    pointer-events: none;
+  }
+
+  .mirror h3 { color: var(--accent-phys); margin-bottom: 0.5rem; font-size: 1rem; }
+  .mirror p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+  .mirror .highlight { color: var(--fg); }
+
+  /* Geodesics - How Lessons Work */
+  #geodesics {
+    --shell-color: var(--accent-math);
+  }
+
+  .geodesic-path {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .geodesic-step {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255,107,53,0.05);
+    border: 1px solid var(--accent-math);
+    border-radius: 12px;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: fallIn 0.6s ease-out forwards;
+  }
+
+  .geodesic-step:nth-child(1) { animation-delay: 0.1s; }
+  .geodesic-step:nth-child(2) { animation-delay: 0.2s; }
+  .geodesic-step:nth-child(3) { animation-delay: 0.3s; }
+  .geodesic-step:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fallIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .step-number {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: var(--accent-math);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px var(--accent-math);
+  }
+
+  .step-content h4 { color: var(--accent-math); margin-bottom: 0.25rem; }
+  .step-content p { color: var(--muted); font-size: 0.9rem; }
+  .step-time { color: var(--fg); font-family: 'Monospace'; font-size: 0.85rem; margin-top: 0.25rem; }
+
+  /* Gravitational Waves - Reviews */
+  #gravitational-waves {
+    --shell-color: #ffd700;
+  }
+
+  .wave-forms {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .wave {
+    position: relative;
+    padding: 2rem;
+    background: linear-gradient(90deg, rgba(255,215,0,0.05), rgba(255,215,0,0.02));
+    border-left: 4px solid #ffd700;
+    border-radius: 0 12px 12px 0;
+  }
+
+  .wave::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 800 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50 Q100 20 200 50 T400 50 T600 50 T800 50' stroke='%23ffd700' stroke-width='1' fill='none' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: cover;
+    pointer-events: none;
+  }
+
+  .wave blockquote {
+    position: relative;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--fg);
+    margin-bottom: 1rem;
+  }
+
+  .wave cite {
+    position: relative;
+    display: block;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .wave .mytutor-link {
+    position: relative;
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 0.8rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .wave .mytutor-link:hover { border-color: #ffd700; }
+
+  /* White Hole Exit - Contact */
+  #white-hole {
+    --shell-color: var(--fg);
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--bg) 70%);
+  }
+
+  .exit-jets {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .jet {
+    padding: 1.5rem 2.5rem;
+    background: linear-gradient(135deg, var(--jet-bg), var(--jet-bg-hover));
+    border: 2px solid var(--jet-border);
+    border-radius: 50px;
+    color: var(--bg);
+    font-weight: bold;
+    font-family: 'Monospace', monospace;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .jet.barney { --jet-bg: var(--accent-cs); --jet-bg-hover: #00b8e6; --jet-border: var(--accent-cs); }
+  .jet.eugene { --jet-bg: var(--accent-phys); --jet-bg-hover: #00cc77; --jet-border: var(--accent-phys); }
+  .jet.form { --jet-bg: var(--fg); --jet-bg-hover: #ccc; --jet-border: var(--fg); }
+
+  .jet::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+  }
+
+  .jet:hover { transform: translateY(-3px); box-shadow: 0 10px 30px var(--jet-border); }
+  .jet:hover::before { left: 100%; }
+
+  .time-reverse {
+    margin-top: 3rem;
+    text-align: center;
+    font-family: 'Monospace', monospace;
+  }
+
+  .time-reverse .copyright {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--fg);
+    text-shadow: 0 0 20px var(--fg);
+  }
+
+  .time-reverse .countdown {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-hint svg {
+    width: 24px; height: 24px;
+    stroke: var(--muted);
+    animation: arrowBounce 1.5s ease-in-out infinite;
+  }
+
+  @keyframes bounce { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+  @keyframes arrowBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+  /* Gravity flip indicator */
+  .gravity-indicator {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: rgba(0,0,0,0.8);
+    border: 1px solid var(--muted);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-family: 'Monospace', monospace;
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+
+  .gravity-indicator.flipped {
+    border-color: var(--accent-phys);
+    color: var(--accent-phys);
+    background: rgba(0,255,136,0.1);
+  }
+
+  @media (max-width: 768px) {
+    .shell { padding: 3rem 1rem; min-height: auto; }
+    .singularity { width: 150px; height: 150px; }
+    .disk.cs { width: 240px; height: 240px; }
+    .disk.phys { width: 280px; height: 280px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="spacetime"></canvas>
+<div class="lens-distortion" id="lens"></div>
+
+<div class="gravity-indicator" id="gravityIndicator">
+  GRAVITY: NORMAL ▼
+</div>
+
+<!-- SHELL 1: EVENT HORIZON -->
+<section class="shell" id="event-horizon">
+  <div class="accretion-disks">
+    <div class="disk cs"></div>
+    <div class="disk phys"></div>
+  </div>
+  <div class="singularity" id="singularity"></div>
+  <div class="hero-content">
+    <h1>Personalised tutoring in Computer Science, Physics & Maths</h1>
+    <p class="subtitle">Barney & Eugene</p>
+    <div class="tutor-orbit">
+      <div class="tutor-card cs">
+        <img src="grad_photo.jpg" alt="Barney Evans at his graduation" class="tutor-photo">
+        <div class="tutor-name">Barney Evans</div>
+        <div class="tutor-subject">Computer Science · AI Engineer</div>
+      </div>
+      <div class="tutor-card phys">
+        <img src="eugene.jpg" alt="Eugene Bevilacqua" class="tutor-photo">
+        <div class="tutor-name">Eugene Bevilacqua</div>
+        <div class="tutor-subject">Physics & Maths · PhD Optics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHELL 2: MASS ACCRETION (Subjects) -->
+<section class="shell" id="mass-accretion">
+  <h2 style="color: var(--accent-phys); margin-bottom: 1rem; font-size: 1.5rem;">Subjects & Prices — Mass Accretion</h2>
+  <div class="subject-field">
+    <div class="subject-card cs">
+      <div class="subject-header">
+        <span class="subject-title">GCSE Computer Science</span>
+        <span class="subject-price">£34/hour</span>
+      </div>
+      <div class="subject-details">
+        <span class="exam-board">any exam board</span> · 1-to-1, online via Zoom
+      </div>
+    </div>
+    <div class="subject-card cs">
+      <div class="subject-header">
+        <span class="subject-title">A-Level Computer Science</span>
+        <span class="subject-price">£45/hour</span>
+      </div>
+      <div class="subject-details">
+        <span class="exam-board">AQA only</span> · 1-to-1, online via Zoom
+      </div>
+    </div>
+    <div class="subject-card phys">
+      <div class="subject-header">
+        <span class="subject-title">GCSE Physics</span>
+        <span class="subject-price placeholder">£XX/hour</span>
+      </div>
+      <div class="subject-details">
+        <span class="exam-board">[exam boards to confirm]</span> · <span class="placeholder">1-to-1, online via Zoom</span>
+      </div>
+    </div>
+    <div class="subject-card phys">
+      <div class="subject-header">
+        <span class="subject-title">A-Level Physics</span>
+        <span class="subject-price placeholder">£XX/hour</span>
+      </div>
+      <div class="subject-details">
+        <span class="exam-board">[exam boards to confirm]</span> · <span class="placeholder">1-to-1, online via Zoom</span>
+      </div>
+    </div>
+    <div class="subject-card math">
+      <div class="subject-header">
+        <span class="subject-title">GCSE Maths</span>
+        <span class="subject-price placeholder">£XX/hour</span>
+      </div>
+      <div class="subject-details">
+        <span class="exam-board">[exam boards to confirm]</span> · <span class="placeholder">1-to-1, online via Zoom</span>
+      </div>
+    </div>
+    <div class="subject-card math">
+      <div class="subject-header">
+        <span class="subject-title">A-Level Maths</span>
+        <span class="subject-price placeholder">£XX/hour</span>
+      </div>
+      <div class="subject-details">
+        <span class="exam-board">[exam boards to confirm]</span> · <span class="placeholder">1-to-1, online via Zoom</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHELL 3: BARNEY SINGULARITY -->
+<section class="shell" id="barney-singularity">
+  <h2 style="color: var(--accent-cs); margin-bottom: 1rem; font-size: 1.5rem;">Barney Evans — AI Singularity</h2>
+  <div class="credits-field">
+    <div class="cred-line"><strong>Associate AI Engineer</strong>, Homeprotect Home Insurance</div>
+    <div class="cred-line"><strong>MEng Computer Science with Artificial Intelligence</strong>, University of Southampton</div>
+    <div class="cred-line"><strong>A-Levels A* A* A</strong> (Chemistry, Computer Science, Maths)</div>
+    <div class="cred-line"><strong>Enhanced DBS checked</strong></div>
+    <div class="cred-line"><span class="rating">300+ hours taught, 5.0/5 rating</span> — all tutoring</div>
+    <div class="cred-line"><strong>AI Developer Intern, Homeprotect</strong> (Jun–Sep 2026): configurable containerised RAG microservice on GCP, FastAPI, Docker</div>
+    <div class="cred-line"><strong>Private Tutor, self-employed</strong> (Dec 2024–present): GCSE through A-Level Computer Science</div>
+    <div class="cred-line"><strong>Academic Tutor, MyTutor.co.uk</strong> (Oct 2024–Jun 2026): tailored material, GCSE & A-Level</div>
+    <div class="cred-line"><strong>Python/Engineering Instructor, Code Kids</strong> (Jun 2023–May 2024): ages 8–13, basics to functions/classes</div>
+  </div>
+</section>
+
+<!-- SHELL 4: EUGENE OPTICAL CAVITY -->
+<section class="shell" id="eugene-cavity">
+  <h2 style="color: var(--accent-phys); margin-bottom: 1rem; font-size: 1.5rem;">Eugene Bevilacqua — Optical Cavity</h2>
+  <div class="cavity-mirrors">
+    <div class="mirror">
+      <h3>PhD Student in Optics</h3>
+      <p><span class="highlight">Imperial College London</span> — active research, coherence preserved</p>
+    </div>
+    <div class="mirror">
+      <h3>MSc Optics and Photonics</h3>
+      <p><span class="highlight">Distinction, Imperial College London</span></p>
+    </div>
+    <div class="mirror">
+      <h3>First-Class Physics</h3>
+      <p><span class="highlight">Durham University</span></p>
+    </div>
+    <div class="mirror">
+      <h3>Kyoto University</h3>
+      <p><span class="highlight">Year abroad 2023–24</span> — wavelength shift</p>
+    </div>
+    <div class="mirror">
+      <h3>Enhanced DBS checked</h3>
+      <p></p>
+    </div>
+    <div class="mirror">
+      <h3>Ritz Education</h3>
+      <p><span class="highlight">Sep 2025–Jul 2026</span> — GCSE & A-Level Physics and Maths</p>
+    </div>
+  </div>
+  <p style="margin-top: 2rem; color: var(--muted); font-style: italic; max-width: 600px;">
+    Placeholder bio: Eugene will write a couple of sentences here about how he teaches Physics and Maths.
+  </p>
+</section>
+
+<!-- SHELL 5: GEODESICS -->
+<section class="shell" id="geodesics">
+  <h2 style="color: var(--accent-math); margin-bottom: 1rem; font-size: 1.5rem;">How Lessons Work — Geodesics</h2>
+  <p style="color: var(--muted); margin-bottom: 1rem; max-width: 600px; text-align: center;">
+    Barney's words. Approximate timings. Null geodesics through concept-space.
+  </p>
+  <div class="geodesic-path">
+    <div class="geodesic-step">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <h4>Recap</h4>
+        <p>Reviewing previous concept or homework.</p>
+        <div class="step-time">5–10 min</div>
+      </div>
+    </div>
+    <div class="geodesic-step">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <h4>Live Teaching</h4>
+        <p>New concept explained via interactive coding.</p>
+        <div class="step-time">20–25 min</div>
+      </div>
+    </div>
+    <div class="geodesic-step">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <h4>Practice</h4>
+        <p>Student writes code with guidance & feedback.</p>
+        <div class="step-time">20–25 min</div>
+      </div>
+    </div>
+    <div class="geodesic-step">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <h4>Wrap Up</h4>
+        <p>Summary of lesson & next steps.</p>
+        <div class="step-time">5 min</div>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top: 2rem; color: var(--muted); font-size: 0.8rem; text-align: center;">
+    Eugene hasn't confirmed these match his Physics/Maths lessons. Timings approximate — never draw as proportional bar.
+  </p>
+</section>
+
+<!-- SHELL 6: GRAVITATIONAL WAVES -->
+<section class="shell" id="gravitational-waves">
+  <h2 style="color: #ffd700; margin-bottom: 0.5rem; font-size: 1.5rem;">What Parents Say About Barney — Gravitational Waves</h2>
+  <p style="color: var(--muted); margin-bottom: 1rem; text-align: center; font-size: 0.85rem;">
+    MyTutor · 16 reviews · average rating 5 · 216 completed lessons · Checked 5 November 2026
+  </p>
+  <div class="wave-forms">
+    <div class="wave">
+      <blockquote>
+        Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!
+      </blockquote>
+      <cite>Rahnuma, Parent from Norwich — 21 Aug 2025</cite>
+      <a href="https://www.mytutor.co.uk/tutors/9468218/" target="_blank" class="mytutor-link">Read on MyTutor →</a>
+    </div>
+    <div class="wave">
+      <blockquote>
+        Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school.
+      </blockquote>
+      <cite>Suzanne, Parent from Hook</cite>
+      <a href="https://www.mytutor.co.uk/tutors/9468218/" target="_blank" class="mytutor-link">Read on MyTutor →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SHELL 7: WHITE HOLE EXIT -->
+<section class="shell" id="white-hole">
+  <h2 style="color: var(--fg); margin-bottom: 1rem; font-size: 1.5rem;">Contact — White Hole Exit</h2>
+  <p style="color: var(--muted); margin-bottom: 2rem; text-align: center; max-width: 500px;">
+    Enquire buttons eject you into mailto vectors. Time runs backwards past the event horizon.
+  </p>
+  <div class="exit-jets">
+    <a href="mailto:ebarneytutoring@gmail.com" class="jet barney">Email Barney</a>
+    <a href="mailto:eugene@example.com" class="jet eugene">Email Eugene</a>
+    <a href="#contact" class="jet form">Enquiry Form</a>
+  </div>
+  <div class="time-reverse">
+    <div class="copyright" id="copyright">© 2026 Barney & Eugene. All rights reserved.</div>
+    <div class="countdown" id="countdown">Entropy increasing...</div>
+  </div>
+</section>
+
+<div class="scroll-hint">
+  <span>SCROLL TO CURVE SPACETIME</span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M12 5v14M19 12l-7 7-7-7"/>
+  </svg>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // State
+  const shells = document.querySelectorAll('.shell');
+  const lens = document.getElementById('lens');
+  const singularity = document.getElementById('singularity');
+  const gravityIndicator = document.getElementById('gravityIndicator');
+  const copyright = document.getElementById('copyright');
+  const countdown = document.getElementById('countdown');
+  
+  let gravityFlipped = false;
+  let lastScrollY = 0;
+  let ticking = false;
+  const midpoint = document.body.scrollHeight / 2;
+
+  // Particle system
+  const particleContainer = document.body;
+  const particles = [];
+  const particleCount = 60;
+
+  function createParticles() {
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement('div');
+      const type = ['cs', 'phys', 'math'][Math.floor(Math.random() * 3)];
+      p.className = `particle ${type}`;
+      const orbitR = 150 + Math.random() * 300;
+      const ox = window.innerWidth / 2 + (Math.random() - 0.5) * 200;
+      const oy = window.innerHeight / 2 + (Math.random() - 0.5) * 200;
+      const op = 0.3 + Math.random() * 0.5;
+      const dur = 15 + Math.random() * 25;
+      const delay = Math.random() * 20;
+      
+      p.style.setProperty('--ox', `${ox}px`);
+      p.style.setProperty('--oy', `${oy}px`);
+      p.style.setProperty('--orbit-r', `${orbitR}px`);
+      p.style.setProperty('--op', op);
+      p.style.animationDuration = `${dur}s`;
+      p.style.animationDelay = `-${delay}s`;
+      
+      document.body.appendChild(p);
+      particles.push(p);
+    }
+  }
+
+  function updateLensPosition(scrollY) {
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const progress = scrollY / maxScroll;
+    const x = 50 + Math.sin(progress * Math.PI * 4) * 30;
+    const y = 50 + Math.cos(progress * Math.PI * 3) * 30;
+    lens.style.setProperty('--lens-x', `${x}%`);
+    lens.style.setProperty('--lens-y', `${y}%`);
+    lens.style.opacity = 0.5 + Math.abs(Math.sin(progress * Math.PI * 2)) * 0.3;
+  }
+
+  function updateGravityFlip(scrollY) {
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const progress = scrollY / maxScroll;
+    
+    // Gravity flips at Eugene's section (around 55% down)
+    const flipPoint = 0.55;
+    const wasFlipped = gravityFlipped;
+    gravityFlipped = progress > flipPoint;
+    
+    if (gravityFlipped !== wasFlipped) {
+      document.body.classList.toggle('gravity-flipped', gravityFlipped);
+      gravityIndicator.textContent = gravityFlipped ? 'GRAVITY: INVERTED ▲' : 'GRAVITY: NORMAL ▼';
+      gravityIndicator.classList.toggle('flipped', gravityFlipped);
+      
+      // Apply transform to all shells below flip point
+      shells.forEach((shell, i) => {
+        const shellTop = shell.offsetTop;
+        const shellProgress = shellTop / maxScroll;
+        if (shellProgress > flipPoint) {
+          shell.style.transform = gravityFlipped ? 'rotateX(180deg)' : 'rotateX(0deg)';
+        }
+      });
+    }
+    
+    // Time runs backwards in footer (last section)
+    if (progress > 0.85) {
+      const footerProgress = (progress - 0.85) / 0.15;
+      const year = 2026 - Math.floor(footerProgress * 13800000000); // Big Bang approx
+      copyright.textContent = `© ${year} Barney & Eugene. All rights reserved.`;
+      countdown.textContent = `Time reversal factor: ${(footerProgress * 100).toFixed(1)}%`;
+    } else {
+      copyright.textContent = '© 2026 Barney & Eugene. All rights reserved.';
+      countdown.textContent = 'Entropy increasing...';
+    }
+  }
+
+  function updateSingularity(scrollY) {
+    const heroShell = document.getElementById('event-horizon');
+    const heroBottom = heroShell.offsetTop + heroShell.offsetHeight;
+    const distanceFromHero = scrollY - heroBottom;
+    
+    if (distanceFromHero < 0) {
+      // Inside hero - pulse intensity based on scroll
+      const intensity = 1 + Math.abs(distanceFromHero) / window.innerHeight * 0.5;
+      singularity.style.filter = `brightness(${intensity})`;
+    } else {
+      singularity.style.filter = 'brightness(1)';
+    }
+  }
+
+  function onScroll() {
+    const scrollY = window.scrollY;
+    lastScrollY = scrollY;
+    
+    updateLensPosition(scrollY);
+    updateGravityFlip(scrollY);
+    updateSingularity(scrollY);
+    
+    ticking = false;
+  }
+
+  function requestScroll() {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }
+
+  // IntersectionObserver for scroll animations
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -100px 0px' };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  shells.forEach(shell => observer.observe(shell));
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Mouse move parallax on hero
+  const hero = document.getElementById('event-horizon');
+  hero.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    singularity.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    singularity.style.transform = 'translate(0, 0)';
+  });
+
+  // Init
+  createParticles();
+  
+  // Initial gravity check
+  updateGravityFlip(window.scrollY);
+  
+  window.addEventListener('scroll', requestScroll, { passive: true });
+  
+  // Handle resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      updateGravityFlip(window.scrollY);
+      updateLensPosition(window.scrollY);
+    }, 100);
+  });
+
+  console.log('%c🌌 GRAVITATIONAL LENS LANDING PAGE', 'font-size: 16px; color: #00d4ff; font-weight: bold;');
+  console.log('%cThe Mad Physicist was here. 40 hours awake. Eugene\'s PhD bends light.', 'color: #00ff88;');
+  console.log('%cScroll midpoint → gravity inverts. Footer → time reverses.', 'color: #ff6b35;');
+})();
+</script>
+</body>
+</html>

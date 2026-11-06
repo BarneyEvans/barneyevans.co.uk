@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barney &amp; Eugene — Personalised tutoring!</title>
+<style>
+  :root{
+    --teal:#008080; --navy:#000080; --paper:#fffdf3; --ink:#222;
+    --sun:#ffe14d; --hot:#ff00cc; --lime:#39ff14;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:"Comic Sans MS","Comic Sans",Chalkboard,cursive;
+    color:var(--ink); cursor:url(data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAAAC1QAOw==) 0 0, auto;
+    /* THE STARFIELD. Scroll down far enough and the stars tap out for notebook paper. */
+    background-color:var(--teal);
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, #fff 60%, transparent),
+      radial-gradient(1.5px 1.5px at 80% 70%, #fff 60%, transparent),
+      radial-gradient(2px 2px at 60% 20%, #ff00cc 60%, transparent),
+      radial-gradient(1.5px 1.5px at 40% 80%, #39ff14 60%, transparent),
+      radial-gradient(1.5px 1.5px at 90% 45%, #fff 60%, transparent),
+      radial-gradient(1.5px 1.5px at 10% 60%, #ffe14d 60%, transparent);
+    background-size:220px 220px;
+  }
+  body.papertime{
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, #e33 60%, transparent),
+      radial-gradient(3px 3px at 30% 22%, transparent 97%, #bcd3f0 100%),
+      repeating-linear-gradient(180deg, transparent 0 27px, #bcd3f0 27px 29px),
+      repeating-linear-gradient(90deg, transparent 0 59px, #f7b6c2 59px 61px);
+    background-size:220px 220px;
+  }
+  #sparks{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+  .wrap{max-width:880px;margin:0 auto;padding:12px}
+
+  /* ===== THE VISITOR COUNTER — you are the visitor. Literally. ===== */
+  #counterbox{
+    position:fixed;top:10px;right:10px;z-index:1000;
+    background:#111;border:3px ridge #999;padding:6px 8px;border-radius:4px;
+    text-align:center;color:#ffd;font-size:10px;letter-spacing:1px;
+  }
+  #counter{font-family:"Consolas",monospace;font-size:20px;letter-spacing:3px;color:var(--lime);text-shadow:0 0 6px #39ff14;background:#000;padding:2px 6px;margin-top:3px}
+
+  .marquee{background:#000;color:var(--lime);border:3px double #ffe14d;padding:6px 0;overflow:hidden;white-space:nowrap;font-weight:bold}
+  .marquee span{display:inline-block;padding-left:100%;animation:scrollleft 18s linear infinite}
+  @keyframes scrollleft{to{transform:translateX(-100%)}}
+
+  /* ===== HEADLINE WORDART (I MADE THIS AWSOME) ===== */
+  header{text-align:center;padding:30px 10px 26px}
+  .wordart{
+    display:inline-block;font-size:44px;line-height:1.15;font-weight:bold;color:#fff;
+    -webkit-text-stroke:2px #00008b;
+    background:linear-gradient(90deg,#ff0000,#ff7f00,#ffe14d,#39ff14,#00c8ff,#ff00cc,#ff0000);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(1px 2px 0 #00008b) drop-shadow(3px 5px 0 rgba(0,0,0,.35));
+    animation:rainbowwave 6s linear infinite;
+  }
+  @keyframes rainbowwave{to{background-position:200% 0}}
+  .tagline{color:#fff;background:rgba(0,0,0,.45);display:inline-block;padding:8px 14px;border-radius:10px;font-size:18px;margin-top:10px}
+
+  /* ===== BUTTONS: SOLID. NORMAL. BEVELLED BEYOND REASON. ===== */
+  .enquire{
+    display:inline-block;margin:14px 6px 0;padding:12px 34px;font-family:inherit;font-weight:bold;font-size:18px;
+    background:silver;color:#000;text-decoration:none;border:none;cursor:pointer;
+    border-top:3px solid #fff;border-left:3px solid #fff;border-right:3px solid #444;border-bottom:3px solid #444;
+    box-shadow:4px 4px 0 #000;
+  }
+  .enquire:active,.enquire:hover{border-top-color:#666;border-left-color:#666;border-right-color:#fff;border-bottom-color:#fff;transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+
+  /* ===== SECTIONS ===== */
+  section{
+    margin:34px auto;background:#fff;border:4px ridge #808080;padding:18px 22px;position:relative;
+    box-shadow:8px 8px 0 rgba(0,0,0,.35);
+  }
+  section h2{
+    background:var(--navy);color:#ffe14d;display:inline-block;padding:6px 18px;margin:0 0 4px;
+    border-left:10px double var(--hot);border-right:10px double var(--hot);font-size:24px;
+  }
+  main section{opacity:0;transform:translateY(40px) rotate(-1deg);transition:all .6s cubic-bezier(.2,1.6,.4,1)}
+  main section.in{opacity:1;transform:none}
+
+  .construction{
+    display:inline-block;padding:1px 6px;position:relative;
+    border:4px solid transparent;
+    border-image:repeating-linear-gradient(45deg,#000 0 10px,#fd0 10px 20px) 4;
+    background:repeating-linear-gradient(45deg,#fd0 0 10px,#000 10px 20px);
+  }
+  .construction .ph{background:#fff;padding:1px 5px}
+  .ph{background:#fff3bd;outline:1px dashed #c90;border-radius:3px;color:#840;font-style:italic}
+  .worker{display:inline-block;font-size:16px;transform:scaleX(-1);animation:walkit 1.2s steps(4) infinite}
+  @keyframes walkit{50%{transform:translateX(-14px) scaleX(-1)}100%{transform:translateX(6px) scaleX(-1)}}
+
+  table{border-collapse:collapse;width:100%;background:linen}
+  th,td{border:2px solid #333;padding:8px;font-size:15px}
+  th{background:var(--navy);color:#ffe14d}
+  tr.swing{opacity:0;transform-origin:50% -18px;display:table-row}
+  tr.swing.in{animation:chaindrop .7s ease-out forwards}
+  @keyframes chaindrop{
+    0%{opacity:0;transform:rotate(-14deg) translateY(-20px)}
+    70%{opacity:1;transform:rotate(4deg)}
+    100%{opacity:1;transform:rotate(0)}
+  }
+  #stamp{
+    position:absolute;top:-16px;right:14px;padding:6px 12px;color:#c03;border:4px double #c03;
+    font-weight:bold;transform:rotate(-12deg);background:rgba(255,255,255,.85);letter-spacing:2px;
+  }
+  main #stamp{transform:scale(3) rotate(-12deg);opacity:0}
+  main #stamp.in{animation:thump .35s ease-in forwards}
+  @keyframes thump{to{transform:scale(1) rotate(-12deg);opacity:1}}
+
+  .tutor{border:3px dashed var(--navy);padding:14px;margin-top:12px;background:#f4f8ff;clear:both}
+  .tutor img{width:180px;border:6px ridge silver;margin:0 14px 8px 0;float:left;background:#fff}
+  .tutor.e img{width:200px}
+  .tutor ul{margin:8px 0;font-size:15px}
+  .cv li{margin:6px 0}
+  .meetyou{clear:both}
+  a{color:var(--navy);font-weight:bold}
+  .newstar{
+    position:absolute;top:6px;right:-14px;background:var(--hot);color:#fff;font-weight:bold;
+    padding:8px 14px;clip-path:polygon(10% 0,20% 35%,0 45%,20% 55%,10% 100%,35% 70%,50% 100%,65% 70%,90% 100%,80% 55%,100% 45%,80% 35%,90% 0,65% 20%,50% -5%,35% 20%);
+    animation:blink .8s steps(1) infinite;font-size:12px;
+  }
+  @keyframes blink{50%{visibility:hidden}}
+  .quote{background:var(--sun);border:2px solid #7a5b00;padding:10px 16px;margin:12px 0;font-style:italic}
+  .who{font-size:13px;color:#555;font-style:normal}
+  .pushpin{position:absolute;top:-14px;left:14px;font-size:26px;filter:drop-shadow(1px 2px 0 rgba(0,0,0,.4))}
+  .reviewcard{position:relative;border:1px solid #c9b458;box-shadow:3px 3px 6px rgba(0,0,0,.25);max-width:640px}
+  .waver{position:absolute;font-size:22px;display:inline-block;transform-origin:50% 90%}
+  .waver.in{animation:wave 1s ease-in-out infinite}
+  @keyframes wave{25%,75%{transform:rotate(18deg)}50%{transform:rotate(-12deg)}}
+
+  /* THE DOOR */
+  #door{
+    width:210px;height:280px;margin:8px auto;position:relative;border:10px solid #5a3810;border-radius:90px 90px 0 0;
+    background:linear-gradient(90deg,#fff0f5 0 48%,#e8d8e0 48% 52%,#fff0f5 52%);cursor:pointer;
+  }
+  #door .knob{position:absolute;top:50%;right:14px;width:18px;height:18px;background:radial-gradient(circle at 30% 30%,#ffe14d,#8a6d00);border-radius:50%}
+  .center{text-align:center}
+  footer{background:#000;color:#9df;padding:18px 10px;text-align:center;margin-top:40px}
+  .webring{display:inline-block;background:#111;border:3px ridge #888;padding:10px 16px;margin:10px 0;font-size:14px}
+  .gb{color:var(--hot)}
+  hr{border:none;border-top:3px dashed #888;margin:22px 0}
+</style>
+</head>
+<body>
+<canvas id="sparks"></canvas>
+
+<div id="counterbox">VISITOR<br><span id="counter">000000</span><br>(that's YOU!!)</div>
+
+<header>
+  <div class="marquee"><span>★ WELCOME TO BARNEY &amp; EUGENE'S BRAND-NEW CORNER OF THE WORLD WIDE WEB!!! ★ THIS PAGE REACTS TO YOUR SCROLLING!!! ★ NO FRAMES REQUIRED!!! ★ BOOKMARK US!!! ★</span></div>
+  <div class="wrap">
+    <h1 class="wordart">Personalised tutoring in Computer&nbsp;Science, Physics&nbsp;&amp;&nbsp;Maths</h1>
+    <br>
+    <span class="tagline">One tutor page, TWO wonderful humans, ZERO white space</span><br>
+    <a class="enquire" href="#contact">Enquire</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===================== SUBJECTS & PRICES ===================== -->
+  <section id="subjects">
+    <div class="newstar" style="right:200px">NEW!!</div>
+    <h2>Our glorious subject menu!!</h2>
+    <p>( Eugene's side is under construction — and we're 1997-honest about it. )</p>
+    <div class="tutor">
+      <h3 style="margin-top:0">Computer Science, with Barney</h3>
+      <p><em>1-to-1, online via Zoom</em></p>
+      <table style="margin-bottom:8px">
+        <tr><td>GCSE Computer Science</td><td>any exam board</td><td>£34/hour</td></tr>
+        <tr><td>A-Level Computer Science</td><td>AQA only</td><td>£45/hour</td></tr>
+      </table>
+      <a class="enquire" href="#contact">Enquire</a>
+    </div>
+    <div class="tutor e">
+      <h3 style="margin-top:0">Physics &amp; Maths, with Eugene</h3>
+      <p><span class="ph">1-to-1, online via Zoom</span> <span class="worker">🚧</span></p>
+      <table>
+        <tr><td>GCSE Physics</td><td><span class="construction"><span class="ph">[exam boards to confirm]</span></span></td><td><span class="construction"><span class="ph">£XX/hour</span></span></td></tr>
+        <tr><td>A-Level Physics</td><td><span class="construction"><span class="ph">[exam boards to confirm]</span></span></td><td><span class="construction"><span class="ph">£XX/hour</span></span></td></tr>
+        <tr><td>GCSE Maths</td><td><span class="construction"><span class="ph">[exam boards to confirm]</span></span></td><td><span class="construction"><span class="ph">£XX/hour</span></span></td></tr>
+        <tr><td>A-Level Maths</td><td><span class="construction"><span class="ph">[exam boards to confirm]</span></span></td><td><span class="construction"><span class="ph">£XX/hour</span></span></td></tr>
+      </table>
+      <a class="enquire" href="#contact">Enquire</a>
+    </div>
+  </section>
+
+  <!-- ===================== MEET THE TUTORS ===================== -->
+  <section id="tutors">
+    <h2>Meet the two humans behind the website!!</h2>
+    <div class="tutor">
+      <img src="grad_photo.jpg" alt="Barney Evans at his graduation">
+      <h3 style="margin-top:0">Barney Evans − Computer Science</h3>
+      <ul>
+        <li>Associate AI Engineer, Homeprotect Home Insurance</li>
+        <li>MEng Computer Science with Artificial Intelligence, University of Southampton</li>
+        <li>A-Levels A* A* A (Chemistry, Computer Science, Maths)</li>
+        <li>Enhanced DBS checked</li>
+        <li>300+ hours taught with a 5.0/5 rating.</li>
+      </ul>
+      <hr>
+      <ul class="cv">
+        <li><strong>AI Developer Intern, Homeprotect, Jun 2026 – Sep 2026</strong><br>Built a fully configurable, containerised RAG microservice on GCP using FastAPI and Docker.</li>
+        <li><strong>Private Tutor, self-employed, Dec 2024 – Present</strong><br>Tutoring students across GCSE Computer Science, all the way through to A-Level Computer Science.</li>
+        <li><strong>Academic Tutor, MyTutor.co.uk, Oct 2024 – Jun 2026</strong><br>Tailor made teaching material for each student · Taught GCSE and A-level students</li>
+        <li><strong>Python/Engineering Instructor, Code Kids, Jun 2023 – May 2024</strong><br>Taught a class of children, aged 8-13, Python from the basics up to functions/classes.</li>
+      </ul>
+      <hr>
+      <p class="meetyou">
+        <a href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a> ·
+        <a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor</a> ·
+        <a href="https://www.linkedin.com/in/barney-evans-400379280/">LinkedIn</a>
+      </p>
+    </div>
+    <div class="tutor e">
+      <img src="eugene.jpg" alt="Eugene Bevilacqua">
+      <span class="newstar" style="top:-12px;right:20px">NEW!!</span>
+      <h3 style="margin-top:0">Eugene Bevilacqua − Physics &amp; Maths <span class="worker">👷</span></h3>
+      <ul>
+        <li>PhD student in Optics, Imperial College London</li>
+        <li>MSc Optics and Photonics, Distinction, Imperial College London</li>
+        <li>First-class degree in Physics, Durham University</li>
+        <li>Studied Physics for a year at Kyoto University, 2023–24</li>
+        <li>Enhanced DBS checked</li>
+      </ul>
+      <hr>
+      <ul class="cv">
+        <li><strong>Academic Tutor, Ritz Education, Sep 2025 – Jul 2026</strong><br>Taught GCSE and A-Level Physics and Maths.</li>
+      </ul>
+      <hr>
+      <p><em>Bio:</em> <span class="ph">Placeholder bio: Eugene will write a couple of sentences here about how he teaches Physics and Maths.</span> <span class="worker">🚧</span></p>
+      <p class="meetyou">
+        <span class="ph">eugene@example.com</span> ·
+        <a href="https://www.linkedin.com/in/eugene-bevilacqua-4171b62a2/">LinkedIn</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== HOW LESSONS WORK ===================== -->
+  <section id="lessons">
+    <span id="stamp">Approximate timings</span>
+    <h2>How lessons work (in Barney's words)</h2>
+    <div class="quote">
+      “My lessons feature real-time document collaboration, allowing students to actively participate rather than passively watch.”
+      <span class="who">— Barney, saying it exactly like that :-)</span>
+    </div>
+    <div class="quote">
+      “Every lesson is built with a custom set of slides tailored to the current topic and progress which can be used for recap at a later stage.”
+      <span class="who">— Barney again, still in his own words</span>
+    </div>
+    <div class="quote">
+      “Rather than memorisation, I emphasise understanding core concepts and developing problem-solving skills that will serve you beyond exams.”
+      <span class="who">— Barney, third quote, zero fake attributions</span>
+    </div>
+    <p><strong>Typical 60-Minute Lesson</strong></p>
+    <table>
+      <thead><tr class="swing"><th>Step</th><th>Time</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr class="swing"><td>Recap</td><td>5-10m</td><td>Reviewing previous concept or homework.</td></tr>
+        <tr class="swing"><td>Live Teaching</td><td>20-25m</td><td>New concept explained via interactive coding.</td></tr>
+        <tr class="swing"><td>Practice</td><td>20-25m</td><td>Student writes code with guidance &amp; feedback.</td></tr>
+        <tr class="swing"><td>Wrap Up</td><td>5m</td><td>Summary of lesson &amp; next steps.</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#666">( Timings are approximate, so I drew a plain old table — NOT a proportional bar. The 90s web never lied about bar lengths and neither will we. )</p>
+  </section>
+
+  <!-- ===================== PARENT REVIEWS ===================== -->
+  <section id="reviews">
+    <h2>What parents say about Barney</h2>
+    <p>
+      <a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor</a>
+      — <strong>16 reviews</strong>, <strong>average rating 5</strong>, <strong>216 completed lessons</strong>
+      (<em>Checked 5 November 2026</em>)
+    </p>
+    <div class="reviewcard">
+      <span class="pushpin">📌</span>
+      <div class="quote">
+        “Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!”
+        <span class="who">— Rahnuma, Parent from Norwich, 21 Aug 2025 · <a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor</a> · <span class="waver">👋</span></span>
+      </div>
+    </div>
+    <div class="reviewcard">
+      <span class="pushpin">📌</span>
+      <div class="quote">
+        “Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school.”
+        <span class="who">— Suzanne, Parent from Hook · <a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor</a> · <span class="waver">👋</span></span>
+      </div>
+    </div>
+    <p style="font-size:13px;color:#666">( Eugene has no reviews yet — so no empty review shelf for him. His credentials stand on their own, like a mural. )</p>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section id="contact" class="center">
+    <h2>Ready to get started?</h2>
+    <div id="door" title="knock knock!!"><div class="knob"></div></div>
+    <p>
+      <strong>Email Barney:</strong> <a href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a><br>
+      <strong>Email Eugene:</strong> <span class="ph">eugene@example.com</span> <span class="worker">🚧</span><br>
+      <strong><span class="ph">Enquiry form</span>:</strong> on its way — for now it lives at <a href="#contact">#contact</a> <span class="worker">🚧</span>
+    </p>
+    <a class="enquire" href="#contact">Enquire</a>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="webring" style="color:#9df">
+    ☆ THE BARNEY &amp; EUGENE WEBRING ☆ members: 2 ☆ prev site: Barney ☆ next site: Eugene ☆ it just goes in a circle. webrings are magic ☆
+  </div><br>
+  <div class="marquee gb"><span>★ SIGN MY GUESTBOOK!!! ★ THE GUESTBOOK RESERVE IS OVERWHELMED AND HAS NOT BEEN DIGITISED YET ★ ENTRIES ACCEPTED IN SPIRIT FROM 1996 ★</span></div>
+  <p style="margin-top:14px">© 2026 Barney &amp; Eugene. All rights reserved.</p>
+  <p style="font-size:11px;color:#6cf">Rendered lovingly at 800×600, in your heart.</p>
+</footer>
+
+<script>
+(function(){
+  /* ===== SPARKLE CURSOR TRAIL — THE FEATURE THAT SOLD A GENERATION ===== */
+  var c=document.getElementById('sparks'),x=c.getContext('2d'),S=[];
+  function rs(){c.width=innerWidth;c.height=innerHeight}rs();addEventListener('resize',rs);
+  var COL=['#ff0000','#ff00cc','#ffe14d','#39ff14','#00c8ff','#ffffff'];
+  addEventListener('mousemove',function(e){
+    for(var i=0;i<3;i++)S.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*1.6,vy:Math.random()*.6+.4,
+      l:1,r:Math.random()*4+2,c:COL[Math.floor(Math.random()*COL.length)],s:'*+.'.charAt(Math.floor(Math.random()*3))});
+    if(S.length>140)S.splice(0,3);
+  });
+  var stars=['✦','✧','⋆','✳'];
+  function loop(){
+    x.clearRect(0,0,c.width,c.height);
+    for(var i=S.length-1;i>=0;i--){var p=S[i];p.x+=p.vx;p.y+=p.vy;p.l-=.02;
+      if(p.l<=0){S.splice(i,1);continue}
+      x.globalAlpha=Math.max(p.l,0);x.fillStyle=p.c;x.font=Math.round(p.r*4)+'px serif';
+      x.fillText(stars[Math.floor(p.s.charCodeAt(0)) % stars.length],p.x,p.y);}
+    x.globalAlpha=1;requestAnimationFrame(loop);}
+  loop();
+
+  /* ===== THE ODOMETER — the visitor IS the counter ===== */
+  var last=-1,digits=document.getElementById('counter');
+  function tick(){
+    var n=1+Math.floor(scrollY/50); if(n>999999)n=999999;
+    if(n!==last){last=n;digits.textContent=String(n).padStart(6,'0');digits.style.color=n%7===0?'#fff':'var(--lime)';}
+    /* starfield taps out for notebook paper once the tutors arrive */
+    var tut=document.getElementById('tutors').getBoundingClientRect();
+    document.body.classList.toggle('papertime',tut.top<innerHeight*0.7);
+    requestAnimationFrame(tick);}
+  tick();
+
+  /* ===== WHOOSH-IN ENGINE ===== */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+    {threshold:.15});
+  document.querySelectorAll('section, tr.swing, #stamp, .waver').forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>
+</html>

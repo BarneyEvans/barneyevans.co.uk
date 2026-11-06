@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Potato Tutor Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to bottom, #87CEEB, #98D8E8);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .potato {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #8B4513;
+            object-fit: cover;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+        
+        .tutor-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tutor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .wobble {
+            animation: wobble 2s infinite;
+        }
+        
+        @keyframes wobble {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-10px) rotate(-5deg); }
+            50% { transform: translateX(10px) rotate(5deg); }
+            75% { transform: translateX(-5px) rotate(-2deg); }
+        }
+        
+        .price-bubble {
+            background: white;
+            border: 3px solid #8B4513;
+            border-radius: 20px;
+            padding: 15px 25px;
+            margin: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            animation: float 3s infinite;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .review {
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 5px solid #FFD700;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            max-width: 600px;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 0; transform: translateX(0); }
+        }
+        
+        .crayon-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 255, 255, 0.1) 2px,
+                rgba(255, 255, 255, 0.1) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .page-flip {
+            transition: transform 1s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        button {
+            background: #FFD700;
+            border: 3px solid #8B4513;
+            border-radius: 15px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            background: #FFA500;
+            transform: scale(1.1) rotate(2deg);
+        }
+        
+        .background-text {
+            position: absolute;
+            font-size: 8em;
+            color: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+            white-space: nowrap;
+            pointer-events: none;
+            animation: scrollText 30s linear infinite;
+        }
+        
+        @keyframes scrollText {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="crayon-lines"></div>
+    
+    <div class="tutor-container">
+        <div class="potato" style="top: 10%; left: 10%;" id="potato1"></div>
+        <div class="potato" style="top: 60%; right: 15%;" id="potato2"></div>
+        
+        <div class="section">
+            <h1>Barney & Eugene's Wacky Website</h1>
+            <img src="grad_photo.jpg" alt="Barney Evans" class="potato wobble" style="position: static; margin: 20px;">
+            <p>Computer Science & Physics & Maths Tutors</p>
+            <button>Enquire</button>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h1>Subjects & Prices</h1>
+        <p>Computer Science, with Barney</p>
+        <div class="price-bubble">GCSE Computer Science, A�34/hour</div>
+        <div class="price-bubble">A-Level Computer Science, A�45/hour</div>
+        <p>Physics, with Eugene</p>
+        <div class="price-bubble">GCSE Physics, A�XX/hour</div>
+        <div class="price-bubble">A-Level Physics, A�XX/hour</div>
+        <p>Maths, with Eugene</p>
+        <div class="price-bubble">GCSE Maths, A�XX/hour</div>
+        <div class="price-bubble">A-Level Maths, A�XX/hour</div>
+    </div>
+    
+    <div class="section">
+        <h1>Parent Reviews</h1>
+        <div class="review">
+            <p>"Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!"</p>
+            <p>- Rahnuma, Parent from Norwich, 21 Aug 2025</p>
+        </div>
+        <div class="review">
+            <p>"Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school."</p>
+            <p>- Suzanne, Parent from Hook</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h1>How Lessons Work</h1>
+        <p>Real-time document collaboration</p>
+        <p>Custom slides for each topic</p>
+        <p>Understanding core concepts</p>
+        <p>Problem-solving skills</p>
+        <p>Interactive discussions</p>
+        <p>Regular recaps</p>
+        <button>Enquire</button>
+    </div>
+    
+    <div class="section">
+        <h1>Ready to Get Started</h1>
+        <p>Email Barney: barney@example.com</p>
+        <p>Email Eugene: eugene@example.com</p>
+        <p>Enquire for availability</p>
+    </div>
+    
+    <div class="background-text">
+        CRAYONS BUBBLY WOOLLY FUN WEIRD! CRAYONS BUBBLY WOOLLY FUN WEIRD! CRAYONS BUBBLY WOOLLY FUN WEIRD!
+    </div>
+    
+    <script>
+        // Make potatoes dance when scrolled near
+        window.addEventListener('scroll', function() {
+            const potatoes = document.querySelectorAll('.potato');
+            const scrollY = window.scrollY;
+            
+            potatoes.forEach((potato, index) => {
+                const rect = potato.getBoundingClientRect();
+                const distance = Math.abs(rect.top - window.innerHeight/2);
+                
+                if (distance < 300) {
+                    const wiggle = Math.sin(scrollY / 10 + index) * 20;
+                    const rotate = Math.sin(scrollY / 15 + index) * 10;
+                    potato.style.transform = `translateX(${wiggle}px) rotate(${rotate}deg)`;
+                    potato.style.background = `radial-gradient(circle at ${50 + Math.sin(scrollY / 5) * 30}%, #FFFF00, #FFA500)`;
+                } else {
+                    potato.style.transform = 'translateX(0) rotate(0deg)';
+                    potato.style.background = 'none';
+                }
+            });
+        });
+        
+        // Add page flip effect on section changes
+        const sections = document.querySelectorAll('.section');
+        let currentSection = 0;
+        
+        window.addEventListener('wheel', function(e) {
+            if (e.deltaY > 0 && currentSection < sections.length - 1) {
+                currentSection++;
+                sections[currentSection].scrollIntoView({ behavior: 'smooth' });
+                
+                // Add page flip effect
+                sections[currentSection].classList.add('page-flip');
+                setTimeout(() => sections[currentSection].classList.remove('page-flip'), 1000);
+            } else if (e.deltaY < 0 && currentSection > 0) {
+                currentSection--;
+                sections[currentSection].scrollIntoView({ behavior: 'smooth' });
+                sections[currentSection].classList.add('page-flip');
+                setTimeout(() => sections[currentSection].classList.remove('page-flip'), 1000);
+            }
+        });
+        
+        // Add bouncy effect to buttons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.animation = 'bounce 0.5s';
+                setTimeout(() => this.style.animation = '', 500);
+            });
+        });
+        
+        // Add crayon trail effect
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.95) {
+                const trail = document.createElement('div');
+                trail.style.position = 'absolute';
+                trail.style.left = e.pageX + 'px';
+                trail.style.top = e.pageY + 'px';
+                trail.style.width = '3px';
+                trail.style.height = '3px';
+                trail.style.background = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+                trail.style.borderRadius = '50%';
+                trail.style.pointerEvents = 'none';
+                trail.style.zIndex = '999';
+                document.body.appendChild(trail);
+                
+                setTimeout(() => trail.remove(), 1000);
+            }
+        });
+        
+        // Add wobbling text effect
+        const h1Elements = document.querySelectorAll('h1');
+        h1Elements.forEach(h1 => {
+            let wobbleAngle = 0;
+            setInterval(() => {
+                wobbleAngle += 0.05;
+                h1.style.transform = `rotate(${Math.sin(wobbleAngle) * 2}deg)`;
+            }, 100);
+        });
+        
+        // Add wiggle effect when hovering over price bubbles
+        const priceBubbles = document.querySelectorAll('.price-bubble');
+        priceBubbles.forEach(bubble => {
+            bubble.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2) rotate(5deg)';
+            });
+            bubble.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+        
+        // Add dancing potatoes when mouse moves
+        const container = document.querySelector('.tutor-container');
+        container.addEventListener('mousemove', function(e) {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            const potatoes = document.querySelectorAll('.potato');
+            potatoes.forEach(potato => {
+                const rect = potato.getBoundingClientRect();
+                const potatoX = rect.left + rect.width/2;
+                const potatoY = rect.top + rect.height/2;
+                
+                const dx = mouseX - potatoX;
+                const dy = mouseY - potatoY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 200) {
+                    const angle = Math.atan2(dy, dx);
+                    const moveX = Math.cos(angle) * (200 - distance) / 10;
+                    const moveY = Math.sin(angle) * (200 - distance) / 10;
+                    potato.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                } else {
+                    potato.style.transform = 'translate(0, 0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
