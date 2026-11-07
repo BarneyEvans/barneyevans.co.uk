@@ -1,0 +1,36 @@
+[
+  {
+    "concept": "A1-good-thread",
+    "title": "Barney & Eugene — A good thread",
+    "noindex": "noindex",
+    "headline": "Personalised tutoring in Computer Science, Physics & Maths",
+    "brokenAnchors": [],
+    "placeholders": 17,
+    "details": 2,
+    "faces": 2,
+    "reviewQuotes": [
+      "Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!",
+      "Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school."
+    ],
+    "buttonPosition": "absolute",
+    "minimumTextContrast": 4.811845324271572,
+    "buttonContrast": 7.6916714404227085
+  },
+  {
+    "concept": "A2-little-by-little",
+    "title": "Barney & Eugene — Little by little",
+    "noindex": "noindex",
+    "headline": "Personalised tutoring in Computer Science, Physics & Maths",
+    "brokenAnchors": [],
+    "placeholders": 17,
+    "details": 2,
+    "faces": 2,
+    "reviewQuotes": [
+      "Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!",
+      "Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school."
+    ],
+    "buttonPosition": "absolute",
+    "minimumTextContrast": 4.674722597228003,
+    "buttonContrast": 6.463472135305111
+  }
+]

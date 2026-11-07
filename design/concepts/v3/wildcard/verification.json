@@ -1,0 +1,121 @@
+{
+  "screenshots": "C:\\Users\\evans\\AppData\\Local\\Temp\\wildcard-v3-qa",
+  "concepts": {
+    "C1-soft-assembly": {
+      "errors": [],
+      "widths": {
+        "320": {
+          "cpuThrottle": 4,
+          "frameP95Ms": 6.100000000000364,
+          "drawP95Ms": 0.8999999761581421,
+          "drawMaxMs": 1.199999988079071,
+          "canvasPixelRatio": 2,
+          "scrollMoments": 4,
+          "overflow": false,
+          "touchSwap": true,
+          "paints": [
+            189,
+            81,
+            78,
+            78,
+            66
+          ]
+        },
+        "390": {
+          "cpuThrottle": 4,
+          "frameP95Ms": 6.199999999998909,
+          "drawP95Ms": 1,
+          "drawMaxMs": 1.300000011920929,
+          "canvasPixelRatio": 2,
+          "scrollMoments": 4,
+          "overflow": false,
+          "touchSwap": true,
+          "paints": [
+            195,
+            85,
+            81,
+            82,
+            69
+          ]
+        },
+        "1440": {
+          "cpuThrottle": 1,
+          "frameP95Ms": 6.100000000000364,
+          "drawP95Ms": 0.20000004768371582,
+          "drawMaxMs": 0.5,
+          "canvasPixelRatio": 1,
+          "scrollMoments": 4,
+          "overflow": false,
+          "touchSwap": false,
+          "paints": [
+            194,
+            143,
+            133,
+            138,
+            94
+          ]
+        }
+      },
+      "reducedMotion": "Still geometry; instantaneous interaction; complete content",
+      "noJavaScript": "All content, links and native disclosures work at 320px"
+    },
+    "C2-counterpart": {
+      "errors": [],
+      "widths": {
+        "320": {
+          "cpuThrottle": 4,
+          "frameP95Ms": 6.199999999998909,
+          "drawP95Ms": 0.6000000238418579,
+          "drawMaxMs": 0.8999999761581421,
+          "canvasPixelRatio": 2,
+          "scrollMoments": 4,
+          "overflow": false,
+          "touchSwap": true,
+          "paints": [
+            178,
+            83,
+            78,
+            82,
+            72
+          ]
+        },
+        "390": {
+          "cpuThrottle": 4,
+          "frameP95Ms": 6.299999999999272,
+          "drawP95Ms": 0.699999988079071,
+          "drawMaxMs": 1.0999999642372131,
+          "canvasPixelRatio": 2,
+          "scrollMoments": 4,
+          "overflow": false,
+          "touchSwap": true,
+          "paints": [
+            185,
+            86,
+            82,
+            85,
+            75
+          ]
+        },
+        "1440": {
+          "cpuThrottle": 1,
+          "frameP95Ms": 6.199999999999818,
+          "drawP95Ms": 0.20000004768371582,
+          "drawMaxMs": 0.40000003576278687,
+          "canvasPixelRatio": 1,
+          "scrollMoments": 4,
+          "overflow": false,
+          "touchSwap": false,
+          "paints": [
+            205,
+            143,
+            132,
+            139,
+            97
+          ]
+        }
+      },
+      "reducedMotion": "Still geometry; instantaneous interaction; complete content",
+      "noJavaScript": "All content, links and native disclosures work at 320px"
+    }
+  }
+}

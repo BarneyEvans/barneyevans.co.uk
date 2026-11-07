@@ -1,0 +1,206 @@
+[
+  {
+    "concept": "A1-good-thread",
+    "width": 390,
+    "errors": [],
+    "sections": [
+      {
+        "id": "subjects",
+        "overflow": false,
+        "svg": 120
+      },
+      {
+        "id": "tutors",
+        "overflow": false,
+        "svg": 90
+      },
+      {
+        "id": "lessons",
+        "overflow": false,
+        "svg": 145
+      },
+      {
+        "id": "reviews",
+        "overflow": false,
+        "svg": 80
+      },
+      {
+        "id": "contact",
+        "overflow": false,
+        "svg": 229
+      }
+    ],
+    "links": 3,
+    "missingImages": 0
+  },
+  {
+    "concept": "A1-good-thread",
+    "width": 1440,
+    "errors": [],
+    "sections": [
+      {
+        "id": "subjects",
+        "overflow": false,
+        "svg": 167
+      },
+      {
+        "id": "tutors",
+        "overflow": false,
+        "svg": 103
+      },
+      {
+        "id": "lessons",
+        "overflow": false,
+        "svg": 169
+      },
+      {
+        "id": "reviews",
+        "overflow": false,
+        "svg": 74
+      },
+      {
+        "id": "contact",
+        "overflow": false,
+        "svg": 231
+      }
+    ],
+    "links": 3,
+    "missingImages": 0
+  },
+  {
+    "concept": "A1-good-thread",
+    "width": 320,
+    "errors": [],
+    "sections": [
+      {
+        "id": "subjects",
+        "overflow": false,
+        "svg": 124
+      },
+      {
+        "id": "tutors",
+        "overflow": false,
+        "svg": 88
+      },
+      {
+        "id": "lessons",
+        "overflow": false,
+        "svg": 162
+      },
+      {
+        "id": "reviews",
+        "overflow": false,
+        "svg": 80
+      },
+      {
+        "id": "contact",
+        "overflow": false,
+        "svg": 230
+      }
+    ],
+    "links": 3,
+    "missingImages": 0
+  },
+  {
+    "concept": "A2-little-by-little",
+    "width": 390,
+    "errors": [],
+    "sections": [
+      {
+        "id": "subjects",
+        "overflow": false,
+        "svg": 133
+      },
+      {
+        "id": "tutors",
+        "overflow": false,
+        "svg": 102
+      },
+      {
+        "id": "lessons",
+        "overflow": false,
+        "svg": 178
+      },
+      {
+        "id": "reviews",
+        "overflow": false,
+        "svg": 82
+      },
+      {
+        "id": "contact",
+        "overflow": false,
+        "svg": 82
+      }
+    ],
+    "links": 3,
+    "missingImages": 0
+  },
+  {
+    "concept": "A2-little-by-little",
+    "width": 1440,
+    "errors": [],
+    "sections": [
+      {
+        "id": "subjects",
+        "overflow": false,
+        "svg": 136
+      },
+      {
+        "id": "tutors",
+        "overflow": false,
+        "svg": 125
+      },
+      {
+        "id": "lessons",
+        "overflow": false,
+        "svg": 193
+      },
+      {
+        "id": "reviews",
+        "overflow": false,
+        "svg": 88
+      },
+      {
+        "id": "contact",
+        "overflow": false,
+        "svg": 85
+      }
+    ],
+    "links": 3,
+    "missingImages": 0
+  },
+  {
+    "concept": "A2-little-by-little",
+    "width": 320,
+    "errors": [],
+    "sections": [
+      {
+        "id": "subjects",
+        "overflow": false,
+        "svg": 135
+      },
+      {
+        "id": "tutors",
+        "overflow": false,
+        "svg": 104
+      },
+      {
+        "id": "lessons",
+        "overflow": false,
+        "svg": 180
+      },
+      {
+        "id": "reviews",
+        "overflow": false,
+        "svg": 84
+      },
+      {
+        "id": "contact",
+        "overflow": false,
+        "svg": 83
+      }
+    ],
+    "links": 3,
+    "missingImages": 0
+  }
+]
