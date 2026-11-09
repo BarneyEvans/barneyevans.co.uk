@@ -37,7 +37,7 @@ summary{font-size:16px;min-height:48px}.experience h4,.experience p{font-size:16
 .reviews{padding-top:58px}.review-pair{gap:56px}.review-pair figure{position:relative;padding-left:82px}.review-pair .scene-3{position:absolute;left:0;top:0;width:66px;height:72px}blockquote{font-size:22px;line-height:1.55}
 figcaption{font-size:13px;margin-top:20px}.review-source{font-size:13px;margin-top:30px;padding-block:18px;gap:16px 24px}.review-source small{font-size:13px}
 .contact-heading h2{font-size:clamp(46px,5vw,68px)}.contact-heading .motion-scene{height:180px;margin:0}.contact-pair{margin-top:25px;gap:54px}.contact-pair p{font-size:16px;margin-bottom:18px}.contact-pair .email{font-size:16px}.form-link{font-size:13px;margin-top:22px}footer p,footer>a:last-child{font-size:13px}
-@media(max-width:1050px){.hero{gap:0 28px}.hero h1{font-size:40px}.quick-prices>a>span{max-width:140px}.quick-prices strong{font-size:15px}.portrait-stage{padding-inline:14px}.portraits{gap:14px}.lesson-layout{gap:30px}.review-pair{gap:28px}}
+@media(max-width:1050px){.hero{gap:0 28px}.hero h1{font-size:40px}.quick-prices>a>span{max-width:140px}.quick-prices strong{font-size:16px}.portrait-stage{padding-inline:14px}.portraits{gap:14px}.lesson-layout{gap:30px}.review-pair{gap:28px}}
 @media(max-width:760px){
  .wrap,.site-header{width:calc(100% - 40px)}.site-header{padding-top:16px}.site-header nav{margin-top:4px;padding-top:3px;gap:8px}.site-header nav a{font-size:13px;min-height:40px}.brand{font-size:19px}.button.small{font-size:13px}
  .hero{padding-top:22px}.hero-copy .eyebrow{font-size:13px;margin-bottom:12px}.hero h1{font-size:38px;line-height:1.12}.hero-actions{margin-top:20px;gap:18px}.hero-actions .text-link{font-size:14px}.button{font-size:16px}.hero .quick-prices{margin-top:22px}.quick-prices>a{padding:11px 0}.quick-prices>a>span{font-size:14px;max-width:155px}.quick-prices strong{font-size:16px}
@@ -49,22 +49,22 @@ figcaption{font-size:13px;margin-top:20px}.review-source{font-size:13px;margin-t
  .reviews{padding-top:42px}.review-pair figure{padding-left:0}.review-pair .scene-3{position:relative;width:68px;height:55px;margin-bottom:8px}.review-pair figure+figure{margin-top:26px}blockquote{font-size:22px}.review-source{font-size:13px;gap:12px 20px}.review-source small{font-size:13px}
  .contact-heading{display:grid;grid-template-columns:1fr 96px;gap:0 8px}.contact-heading>.eyebrow{grid-column:1/-1}.contact-heading h2{font-size:43px}.contact-heading .motion-scene{height:120px;margin:0}.contact-pair{margin-top:24px;gap:26px}.contact-pair>div+div{padding-top:26px}.contact-pair .email{font-size:16px}.contact-pair p{font-size:16px}.form-link{font-size:13px}footer p,footer>a:last-child{font-size:13px}footer p{max-width:100%}
 }
-@media(max-width:350px){.wrap,.site-header{width:calc(100% - 32px)}.brand{font-size:17px}.site-header nav{gap:5px}.site-header nav a{font-size:13px}.hero h1{font-size:34px}.hero-actions{gap:14px}.hero-actions .button{padding-inline:18px;gap:20px}.hero-actions .text-link{font-size:13px;gap:7px}.quick-prices>a>span{max-width:128px;font-size:13px}.quick-prices strong{font-size:15px}.portrait-stage{padding-inline:10px}.portrait-window{height:155px}.portraits{gap:12px}.portrait-caption strong{font-size:17px;min-height:42px}.portrait-caption>span{font-size:13px}.play{font-size:13px}.profile-heading h3{font-size:25px}.price-row{align-items:start}.price-row>div{min-width:0}.price-row h4{font-size:16px}.price-row small{font-size:13px}.price-row>strong.pending{font-size:16px}#tutors .section-heading{grid-template-columns:1fr 74px}.contact-heading{grid-template-columns:1fr 78px}.contact-heading h2{font-size:39px}.contact-heading .motion-scene{height:105px}.lesson-steps li{gap:10px}}
+@media(max-width:350px){.wrap,.site-header{width:calc(100% - 32px)}.brand{font-size:17px}.site-header nav{gap:5px}.site-header nav a{font-size:13px}.hero h1{font-size:34px}.hero-actions{gap:14px}.hero-actions .button{padding-inline:18px;gap:20px}.hero-actions .text-link{font-size:13px;gap:7px}.quick-prices>a>span{max-width:128px;font-size:13px}.quick-prices strong{font-size:16px}.portrait-stage{padding-inline:10px}.portrait-window{height:155px}.portraits{gap:12px}.portrait-caption strong{font-size:17px;min-height:42px}.portrait-caption>span{font-size:13px}.play{font-size:13px}.profile-heading h3{font-size:25px}.price-row{align-items:start}.price-row>div{min-width:0}.price-row h4{font-size:16px}.price-row small{font-size:13px}.price-row>strong.pending{font-size:16px}#tutors .section-heading{grid-template-columns:1fr 74px}.contact-heading{grid-template-columns:1fr 78px}.contact-heading h2{font-size:39px}.contact-heading .motion-scene{height:105px}.lesson-steps li{gap:10px}}
 
 /* Round 2: substantial structures, attached to their chapters. */
 #tutors .section-heading{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin-bottom:14px}
 #tutors .scene-1{width:100%;height:160px;margin-top:4px;align-self:stretch}
 .lesson-steps li>.step-marker{width:112px;gap:0}.lesson-section .step-marker .scene-2{width:112px;height:108px}.lesson-steps li{align-items:center}
-.review-pair figure{padding-left:0;display:flow-root}.review-pair .scene-3{position:relative;float:left;width:140px;height:144px;margin:0 16px 8px 0}.review-pair figcaption{clear:both}
+.review-pair figure{padding-left:0;display:flow-root}.review-pair .scene-3{position:relative;float:none;width:114px;height:122px;margin:0 0 12px}.review-pair figcaption{clear:both}
 .contact-heading{grid-template-columns:1fr 1fr;align-items:center}.contact-heading .motion-scene{height:290px;width:100%;max-width:370px;justify-self:center}
+@media(min-width:761px){#subjects{padding-bottom:24px}#tutors{padding-top:24px}}
 @media(max-width:760px){
  #tutors .section-heading h2{font-size:34px;max-width:100%}#tutors .scene-1{height:116px;margin-top:4px}
  .lesson-steps li>.step-marker{width:104px}.lesson-section .step-marker .scene-2{width:104px;height:102px}.lesson-steps li{gap:16px;padding-block:14px}
- .review-pair .scene-3{width:114px;height:122px;margin:0 14px 8px 0}.review-pair figure+figure{margin-top:28px}
- .contact-heading{grid-template-columns:minmax(0,1fr) 164px;gap:0 8px}.contact-heading h2{font-size:40px}.contact-heading .motion-scene{width:164px;height:224px}
+ .review-pair .scene-3{width:114px;height:122px;margin:0 0 12px}.review-pair figure+figure{margin-top:28px}
+ .contact-heading{grid-template-columns:minmax(0,1fr);gap:0}.contact-heading>.eyebrow{grid-row:1}.contact-heading h2{grid-row:3;font-size:40px}.contact-heading .motion-scene{grid-row:2;width:164px;height:224px;justify-self:start;margin:0 0 12px}
 }
 @media(max-width:350px){
  .lesson-steps li>.step-marker{width:92px}.lesson-section .step-marker .scene-2{width:92px;height:96px}.lesson-steps li{gap:12px}
- .review-pair .scene-3{width:100px;height:112px;margin-right:12px}
- .contact-heading{grid-template-columns:minmax(0,1fr) 140px}.contact-heading h2{font-size:35px}.contact-heading .motion-scene{width:140px;height:208px}
+ .contact-heading h2{font-size:39px}
 }

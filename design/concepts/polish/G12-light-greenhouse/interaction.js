@@ -3,7 +3,7 @@
   document.documentElement.classList.add('js');
   const canvas = document.querySelector('#garden'), ctx = canvas.getContext('2d');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const root = document.documentElement, pause = document.querySelector('#pause');
+  const root = document.documentElement, pauses = [...document.querySelectorAll('.pause')];
   const status = document.querySelector('#garden-status');
   const glider = [[1,0],[2,1],[0,2],[1,2],[2,2]];
   const pulsar = [];
@@ -87,14 +87,18 @@
     const lesson=document.querySelector('.lesson-steps').getBoundingClientRect().top+scrollY;
     const mobile=innerWidth<=700;
     const start=Math.max(pair[1].y-innerHeight*.42+120,lesson-innerHeight*.7);
-    stops=[{...pair[0],at:0},{...pair[1],at:Math.max(140,pair[1].y-innerHeight*.5)}];
+    const meeting=Math.max(40,pair[0].y-innerHeight*.65);
+    stops=[{...pair[0],at:0},{...pair[0],at:meeting},{...pair[1],at:meeting+150},{...pair[1],at:meeting+210}];
     // A quiet margin passage keeps the travelling light clear of prices and copy.
     const subject=document.querySelector('#subjects').getBoundingClientRect();
     const rail=Math.max(10,subject.left-21);
-    stops.push({x:rail,y:pair[1].y,at:stops[1].at+70});
+    stops.push({x:rail,y:pair[1].y,at:stops.at(-1).at+70});
     stops.push({x:rail,y:subject.top+scrollY,at:subject.top+scrollY-innerHeight*.4});
     stops.push({x:rail,y:lesson-40,at:start-70});
-    markers.forEach((p,i)=>stops.push({...p,at:mobile?p.y-innerHeight*.48:start+i*95}));
+    markers.forEach((p,i)=>{
+      const arrival=mobile?p.y-innerHeight*.48:start+i*115;
+      stops.push({...p,at:arrival},{...p,at:arrival+45});
+    });
     stops.push({x:rail,y:markers.at(-1).y,at:stops.at(-1).at+70});
     const review=document.querySelector('#reviews').getBoundingClientRect();
     stops.push({x:rail,y:review.top+scrollY+40,at:Math.max(stops.at(-1).at+50,review.top+scrollY-innerHeight*.4)});
@@ -113,11 +117,11 @@
     light.style.transform=`translate3d(${lightPoint.x-16}px,${lightPoint.y-mainTop-16}px,0)`;
     document.querySelectorAll('.step-orb').forEach((el,i)=>{
       const p=markerPoints[i],distance=Math.hypot(lightPoint.x-p.x,lightPoint.y-p.y);
-      el.style.setProperty('--lit',Math.max(0,1-distance/100).toFixed(2));
+      el.style.setProperty('--lit',(reduced.matches?.65:Math.max(0,1-distance/110)).toFixed(2));
     });
     document.querySelectorAll('.paired-cell').forEach((el,i)=>{
       const p=pairPoints[i],distance=Math.hypot(lightPoint.x-p.x,lightPoint.y-p.y);
-      el.style.setProperty('--meet',Math.max(0,1-distance/140).toFixed(2));
+      el.style.setProperty('--meet',(reduced.matches?.4:Math.max(0,1-distance/115)).toFixed(2));
     });
     const bloom=reduced.matches?1:Math.max(0,1-Math.hypot(lightPoint.x-restPoint.x,lightPoint.y-restPoint.y)/200);
     document.querySelector('.light-rest').style.setProperty('--bloom',bloom.toFixed(2));
@@ -184,23 +188,34 @@
   }
   function tick(now){raf=0;if(document.hidden)return;if(now-lastDraw>=32){if(!paused&&!reduced.matches&&now-lastStep>950){evolve();lastStep=now;}draw(now);lastDraw=now;}if(!paused&&!reduced.matches)raf=requestAnimationFrame(tick);}
   function requestDraw(){if(document.hidden)return;if(!raf)raf=requestAnimationFrame(now=>{raf=0;draw(now);if(!paused&&!reduced.matches)raf=requestAnimationFrame(tick);});}
-  function updatePause(){pause.innerHTML=paused?'▶ <span>Resume</span>':'Ⅱ <span>Pause</span>';pause.setAttribute('aria-pressed',String(paused));if(reduced.matches){pause.innerHTML='✓ <span>Still garden</span>';pause.disabled=true;}else pause.disabled=false;cancelAnimationFrame(raf);raf=0;requestDraw();}
-  pause.addEventListener('click',()=>{paused=!paused;updatePause();status.textContent=paused?'Garden paused.':'Garden growing.';});
+  function updatePause(){
+    pauses.forEach(pause=>{
+      pause.innerHTML=paused?'&#9654; <span>Resume</span>':'&#8545; <span>Pause</span>';
+      pause.setAttribute('aria-pressed',String(paused));
+      pause.setAttribute('aria-label',paused?'Resume garden':'Pause garden');
+      pause.disabled=reduced.matches;
+      if(reduced.matches){pause.innerHTML='&#10003; <span>Still garden</span>';pause.setAttribute('aria-label','Still garden');}
+    });
+    root.classList.toggle('garden-paused',paused);
+    cancelAnimationFrame(raf);raf=0;requestDraw();
+  }
+  pauses.forEach(pause=>pause.addEventListener('click',()=>{paused=!paused;updatePause();status.textContent=paused?'Garden paused.':'Garden growing.';}));
   document.querySelectorAll('.paired-cell').forEach(button=>button.addEventListener('click',()=>{
     const cells=[...document.querySelectorAll('.paired-cell')];
     if(!paused&&!reduced.matches) cells.forEach(cell=>{cell.classList.remove('answer');setTimeout(()=>{cell.classList.add('answer');setTimeout(()=>cell.classList.remove('answer'),1100);},cell===button?0:180);});
     status.textContent='A little light, shared between both tutors.';
     metrics.paired=(metrics.paired||0)+1;
   }));
-  document.querySelectorAll('.tutor').forEach(card=>{
-    card.querySelectorAll('.flip').forEach(button=>button.addEventListener('click',()=>{
-      const back=!card.classList.contains('is-back');
-      card.classList.toggle('is-back',back);
-      card.querySelectorAll('.flip').forEach(b=>b.setAttribute('aria-expanded',String(back)));
-      card.querySelector('.card-front .flip').focus({preventScroll:true});
-      measure();
-    }));
-  });
+  document.querySelectorAll('.flip').forEach(button=>button.addEventListener('click',()=>{
+    const panel=document.getElementById(button.getAttribute('aria-controls'));
+    const opener=document.querySelector('.card-front [aria-controls="'+panel.id+'"]');
+    const card=opener.closest('.tutor'),open=!panel.classList.contains('is-open');
+    panel.classList.toggle('is-open',open);card.classList.toggle('is-back',open);
+    document.querySelectorAll('[aria-controls="'+panel.id+'"]').forEach(b=>b.setAttribute('aria-expanded',String(open)));
+    measure();
+    if(open){panel.tabIndex=-1;panel.focus({preventScroll:true});panel.scrollIntoView({block:'nearest',behavior:'instant'});}
+    else {opener.focus({preventScroll:true});opener.scrollIntoView({block:'nearest',behavior:'instant'});}
+  }));
   document.querySelectorAll('details').forEach(el=>el.addEventListener('toggle',measure));
   addEventListener('scroll',requestDraw,{passive:true});addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(measure,150);});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{lastStep=performance.now();requestDraw();}});

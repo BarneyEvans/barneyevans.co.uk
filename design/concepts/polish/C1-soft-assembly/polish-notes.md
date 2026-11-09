@@ -54,3 +54,26 @@ Overwrote `after-390.png`, `after-1440.png` and `after-320.png` using the requir
 `round2-verification.json` beside the films records 15 passing checks: four distinct actual scroll states for each structure; no glyph-line intersection with animation areas at 320, 390 or 1440px; no overflow at those widths; settled reduced motion through pointer/scroll input; no idle drawing; Pause and keyboard rearrangement; no JavaScript errors. The QA script used immediate programmatic scrolling to sample exact scroll positions, while the required strips retained real wheel scrolling. Inspected `scratch/assembly-stages.png` to confirm flight, foundation-to-stair order, quotation assembly, and the closed-to-open doorway; `scratch/contact-settled.png` confirms the open ending beside readable contact content.
 
 Only `interaction.js`, `style.css`, `pitch.md` and these notes changed in round 2. The HTML, early rates and portraits, approved copy and visible placeholders remain as verified in round 1. No implementation issue remains; the previously listed content placeholders still require the tutors' real details.
+
+## Round 2: shortlist director review (9 November 2026)
+
+This is the dispatched Round 2 against `polish/SHORTLIST.md`. The earlier section called Round 2 records the signature enlargement within the previous polish pass; its 6928px phone / 4800px desktop result is this pass's Round 1 baseline. Before editing, copied the existing `after-390.png` and `after-1440.png` to `r1-390.png` and `r1-1440.png` in the external C1 film folder and reviewed both.
+
+- Moved the animated quotation pieces above both reviews at every width. Each keeps a substantial 114 x 122px canvas, with a 12px gap before the first line. The entire review now has the full column width: 350px on the 390px phone, 288px at 320px and 562px on desktop.
+- Placed the phone doorway above the contact heading, retaining the 164 x 224px construction and its assembling, opening leaves. The unchanged closing wording now occupies two lines at both 390px and 320px, using 40px and 39px type respectively.
+- Reduced desktop spacing between the last price row and the tutor introduction from 116px to 48px. The bridge retains its full 1180 x 160px desktop canvas and its original construction motion.
+- Corrected inherited 15px quick-rate overrides to 16px, including at 320px. Early separate rates, equal portraits, in-flow Pause, approved wording, placeholders and all animation code are otherwise unchanged.
+
+### Round 2 final films and checks
+
+| Viewport | Round 1 baseline | Round 2 final | p95 | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 x 844 | 6928px / 8.2 screens | 7161px / 8.5 screens | 6.2ms | 0px / 0 |
+| 1440 x 900 | 4800px / 5.3 screens | 4832px / 5.4 screens | 6.2ms | 0px / 0 |
+| 320 x 568 | 7156px / 12.6 screens | 7444px / 13.1 screens | 6.2ms | 0px / 0 |
+
+Overwrote and visually inspected all three `after` films using the required real-wheel strip tool at 4x CPU. Each recorded median 6.1ms and 0% frames over 50ms. Moving substantial artwork above text adds 233px at 390px and 32px overall on desktop; this is the deliberate cost of comfortable review and contact reading while preserving the signature constructions. The 390px page remains 465px shorter than v3.
+
+Opened the worktree in Orca's browser and inspected its capture, plus phone/desktop strips and focused contact/review screenshots. `director-r2-verification.json` in the external film folder records passing layout and interaction checks at all three widths: quotation areas above text, full review widths, two-line phone contact headings, both named portraits and rates within two phone screens, full-size desktop bridge, 48px price-to-tutor gap, zero overflow/errors, Pause, keyboard rearrangement and settled reduced motion with Pause disabled. HTML and JavaScript are unchanged, preserving all approved copy and existing scroll choreography.
+
+No implementation blocker remains. Eugene's final details and the real enquiry route remain the existing visibly marked content placeholders. All screenshots, metrics and the reproducible check script remain outside Git.

@@ -46,3 +46,31 @@ Artifacts: C:/Users/evans/geo/polish-run/film/G12/before-G2-390.png and before-G
 No unresolved implementation blocker. Eugene's rates, boards, format, biography and real email, the working site name and enquiry form still need supplied content and remain visibly marked placeholders. Physical-device and human accessibility validation remain launch follow-ups. No push or changes outside this concept folder; no screenshots committed.
 
 Final qa.cjs rerun passed after the Pause/stem fix. Every reachable measured scroll stop lands the light within 3px of its intended point, and the paired-cell keyboard test confirms both cells visibly answer. Final phone diagnostic p95: 2.4ms simulation and 1.9ms draw. No errors in the final 390/1440 interaction runs, 320px opening check, reduced-motion or no-JavaScript checks. Syntax and git whitespace checks passed.
+
+## Round 2 ? reading space milestone
+
+Preserved round-one films as r1-390.png and r1-1440.png before edits. The director's G12 section is the round-two brief; neither polish checker batch includes G12. Read the inherited G1/G2 direction and reviews, approved copy and round-one record.
+
+The header now scrolls away. Synchronized Pause buttons sit in the tutor heading, beside lesson timings and at contact. Extra biographies now open as full-width rows beneath both introductions, retain both faces and credentials above them, and take keyboard focus into the opened text; closing returns focus to the correct opener. No approved claims or placeholder content changed. Motion arrivals and final verification follow.
+
+### Round 2 ? motion milestone and interaction checks
+
+Reserved larger pools around both paired cells, enlarged the lesson markers with a wider phone gutter, and enlarged the golden contact arrival. The same travelling light now dwells at each cell and each lesson stop; the local optical rings brighten with its measured proximity. The text mask still protects copy, prices and actions during transit. Reduced motion keeps settled rings and a complete stem; Pause freezes the traveller and stem as well as cellular growth.
+
+The first round-two films measured 5827px / 6.9 screens at 390px and 3942px / 4.4 screens at 1440px, both p95 6.2ms, zero overflow and zero JavaScript errors. The added 203px on phones and 177px on desktop reserve the arrival and Pause spaces requested by the director. Opened both preview strips and the expanded phone biography capture: the controls occupy their own space, the golden arrival is visible, and extra biography prose uses the full width.
+
+Extended the existing interaction QA for all three synchronized controls, the scrolling header, full-width biography geometry and focus entering the disclosure. QA passes at 390/1440, plus the inherited 320 opening, reduced-motion and no-JavaScript checks. All reachable journey stops are within 3px of their target; paired cells answer keyboard activation; credentials and portraits remain visible; contrast remains 4.75:1 or better against the conservative darkest tint. Phone diagnostic p95 is 2.9ms simulation / 5.3ms drawing at 4x CPU (distinct from frame intervals). Final films follow.
+
+### Round 2 ? final evidence
+
+Overwrote and visually inspected after-390.png, after-1440.png and after-320.png using the required real-wheel film tool at 4x CPU, with matching JSON outside Git. Opened the Orca worktree preview and inspected its screenshot as well.
+
+| Viewport | Round 1 height / screens | Round 2 height / screens | Median | p95 | Frames over 50ms | Overflow | JS errors |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 5624px / 6.7 | 5827px / 6.9 | 6.1ms | 6.2ms | 0.1% | 0px | 0 |
+| 1440 x 900 | 3765px / 4.2 | 3942px / 4.4 | 6.1ms | 6.2ms | 0.1% | 0px | 0 |
+| 320 x 568 | 5849px / 10.3 | 6091px / 10.7 | 6.1ms | 6.2ms | 0.2% | 0px | 0 |
+
+Final outcome: all three requested director changes are implemented, the opening retains early readable rates and equal portraits, all approved copy and full reviews remain, and no control floats over content. Round-one captures remain available as r1-390.png and r1-1440.png. Final source syntax and git whitespace checks pass; implementation milestones are 888989b and c315972.
+
+No implementation blocker remains. The supplied-content placeholders and real-phone/human validation listed in round one remain launch follow-ups. Only this concept folder changed, with no push and no screenshots committed.

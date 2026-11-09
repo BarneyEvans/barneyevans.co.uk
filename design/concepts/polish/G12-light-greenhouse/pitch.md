@@ -16,7 +16,7 @@ Equal arched portraits now sit inside one shared glasshouse outline. The humane 
 
 The light meets two tutor-adjacent cells, moves through spare margin space, grows the stem beside Barney's lesson steps, and rests at contact. Touching or keyboard-activating either cell gently answers in its partner. The portraits, names, rates and lesson copy stay still. The optical glow and living cells use one canvas with a measured text mask for cells and a clear-space radius for the light; neither paints over reading matter or actions.
 
-Pause is the only motion control, in its own reserved header space. There is no planting toolbar, species selector or second garden. Native scrolling remains intact. Hidden tabs stop the loop and offscreen simulation rows sleep. Reduced motion presents a planted, still garden, full stem and warm contact arch. No JavaScript still exposes both complete tutor profiles and working links.
+Pause is the only motion control, repeated in flow near the paired cells, lesson steps and contact; the header scrolls away. Extra biography text spans the width beneath the paired introductions. There is no planting toolbar, species selector or second garden. Native scrolling remains intact. Hidden tabs stop the loop and offscreen simulation rows sleep. Reduced motion presents a planted, still garden, full stem and warm contact arch. No JavaScript still exposes both complete tutor profiles and working links.
 
 ## Visible placeholders
 

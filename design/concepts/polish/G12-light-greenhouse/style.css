@@ -83,3 +83,42 @@ html:not(.js) .paired-cell{pointer-events:none}
 @media(max-width:700px){.tutor-pair{padding-top:16px}.glass-arch{height:380px;inset:0 -9px auto}.paired-cell{margin-top:18px}.subjects{padding-top:28px}.lesson-steps:after{left:21px;right:auto;top:20px;bottom:55px;width:3px;height:auto;background:linear-gradient(#709269,#b3a06e);transform:scaleY(var(--growth,0));transform-origin:top}.contact{margin-top:18px;padding:24px 10px 30px}.contact-arch{inset:0 -8px;border-radius:48% 48% 4px 4px / 100px 100px 4px 4px}.contact-pair>div+div{border-left:0;border-top:1px solid #9c8e6d44;padding-top:26px}.contact-pair{gap:26px}.contact h2{font-size:51px}}
 @media(max-width:350px){.tutors .section-heading{margin-bottom:14px}.tutor-intro{padding-top:10px}.tutor h3{font-size:22px;margin-top:3px}.portrait{height:155px}.glass-arch{height:335px}.contact{padding-inline:0}.contact h2{font-size:46px}}
 @media(prefers-reduced-motion:reduce){.lesson-steps:after{transform:none}.step-orb:after{transform:rotate(-24deg);opacity:.7}.contact-arch{opacity:1!important}}
+
+/* Polish round 2: controls and biographies occupy their own reading space. */
+header{position:relative}
+html{scroll-padding-top:20px}
+.pause{min-height:44px;padding:8px 14px;border-radius:30px;background:#e9ece1;font-size:13px;white-space:nowrap;min-width:85px}
+.pause:disabled{color:var(--muted)}
+.tutors .section-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.tutors .section-heading .eyebrow{flex-basis:100%;margin-bottom:0}
+.lesson-heading{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px}
+.lesson-heading h3{margin-right:auto}
+.contact-motion{position:relative;margin:0 auto 20px}
+.card-back{grid-column:1 / -1;border-top:1px solid #7f917655;padding:20px 0 8px;max-width:100%;scroll-margin:24px}
+.js .card-back.is-open{display:block}
+.card-back h3{display:block;font:28px/1.15 Georgia,serif;margin:0 0 18px}
+.card-back>.mini{display:block;font-size:13px;margin:0 0 8px}
+.card-back p{max-width:70ch}
+html:not(.js) .pause{display:none}
+.garden-paused .paired-cell{animation-play-state:paused}
+@media(max-width:700px){header{min-height:44px}.tutors .section-heading h2{font-size:29px}.lesson-heading>span{flex-basis:calc(100% - 110px)}}
+
+/* Reserved arrival pools: the same golden core lights each chapter. */
+.paired-cell{width:58px;height:58px;margin:30px auto 38px;isolation:isolate}
+.paired-cell:after{content:'';position:absolute;inset:-18px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#fffbe5 5%,#f5d58b 19%,#e8d99a99 38%,#c3cfa344 57%,transparent 72%);opacity:var(--meet,0);z-index:-1;transform:scale(calc(.85 + var(--meet,0)*.3))}
+.paired-cell:before{inset:-14px;border-color:#8a966d99;transform:rotate(-30deg) scaleX(calc(1.1 + var(--meet,0)*.2))}
+.paired-cell{background:radial-gradient(circle,#fffdf1 9%,#649779 18%,#a8c8a088 40%,#dce5c844 65%)}
+.paired-cell.violet{background:radial-gradient(circle,#fffdf1 9%,#9273b2 18%,#c0add888 40%,#e1d7eb44 65%)}
+.step-orb{width:52px;height:52px;margin:18px 0 33px;background:radial-gradient(circle,#fffbe7,#ecebc9);box-shadow:0 0 0 calc(3px + var(--lit,0)*11px) #d8c27b44,0 0 calc(var(--lit,0)*30px) 8px #efd58d77}
+.step-orb:before{content:'';position:absolute;inset:-15px;border:1px solid #a0956388;border-radius:50%;transform:rotate(-30deg) scaleX(calc(.8 + var(--lit,0)*.5));opacity:calc(.15 + var(--lit,0)*.85);pointer-events:none}
+.lesson-steps:before,.lesson-steps:after{left:26px;top:44px;right:calc(25% - 26px)}
+.light-rest{width:100px;height:100px;margin:8px auto 30px;box-shadow:0 0 0 calc(10px + var(--bloom,0)*10px) #ebd99a44,0 0 48px 20px #f4dfa588}
+.light-rest:before{inset:-14px;transform:rotate(-30deg) scaleX(calc(1.1 + var(--bloom,0)*.15))}
+@media(max-width:700px){
+  .lesson-steps{gap:26px}
+  .lesson-steps li{padding-left:102px;min-height:126px}
+  .step-orb{left:14px;top:7px;margin:0}
+  .lesson-steps:before,.lesson-steps:after{left:39px;top:33px;bottom:80px;right:auto}
+  .lesson-heading{margin-bottom:32px}
+}
+@media(max-width:350px){.lesson-steps li{padding-left:92px}.step-orb{left:10px}.lesson-steps:before,.lesson-steps:after{left:35px}}
