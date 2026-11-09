@@ -1,0 +1,20 @@
+.wave-stage { overflow: hidden; pointer-events: none; }
+.wave-art { display: block; width: 100%; height: 100%; overflow: hidden; }
+.wave-ribbon { stroke-width: 62; opacity: .58; }
+.ribbon-blue { stroke: #bfdaeb; }
+.ribbon-rose { stroke: #edc7d6; }
+.wave-thread { stroke: #a0c3d6; stroke-width: .9; opacity: .55; }
+.thread-rose { stroke: #d69bb9; }
+.has-wave-score { position: relative; }
+.wave-score { position: absolute; left: 0; top: 0; width: 100%; height: 74px; overflow: hidden; pointer-events: none; }
+.score-line { stroke: #83b0c6; stroke-width: 1.2; }
+.score-rose { stroke: #c98bac; }
+.signal-sample { fill: #82a8bc; }
+.sample-rose { fill: #bc87a3; }
+.interference-ring { fill: none; stroke: #81aec7; stroke-width: 1; opacity: .65; }
+.ring-rose { stroke: #c78eab; }
+.step-signal { display: flex; gap: 4px; align-items: center; height: 22px; margin-top: 16px; pointer-events: none; }
+.step-signal i { width: 3px; height: calc(3px + var(--step-phase, .65) * 13px); border-radius: 3px; background: #c99ab4; transform: scaleY(var(--sample-height, .7)); }
+.step-signal i:nth-child(2n) { --sample-height: 1; background: #8bb5c8; }
+.step-signal i:nth-child(3n) { --sample-height: .4; }
+@media(max-width: 600px) { .wave-score { height: 54px; } .wave-ribbon { stroke-width: 38; } .step-signal { margin-top: 12px; } }

@@ -1,0 +1,9 @@
+﻿/* One drawing: answer, find the steps, resolve. */
+.hero-art,.lessons,.contact{position:relative}
+.scene{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:0}
+.ink-line,.ink-wash{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.ink-line{stroke:#295f89;stroke-width:3}.ink-wash{stroke:#e9af79;stroke-width:11;opacity:.45}
+.ink-dot{fill:#295f89;stroke:#fffdf9;stroke-width:2}.ink-answer{fill:#f7d6b6;stroke:#295f89;stroke-width:2}
+.motion-current .step-num{background:#295f89;color:#fff;box-shadow:0 0 0 5px #e9af7966}
+.touch-art{touch-action:manipulation}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.motion-toggle{display:none}}
