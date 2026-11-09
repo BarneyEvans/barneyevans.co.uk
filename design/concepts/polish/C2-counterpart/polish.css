@@ -39,3 +39,6 @@ footer{padding-block:24px}
 }
 @media(max-width:350px){.wrap,.site-header{width:calc(100% - 32px)}.hero h1{font-size:32px}.hero-actions{gap:16px}.text-link{gap:6px}.quick-prices{gap:12px}.quick-prices>a+a{padding-left:12px}.quick-prices strong{font-size:16px}.portrait-window{height:150px}.portraits{gap:18px}.portrait-link{width:calc(50% - 9px)}.portrait-caption strong{font-size:16px;min-height:44px}.portrait-caption>span{font-size:13px}.price-row{gap:8px}.price-row h4{font-size:16px;max-width:168px}.price-row>strong.pending{font-size:16px}.profile-heading h3{font-size:25px}.profile-heading img{width:65px;height:82px}.contact-heading h2{font-size:44px}.ribbon-tools{gap:12px}.site-header nav a{font-size:13px}.lesson-steps h4{font-size:16px}}
 @media print{.ribbon-tools{display:none!important}}
+
+/* Checker batch 2 must-fix: the teaching-hours sentence is body copy, so 16px. */
+.taught{font-size:16px}
