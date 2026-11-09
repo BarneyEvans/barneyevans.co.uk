@@ -1,55 +1,40 @@
-﻿# G3 — Lab Notebook
+﻿# G3 — A closer look
 
-**Vibe:** A warm, precise science-museum notebook: cream graph paper, pencil notes, mint gliders and lavender pulsars, with two real people at its centre.
+Cream, sage and lilac retain the original concept's quiet science character. Equal upright photographs, plain subject labels, separate GCSE and A-Level rates and Enquire now lead the welcome. Graph paper, handwriting, specimen codes and tilted cards have been removed.
 
-## The scroll story
+## The microscope journey
 
-1. **The whole dish.** A fine glass rim holds equal, labelled photographs of Barney and Eugene. The headline, enquiry link and Barney's two prices are immediately readable; Eugene's subjects link directly to the complete price register. The world is already alive around the specimens.
-2. **A closer look.** Native scrolling enlarges the dish rim and the camera over the same document-coordinate cellular world. At subjects the magnification approaches 1.65×. Sage squares and lavender circles keep the species distinct without relying on colour alone. Choosing either subject brightens its colony and gently lowers the other.
-3. **Where colonies meet.** At the paired tutor slides the camera reaches about 2.15×. Signature patterns are seeded on opposite sides and together around this section. The two species meet under the Immigration rule; newborn species come from the majority of three parents. Turning a slide dissolves its face into a brief scatter of coloured cells, then reconstructs the reverse with credentials, experience, prices and Enquire. The reverse grows to fit its contents rather than trapping phone readers inside a small scroll panel.
-4. **The small things.** Around lessons the camera reaches 3.1× and the cells reveal tiny nuclei. A ruled note shows three neighbours making a new cell; scrolling assembles the small diagram. Lesson copy remains on a quiet opaque surface and is explicitly attributed to Barney. The four approximate lesson stages have equal structural weight, not misleading proportional durations.
-5. **Observations.** The camera draws back as the page reaches the two complete reviews. Both are clearly about Barney, linked to MyTutor, with the supplied source figures and check date. His separate overall 300+ hours figure stays on his slide.
-6. **Back to the whole picture.** The camera returns to 1× and a whole dish reforms around the two email actions. This closes the visual journey with the same object that opened it.
+One persistent 48×48 cellular simulation is seen at four scales and positions. It starts as a whole dish in a dedicated interactive space, becomes a 2.15× view beside the paired tutor profiles, reveals nuclei at 3.1× beside the lesson rule, then returns to the whole specimen around contact. Each window observes the same evolving state; scrolling never seeds another simulation. The contact rim settles as it enters view. Cells are clipped to reserved spaces, keeping faces, names, prices and paragraphs clear.
 
-## Signature moment
+Conway B3/S23 supplies birth and survival; the Immigration rule chooses a newborn's species from the majority of its three parents. Sage squares and lilac circles distinguish the two species by shape as well as colour. Births and deaths interpolate over 440ms; generations advance every 650ms. Only visible windows render, at roughly 31 frames per second with pixel ratio capped at 2. Hidden tabs and periods without a visible simulation window stop evolution and rendering.
 
-Turn either tutor's specimen slide over: the paper face briefly gives way to its species' cells, then reforms into the reverse. Plant a glider or pulsar in empty graph paper, scroll deeper into its magnified world, and come back: it is the same simulation, not another decorative loop.
+Plant a glider or pulsar by tapping the dedicated dish, pressing Enter or Space there, or using Add a pattern. The controls live in page flow. Pause remains reachable in its own reserved masthead space. Tutor details still turn through a brief scatter of species cells; essential qualifications and DBS status are ordinary visible text before the turn. Repeated portrait panels and repeated reverse-side prices have been removed.
 
-## The living notebook
+## Reading and access
 
-One bounded typed-array grid spans the full document. Conway B3/S23 supplies birth and survival; the Immigration majority rule supplies newborn species. Barney starts as gliders, Eugene as pulsars. Mint squares and lilac discs, with deeper selected states, give a second distinction beyond hue. Births and deaths interpolate with smoothstep over 440ms; generations advance every 650ms. The canvas renders only the visible slice at a maximum of roughly 31 frames per second, with pixel ratio capped at 2. Hidden tabs stop the frame loop. No simulation or rendering runs while paused and still; scrolling or a deliberate interaction requests one redraw.
+Both full parent reviews remain clearly about Barney, with the supplied MyTutor figures and check date. Barney's separate overall teaching-hours figure stays in his profile. All approved credentials and experience remain available; Eugene receives the same opening portrait size and profile structure.
 
-The compact, always-reachable controls choose a planting species, plant nearby with a keyboard, and pause growth. Touch planting recognises a tap rather than a drag, so native scrolling stays intact. Both photos are local approved originals. There are no remote fonts, libraries, analytics, build steps or network requests.
-
-## Motion off and access
-
-Reduced motion gives a complete still composition: no automatic growth, no camera magnification, no cell scatter, and instant slide swaps. Planting and species selection still work. A preference change pauses growth. Both tutor faces remain in the accessibility tree; only the visually hidden face's controls leave the tab order. Focus moves to the reverse's turn-back control, the slide aligns for reading after an explicit flip, and all controls have visible focus styles. With JavaScript disabled, both sides become ordinary visible document content and the unused garden controls disappear. All enquiry links target #contact. The preview is noindex.
+Reduced motion presents a settled simulation, no automatic growth, no moving contact rim and instant profile swaps. Keyboard controls have visible focus; a profile turn transfers focus to its return control. Hidden-face controls leave sequential focus. Without JavaScript both profile faces become ordinary document content. All Enquire links target contact; the preview is noindex and works from its local index.html without a build or network dependencies.
 
 ## Verification
 
-Opened in the worktree-scoped Orca browser, then tested in headless Chrome. The six section positions were captured and visually inspected at 390×844 and 1440×1000; screenshots stay in the operating-system temporary folder, not Git. A separate 320px pass checks all six positions. The reproducible optional `verify.mjs` script records final assertions and measured 4× CPU-throttled, 390px, DPR-2 performance in `verification.json`. These synthetic browser timings describe this machine; they are not a real-phone frame-rate claim.
+Before and after filmstrips were visually inspected on phone and desktop. The required tool scrolls using real wheel events at 4× CPU throttle; images and JSON measurements live outside Git in C:/Users/evans/geo/polish-run/film/G3/.
 
-## Placeholders and assumptions
+| Viewport | Before screens / p95 | After screens / p95 | After overflow / errors |
+| --- | --- | --- | --- |
+| 390×844 | 8.3 / 36.3ms | 7.2 / 6.2ms | 0px / 0 |
+| 1440×900 | 6.0 / 30.3ms | 4.8 / 6.2ms | 0px / 0 |
+| 320×568 | — | 11.3 / 6.2ms | 0px / 0 |
 
-- The working name, **Barney & Eugene**, is marked `.ph` in the masthead.
-- Eugene's **1-to-1, online via Zoom** format is assumed and visibly marked `.ph`.
-- All four Eugene exam-board lines use `.ph` **[exam boards to confirm]**.
-- All four Eugene prices use `.ph` **£XX/hour**, including on the reverse of his slide.
-- Eugene's supplied placeholder biography is displayed in full inside `.ph`.
-- Eugene's email address and email action are marked `.ph`; the supplied **eugene@example.com** mailto remains visible as a placeholder.
-- **Enquiry form** is marked `.ph` and links to #contact because no form has been supplied.
-- The handwritten notes and section names describe the visual notebook; they make no extra tutoring claims. The garden's rule annotation describes the implemented decorative simulation.
+The refreshed verify.mjs run passes 40 checks covering overflow at six positions per width, both profile turns and focus transfer, touch and keyboard planting, pause, reduced motion, no-JavaScript content, early people and rates, and browser errors. At 390px/DPR 2/4× CPU throttle, visible-window samples measured draw p95 of 1.4ms, 2.4ms and 1.1ms at the opening dish, lesson lens and contact; generation-step p95 was 4.8ms, 0.4ms and 0.3ms. These are synthetic headless measurements, not a physical-phone guarantee. Full records are in verification.json and polish-notes.md.
 
-The remaining production decisions are the real site name, Eugene's boards, prices, format, biography and email, and the future enquiry form. No new tutoring promises, reviews or results have been invented.
+## Visible placeholders
 
-### Measured performance (final run)
+- The working site name, Barney & Eugene, is marked .ph in the masthead.
+- Eugene's assumed online format is marked .ph.
+- All four Eugene exam-board entries and rates are marked .ph; the opening rate summary is also marked.
+- Eugene's supplied placeholder biography remains visible within .ph in his details.
+- Eugene's email address and email action remain marked .ph and use the supplied example address.
+- Enquiry form is marked .ph and links to contact because no form exists.
 
-Chrome, headless, 390×844 CSS pixels, DPR 2, 4× CPU throttling; bounded 30×505 grid. Each section sampled 69–70 rendered frames and three generations. This is a small synthetic sample, not a real-device benchmark.
-
-| Visible section | Canvas draw, p95 | Generation step, p95 |
-| --- | ---: | ---: |
-| Subjects | 1.6ms | 6.6ms |
-| Lessons | 0.5ms | 2.7ms |
-| Contact | 2.5ms | 2.3ms |
-
-All 33 recorded assertions pass, including the full 320/390/1440px overflow sweeps, touch and keyboard planting, both flips and focus transfer, pause stability, reduced motion, no-JavaScript content and no browser errors. An additional accessibility-tree check confirms both Barney faces are exposed while reverse controls are removed from sequential focus; the visibility handler also stops generations when the document becomes hidden.
+Production still needs the final site name, Eugene's rates, boards, format, biography and real email, and an enquiry-form decision. No extra tutoring claims, promises or reviews have been introduced.

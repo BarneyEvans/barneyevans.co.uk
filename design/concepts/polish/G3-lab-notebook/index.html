@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#f7f5ec">
-  <title>Barney & Eugene · Lab Notebook</title>
+  <title>Barney & Eugene · A closer look</title>
   <link rel="stylesheet" href="style.css">
   <script src="interaction.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <canvas id="world" aria-hidden="true"></canvas>
-<div class="camera-ring" aria-hidden="true"></div>
+
 <header class="masthead">
   <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">b<span>e</span></span><span class="ph">Barney & Eugene</span></a>
-  <nav aria-label="Main navigation"><a href="#subjects">Subjects & prices</a><a href="#tutors">Meet the tutors</a><a class="button" href="#contact">Enquire <span aria-hidden="true">↗</span></a></nav>
+  <nav aria-label="Main navigation"><a href="#subjects">Subjects & prices</a><a href="#tutors">Meet the tutors</a><a class="button" href="#contact">Enquire <span aria-hidden="true">↗</span></a></nav><button id="play" aria-pressed="true">Pause <span aria-hidden="true">Ⅱ</span></button>
 </header>
 <main id="main">
   <section class="hero page-width" id="top">
@@ -23,22 +23,25 @@
       <p class="eyebrow"><span class="tiny-cell" aria-hidden="true"></span> GCSE & A-Level tutoring</p>
       <h1>Personalised tutoring in <em>Computer Science,</em> Physics & Maths</h1>
       <div class="hero-actions"><a href="#contact" class="button">Enquire <span aria-hidden="true">↗</span></a><a class="text-link" href="#subjects">Explore subjects <span aria-hidden="true">↓</span></a></div>
-      <div class="hero-price"><span>Computer Science with Barney</span><strong>£34/hour <small>GCSE</small> <span>·</span> £45/hour <small>A-Level</small></strong><a href="#subjects">Physics & Maths with Eugene <span aria-hidden="true">↗</span></a></div>
+      <div class="hero-price" aria-label="Subjects and hourly rates">
+        <div><strong>Computer Science</strong><span>with Barney</span><p>GCSE <b>£34/hour</b></p><p>A-Level <b>£45/hour</b></p></div>
+        <div><strong>Physics & Maths</strong><span>with Eugene</span><p>GCSE <b class="ph">£XX/hour</b></p><p>A-Level <b class="ph">£XX/hour</b></p></div>
+      </div>
     </div>
     <div class="dish-scene" aria-label="Meet Barney and Eugene">
-      <div class="dish" aria-hidden="true"><div class="dish-inner"></div><span class="dish-cross">+</span><span class="dish-cross bottom">+</span><div class="colony-trace trace-b"></div><div class="colony-trace trace-e"></div></div>
-      <div class="dish-heading"><span>FIELD NOTES / 01</span><span>Two tutors. One notebook.</span></div>
-      <a class="specimen specimen-b" href="#barney" data-select="1"><span class="specimen-no"><i></i> B / COMPUTER SCIENCE</span><img src="assets/barney.jpg" alt="Barney Evans at his graduation" width="720" height="900"><strong>Barney Evans</strong><span>Associate AI Engineer,<br>Homeprotect Home Insurance</span></a>
-      <a class="specimen specimen-e" href="#eugene" data-select="2"><span class="specimen-no"><i></i> E / PHYSICS & MATHS</span><img src="assets/eugene.jpg" alt="Eugene Bevilacqua" width="800" height="800"><strong>Eugene Bevilacqua</strong><span>PhD student in Optics,<br>Imperial College London</span></a>
-      <p class="pencil dish-note">a little curiosity<br>goes a long way <span aria-hidden="true">↗</span></p>
-      <div class="dish-scale" aria-hidden="true"><span></span> whole dish / 1×</div>
+      <a class="specimen specimen-b" href="#barney" data-select="1"><img src="assets/barney.jpg" alt="Barney Evans at his graduation" width="720" height="900"><strong>Barney Evans</strong><span>Computer Science</span></a>
+      <a class="specimen specimen-e" href="#eugene" data-select="2"><img src="assets/eugene.jpg" alt="Eugene Bevilacqua" width="800" height="800"><strong>Eugene Bevilacqua</strong><span>Physics & Maths</span></a>
     </div>
-    <div class="scroll-note"><span>01 — The whole picture</span><span>Scroll to look a little closer <span aria-hidden="true">↓</span></span></div>
+  </section>
+
+  <section class="experiment page-width" aria-label="Explore the shared simulation">
+    <div class="experiment-copy"><p class="eyebrow">A closer look</p><p>One shared simulation.<br>Two kinds of cell.</p><div class="garden-controls" role="group" aria-label="Simulation controls"><button id="choose-b" aria-pressed="true"><i class="b-dot" aria-hidden="true"></i>Glider</button><button id="choose-e" aria-pressed="false"><i class="e-dot" aria-hidden="true"></i>Pulsar</button><button id="plant-near">Add a pattern <span aria-hidden="true">＋</span></button></div></div>
+    <div class="simulation-window" tabindex="0" role="button" aria-label="Add the selected pattern to the shared simulation"><div class="dish" aria-hidden="true"><div class="dish-inner"></div></div><span class="magnification" aria-hidden="true">1.0×</span><span class="window-hint">Tap to add a pattern</span></div>
   </section>
 
   <section class="subjects page-width chapter" id="subjects">
-    <div class="chapter-top"><p class="eyebrow">02 / A closer look</p><span class="pencil">find your subject</span></div>
-    <div class="section-heading quiet"><h2>Room for<br><em>understanding.</em></h2><span class="section-index" aria-hidden="true">02</span></div>
+    <div class="chapter-top"><p class="eyebrow">Subjects & prices</p></div>
+    <div class="section-heading quiet"><h2>Subjects & <em>prices.</em></h2></div>
     <div class="subject-columns">
       <article class="subject-sheet barney-sheet quiet">
         <button class="subject-name" data-select="1"><span class="species-mark glider" aria-hidden="true"></span><span>Computer Science<small>with Barney</small></span><span aria-hidden="true">↗</span></button>
@@ -60,41 +63,41 @@
   </section>
 
   <section class="tutors page-width chapter" id="tutors">
-    <div class="chapter-top"><p class="eyebrow">03 / Where the colonies meet</p><span class="pencil">turn a slide over ↴</span></div>
+    <div class="chapter-top"><p class="eyebrow">Meet the tutors</p></div>
     <div class="section-heading quiet"><h2>Meet the <em>tutors.</em></h2><p>Computer Science with Barney.<br>Physics & Maths with Eugene.</p></div>
+    <div class="tutor-lens lens-space" aria-hidden="true"><span>Two colonies, one shared world · 2.1×</span></div>
     <div class="tutor-pair">
       <article class="slide barney-slide" id="barney" data-species="1">
         <div class="slide-inner">
-          <div class="slide-face slide-front quiet"><div class="slide-label"><span>B / 01</span><span>COMPUTER SCIENCE</span><span aria-hidden="true">⊕</span></div><img src="assets/barney.jpg" alt="Barney Evans at his graduation" width="720" height="900" loading="lazy"><div class="slide-copy"><h3>Barney Evans</h3><p class="headline-credential">Associate AI Engineer, Homeprotect Home Insurance</p><p>GCSE Computer Science<br>A-Level Computer Science</p><span class="dbs">✓ Enhanced DBS checked</span><button class="flip text-link" aria-expanded="false">More about Barney <span aria-hidden="true">↻</span></button></div></div>
-          <div class="slide-face slide-back quiet"><div class="slide-label"><span>B / 01 — REVERSE</span><span aria-hidden="true">⊕</span></div><h3>Barney Evans</h3><p>MEng Computer Science with Artificial Intelligence, University of Southampton</p><p>A-Levels A* A* A (Chemistry, Computer Science, Maths)</p><p class="hours">300+ hours taught with a 5.0/5 rating.</p><div class="experience"><h4>Experience</h4><p><strong>Private Tutor, self-employed, Dec 2024 – Present</strong><br>Tutoring students across GCSE Computer Science, all the way through to A-Level Computer Science.</p><p><strong>Academic Tutor, MyTutor.co.uk, Oct 2024 – Jun 2026</strong><br>Tailor made teaching material for each student<br>Taught GCSE and A-level students</p><details><summary>More experience</summary><p><strong>AI Developer Intern, Homeprotect, Jun 2026 – Sep 2026</strong><br>Built a fully configurable, containerised RAG microservice on GCP using FastAPI and Docker.</p><p><strong>Python/Engineering Instructor, Code Kids, Jun 2023 – May 2024</strong><br>Taught a class of children, aged 8-13, Python from the basics up to functions/classes.</p></details></div><p class="back-prices">GCSE Computer Science · £34/hour<br>A-Level Computer Science · £45/hour</p><div class="back-actions"><a class="button" href="#contact">Enquire ↗</a><a href="https://www.linkedin.com/in/barney-evans-400379280/">LinkedIn ↗</a><button class="flip text-link" aria-expanded="false">Turn back ↻</button></div></div>
+          <div class="slide-face slide-front quiet"><div class="slide-copy"><p class="profile-subject">Computer Science</p><h3>Barney Evans</h3><p class="headline-credential">Associate AI Engineer, Homeprotect Home Insurance</p><p>MEng Computer Science with Artificial Intelligence, University of Southampton</p><span class="dbs">✓ Enhanced DBS checked</span><button class="flip text-link" aria-expanded="false">Experience & more <span aria-hidden="true">↻</span></button></div></div>
+          <div class="slide-face slide-back quiet"><h3>Barney Evans</h3><p>A-Levels A* A* A (Chemistry, Computer Science, Maths)</p><p class="hours">300+ hours taught with a 5.0/5 rating.</p><div class="experience"><h4>Experience</h4><p><strong>Private Tutor, self-employed, Dec 2024 – Present</strong><br>Tutoring students across GCSE Computer Science, all the way through to A-Level Computer Science.</p><p><strong>Academic Tutor, MyTutor.co.uk, Oct 2024 – Jun 2026</strong><br>Tailor made teaching material for each student<br>Taught GCSE and A-level students</p><details><summary>More experience</summary><p><strong>AI Developer Intern, Homeprotect, Jun 2026 – Sep 2026</strong><br>Built a fully configurable, containerised RAG microservice on GCP using FastAPI and Docker.</p><p><strong>Python/Engineering Instructor, Code Kids, Jun 2023 – May 2024</strong><br>Taught a class of children, aged 8-13, Python from the basics up to functions/classes.</p></details></div><div class="back-actions"><a class="button" href="#contact">Enquire ↗</a><a href="https://www.linkedin.com/in/barney-evans-400379280/">LinkedIn ↗</a><button class="flip text-link" aria-expanded="false">Turn back ↻</button></div></div>
         </div>
       </article>
       <article class="slide eugene-slide" id="eugene" data-species="2">
         <div class="slide-inner">
-          <div class="slide-face slide-front quiet"><div class="slide-label"><span>E / 02</span><span>PHYSICS & MATHS</span><span aria-hidden="true">⊕</span></div><img src="assets/eugene.jpg" alt="Eugene Bevilacqua" width="800" height="800" loading="lazy"><div class="slide-copy"><h3>Eugene Bevilacqua</h3><p class="headline-credential">PhD student in Optics, Imperial College London</p><p>GCSE Physics · A-Level Physics<br>GCSE Maths · A-Level Maths</p><span class="dbs">✓ Enhanced DBS checked</span><button class="flip text-link" aria-expanded="false">More about Eugene <span aria-hidden="true">↻</span></button></div></div>
-          <div class="slide-face slide-back quiet"><div class="slide-label"><span>E / 02 — REVERSE</span><span aria-hidden="true">⊕</span></div><h3>Eugene Bevilacqua</h3><p>MSc Optics and Photonics, Distinction, Imperial College London</p><p>First-class degree in Physics, Durham University</p><p>Studied Physics for a year at Kyoto University, 2023–24</p><p><span class="ph">Placeholder bio: Eugene will write a couple of sentences here about how he teaches Physics and Maths.</span></p><div class="experience"><h4>Experience</h4><p><strong>Academic Tutor, Ritz Education, Sep 2025 – Jul 2026</strong><br>Taught GCSE and A-Level Physics and Maths.</p></div><p class="back-prices">GCSE Physics · <span class="ph">£XX/hour</span><br>A-Level Physics · <span class="ph">£XX/hour</span><br>GCSE Maths · <span class="ph">£XX/hour</span><br>A-Level Maths · <span class="ph">£XX/hour</span></p><div class="back-actions"><a class="button" href="#contact">Enquire ↗</a><a href="https://www.linkedin.com/in/eugene-bevilacqua-4171b62a2/">LinkedIn ↗</a><button class="flip text-link" aria-expanded="false">Turn back ↻</button></div></div>
+          <div class="slide-face slide-front quiet"><div class="slide-copy"><p class="profile-subject">Physics & Maths</p><h3>Eugene Bevilacqua</h3><p class="headline-credential">PhD student in Optics, Imperial College London</p><p>MSc Optics and Photonics, Distinction, Imperial College London</p><span class="dbs">✓ Enhanced DBS checked</span><button class="flip text-link" aria-expanded="false">Experience & more <span aria-hidden="true">↻</span></button></div></div>
+          <div class="slide-face slide-back quiet"><h3>Eugene Bevilacqua</h3><p>First-class degree in Physics, Durham University</p><p>Studied Physics for a year at Kyoto University, 2023–24</p><p><span class="ph">Placeholder bio: Eugene will write a couple of sentences here about how he teaches Physics and Maths.</span></p><div class="experience"><h4>Experience</h4><p><strong>Academic Tutor, Ritz Education, Sep 2025 – Jul 2026</strong><br>Taught GCSE and A-Level Physics and Maths.</p></div><div class="back-actions"><a class="button" href="#contact">Enquire ↗</a><a href="https://www.linkedin.com/in/eugene-bevilacqua-4171b62a2/">LinkedIn ↗</a><button class="flip text-link" aria-expanded="false">Turn back ↻</button></div></div>
         </div>
       </article>
     </div>
-    <p class="pencil colony-caption">glider / Barney <span aria-hidden="true">· · ·</span> pulsar / Eugene</p>
+    
   </section>
 
   <section class="lessons chapter" id="lessons"><div class="page-width">
-    <div class="chapter-top"><p class="eyebrow">04 / The small things</p><span class="pencil">closer, still…</span></div>
+    <div class="chapter-top"><p class="eyebrow">How lessons work</p></div>
     <div class="lesson-grid"><div class="lesson-intro quiet"><h2>How lessons<br><em>take shape.</em></h2><p class="attribution">Barney on his Computer Science lessons</p><p>My lessons feature real-time document collaboration, allowing students to actively participate rather than passively watch.</p><p>Every lesson is built with a custom set of slides tailored to the current topic and progress which can be used for recap at a later stage.</p><p>Rather than memorisation, I emphasise understanding core concepts and developing problem-solving skills that will serve you beyond exams.</p></div>
     <div class="lesson-sequence quiet"><h3>Typical 60-Minute Lesson</h3><p class="format">Approximate timings</p><ol><li><span>01</span><div><h4>Recap <small>5-10m</small></h4><p>Reviewing previous concept or homework.</p></div></li><li><span>02</span><div><h4>Live Teaching <small>20-25m</small></h4><p>New concept explained via interactive coding.</p></div></li><li><span>03</span><div><h4>Practice <small>20-25m</small></h4><p>Student writes code with guidance & feedback.</p></div></li><li><span>04</span><div><h4>Wrap Up <small>5m</small></h4><p>Summary of lesson & next steps.</p></div></li></ol></div></div>
-    <aside class="rule-note"><div class="rule-diagram" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="born"></i><i></i><i></i><i></i><i></i></div><div><span class="eyebrow">In the notebook</span><p>Three neighbours → a new cell.<br>Two or three → a cell stays.</p></div><p class="pencil">simple rules,<br>surprising possibilities</p><span class="rule-code">B3 / S23</span></aside>
+    <aside class="rule-note"><div class="lesson-lens lens-space" aria-hidden="true"><span>A closer look · 3.1×</span></div><div><span class="eyebrow">The shared simulation</span><p>Three neighbours → a new cell.<br>Two or three → a cell stays.</p></div></aside>
   </div></section>
 
-  <section class="reviews page-width chapter" id="reviews"><div class="chapter-top"><p class="eyebrow">05 / Observations</p><span class="pencil">from the parents</span></div><div class="section-heading quiet"><h2>What parents say<br><em>about Barney.</em></h2><div class="review-source"><a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor ↗</a><strong>average rating 5</strong><span>16 reviews · 216 completed lessons</span><small>Checked 5 November 2026</small></div></div>
+  <section class="reviews page-width chapter" id="reviews"><div class="chapter-top"><p class="eyebrow">Parent reviews</p></div><div class="section-heading quiet"><h2>What parents say<br><em>about Barney.</em></h2><div class="review-source"><a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor ↗</a><strong>average rating 5</strong><span>16 reviews · 216 completed lessons</span><small>Checked 5 November 2026</small></div></div>
     <div class="quotes"><figure class="quiet"><span class="quote-mark" aria-hidden="true">“</span><blockquote>Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!</blockquote><figcaption><strong>Rahnuma, Parent from Norwich</strong><span>21 Aug 2025</span><a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor ↗</a></figcaption></figure><figure class="quiet"><span class="quote-mark" aria-hidden="true">“</span><blockquote>Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school.</blockquote><figcaption><strong>Suzanne, Parent from Hook</strong><a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor ↗</a></figcaption></figure></div>
   </section>
 
-  <section class="contact chapter" id="contact"><div class="contact-dish" aria-hidden="true"></div><div class="page-width"><p class="eyebrow">06 / Back to the whole picture</p><div class="contact-content quiet"><p class="pencil">the next page is yours</p><h2>Ready to<br><em>get started?</em></h2><div class="contact-links"><a href="mailto:ebarneytutoring@gmail.com" class="button">Email Barney ↗</a><a href="mailto:eugene@example.com" class="button eugene-button"><span class="ph">Email Eugene</span> ↗</a></div><p class="contact-address"><a href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a><br><a href="mailto:eugene@example.com"><span class="ph">eugene@example.com</span></a></p><a href="#contact" class="text-link"><span class="ph">Enquiry form</span> ↗</a></div></div></section>
+  <section class="contact chapter" id="contact"><div class="contact-dish" aria-hidden="true"></div><div class="page-width"><p class="eyebrow">Get in touch</p><div class="contact-content quiet"><h2>Ready to<br><em>get started?</em></h2><div class="contact-links"><a href="mailto:ebarneytutoring@gmail.com" class="button">Email Barney ↗</a><a href="mailto:eugene@example.com" class="button eugene-button"><span class="ph">Email Eugene</span> ↗</a></div><p class="contact-address"><a href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a><br><a href="mailto:eugene@example.com"><span class="ph">eugene@example.com</span></a></p><a href="#contact" class="text-link"><span class="ph">Enquiry form</span> ↗</a></div></div></section>
 </main>
 <footer class="page-width"><span>© 2026 Barney & Eugene. All rights reserved.</span><a href="#top">Back to the top ↑</a></footer>
-<div class="garden-controls" role="group" aria-label="Living notebook controls"><span class="magnification" aria-hidden="true">1.0×</span><span class="control-label">Plant:</span><button id="choose-b" aria-pressed="true"><i class="b-dot"></i>Barney</button><button id="choose-e" aria-pressed="false"><i class="e-dot"></i>Eugene</button><button id="plant-near" aria-label="Plant the selected pattern nearby">＋</button><button id="play" aria-pressed="true">Pause <span aria-hidden="true">Ⅱ</span></button></div>
-<p class="sr-only" id="garden-status" role="status">Tap empty graph paper to plant a pattern.</p>
-<noscript><style>.slide-inner{display:block}.slide-face{position:static;transform:none;backface-visibility:visible}.slide-back{margin-top:15px;overflow:visible}.flip,.garden-controls{display:none}</style><p class="no-js">The notebook is still. All subjects, tutor details and contact links are available.</p></noscript>
+<p class="sr-only" id="garden-status" role="status">Use the simulation area to add a pattern.</p>
+<noscript><style>.slide-inner{display:block}.slide-face{position:static;transform:none;backface-visibility:visible}.slide-back{margin-top:15px;overflow:visible}.flip,.garden-controls{display:none}</style><p class="no-js">The simulation is still. All subjects, tutor details and contact links are available.</p></noscript>
 </body>
 </html>

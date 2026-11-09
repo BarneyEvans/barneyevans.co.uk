@@ -1,65 +1,49 @@
-# G2 — Light Garden
+﻿# G2 - Light Garden, polished
 
-**A living garden seen through a lens: mint, lilac and a little room to grow.**
+A living garden with the people in front: cream, mint, lilac and one travelling light.
 
-Open `index.html` directly. Everything needed by the page lives in this folder: no build, network requests, remote fonts, libraries or WebGL. The design combines Cellular Garden's real, plantable world with Light Field's restrained optical contours, replacing the dark palette with cream, sage and lavender dusk.
+Open index.html directly. This folder contains all code and the two supplied real photographs, with no build step, library, remote font or network dependency.
 
-## The scroll story
+## What changed
 
-1. **Morning / a lens comes into focus.** The headline, working name, prices and Enquire are immediate. A mint-and-lilac lens rotates and gently compresses with the opening scroll. Fine interference contours continue outside the lens into the document. The two real portraits appear side by side in the first two screens, including on a phone.
-2. **Meeting / light finds the garden.** A broad caustic follows the reader down one document-coordinate world. Its path bends around measured headings; nearby cells become brighter and appear larger through the light. Barney's gliders approach Eugene's pulsars around the tutors. Choosing a tutor or subject strengthens that species and quietens the other, without changing the Conway rules.
-3. **Understanding / a path through the lesson.** The same light passes the subjects and enters the lesson sequence. Each equally spaced lesson marker gains a soft halo as it crosses the reading position. These are four steps, not a proportional timing chart. Their underlying garden continues evolving beyond the viewport.
-4. **Evening / soft dusk.** The warm document ground gradually becomes a pale violet through the parent reviews and contact. A small additional scroll-dependent lavender wash ties the viewport to that progression. The final scene stays light; both email routes have equal weight.
+The abstract lens has given its place in the desktop opening to two equal, named arched portraits, now 320px tall with a larger share of the opening width. The opening rate summary gives Computer Science, Physics and Maths separate full-width rows, each with clear GCSE and A-Level lines, including visible Eugene placeholders. The mobile opening keeps those facts and Enquire above the portraits, which appear side by side within the first two screens.
 
-These moments are coupled to native scroll position, not entry-triggered fade-and-slide effects. Nothing waits for animation before it can be read or used.
+Main qualifications and Enhanced DBS checked stay visible. The More buttons expand secondary information beneath each tutor without replacing or animating faces, names or text. This deliberately replaces the old full-card dissolve: the paired decorative cells now carry the interaction, so motion never hides a credential.
 
-## Signature moment
+Planting and species selection live in an optional in-flow garden area. Pause remains in a small reserved sticky header, rather than a toolbar floating over prices or contacts. Supporting labels are at least 13px and body copy at least 16px. Open subject rows and the cream-to-lilac ground retain the original character.
 
-Tap “More about Eugene”: his portrait dissolves through a staggered field of lilac cells and re-forms as his credentials, experience, placeholder bio and prices. The shared garden simultaneously favours Eugene's species. On a phone the expanded card uses the full width, and the other tutor remains available underneath. Both front and back content remain in the accessibility tree; off-face interactive controls leave the tab order. Focus moves to the return control without moving the viewport.
+## One journey
 
-The persistent, small garden controls select **Plant: Barney / Eugene**, plant a nearby pattern with the plus button, and pause growth. Empty-space taps plant at that document coordinate. Touch drags are ignored so scrolling stays native. Mint cells have round cores; lavender cells have diamond cores, giving the species a second distinction beyond colour.
+1. The same luminous optical field begins in Barney's cell beside the paired portraits, then meets Eugene's. Activating either cell by touch, pointer or keyboard gently answers in the other; faces stay still.
+2. The light follows a quiet margin past the subject rows, then joins the stem connecting Barney's four stationary lesson markers. Phone steps form a vertical stem; desktop steps are horizontal. Timings remain explicitly approximate and are not represented proportionally.
+3. It returns to the margin beside the full parent reviews, then moves into a warm bloom beside contact. The page settles into deeper lilac dusk.
 
-## The actual garden
+The student-paced quotation is the approved line from G1, explicitly attributed to Barney. His original core-concepts sentence remains in the adjacent teaching description, along with the real-time collaboration and custom-slides copy. Both complete parent reviews remain clearly about Barney, with their MyTutor links and separate checked source figures.
 
-One pair of typed arrays holds one bounded document lattice. Every generation applies Conway **B3/S23**. Survivors keep their species; a newborn inherits the majority species among its three living neighbours, the Immigration rule. Barney plants a glider; Eugene plants a 48-cell pulsar. Seeding repeats down the margins and adds a meeting zone around the tutors. It is not a particle animation or a pre-rendered loop.
+Native scrolling drives the journey through cached element coordinates. The luminous field follows reserved cell rows, lesson markers and margins, while text stays dark enough for at least 4.5:1 contrast against its darkest tint. There are no repeated lens bands, scroll locks or content reveals that must finish before reading.
 
-The solver runs approximately once every 950ms. Visible cells interpolate their opacity between states; births and deaths bloom instead of blinking. Canvas 2D uses two cached glow sprites, renders only the visible slice, and caps pixel ratio at 2. Heading and body-text rectangles exclude living cells, with quiet section surfaces supplying additional protection for reading. There is one viewport canvas, at most 120 columns and 700 rows. Rendering is capped around 30fps, and the loop stops entirely in hidden tabs and when paused; paused scroll/interaction draws remain event-driven. Offscreen cells are simulated as part of the shared world but never drawn.
+## Computational garden
 
-Canvas 2D earns the effect at a small implementation cost. WebGL would add machinery without making this gentle, discrete light world more persuasive.
+The two species still use Conway B3/S23 with Immigration majority-colour births. Barney's seeds are gliders; Eugene's are pulsars. Stronger mint and violet colonies occupy margins and whitespace between sections; a precomputed text mask includes the sprite radius so cells never render under copy, portraits or controls. Cached sprites, a cached optical field and typed arrays keep the effect lightweight; the canvas paints only the viewport and caps pixel ratio at two. Unlike the previous implementation, offscreen rows sleep until approached. Generation updates happen about once per 950ms and visible cells interpolate softly.
 
-## Motion off and resilience
+Pause stops generation and freezes the travelling light; scrolling still reveals the static garden. Hidden tabs stop the animation loop. Reduced motion starts a still planted garden with no travelling light or response animation, and contact keeps its settled ring. Planting and details still work instantly. Without JavaScript, both tutors' full information and all links remain visible, while inactive controls are hidden.
 
-`prefers-reduced-motion` starts with a still seeded garden, no generation timer, no lens transforms, no animated lesson halos and instant tutor-card swaps. Native scrolling simply views different parts of the fixed document. Planting and species emphasis still work instantly. The pause control reads “Still garden” in this mode. A preference change is handled during the visit.
+## Verification
 
-Without JavaScript, both sides of both tutor cards are visible, all copy and anchor/email links work, and the inactive garden controls disappear. There is a skip link, visible keyboard focus, real buttons, semantic sections, descriptive photo alternatives and `noindex`. No cells carry information needed to understand the service. Deep green body text sits on pale surfaces; pastels are reserved for decoration.
+See polish-notes.md for the final before/after film measurements. Previewed in this worktree's Orca browser and headless Edge at phone and desktop widths. The qa.cjs script checks overflow, pause, planting, species choice, paired-cell response, tutor details preserving faces and credentials, reduced motion, no-JavaScript content, noindex, contact links and uncaught page errors. Set PLAYWRIGHT_PATH to an installed Playwright package, then run node qa.cjs; BROWSER_CHANNEL optionally selects another installed browser.
 
-## Verification — 6 November 2026
+Films and screenshots stay outside the repository in C:/Users/evans/geo/polish-run/film/G2/. These are throttled browser measurements, not physical-device certification.
 
-Opened the page in the **Orca browser scoped to this worktree**, captured and inspected its desktop screenshot. Then ran headless Chrome through Playwright, capturing and looking at **six positions each at 390×844 and 1440×1000**: opening, tutors, subjects, lessons, reviews and contact. Also inspected the expanded Eugene card and 320px opening. Screenshots are in the OS temporary directory, not this commit.
+## Visible placeholders
 
-The reproducible `qa.cjs` checks horizontal overflow at 320, 390 and 1440px; pause stability; planting via the nearby control and empty space; species choice; animated and instant card flips; reduced motion; no-JavaScript content; contact links; the robots directive; and uncaught page errors. All passed. Use an installed `playwright` package, or set `PLAYWRIGHT_PATH` to its directory, then run `node qa.cjs`. Chrome must be installed. The page itself has no such dependency.
+All missing content remains wrapped in span.ph with a dotted underline:
 
-Measured during the six-position run (390px uses Chromium **4× CPU throttling**):
+- Working site name, Barney & Eugene.
+- Eugene's four rates, displayed as GBP XX/hour placeholders, including opening summaries.
+- Eugene's exam boards for each Physics and Maths level.
+- Eugene's assumed 1-to-1 Zoom format.
+- Eugene's supplied placeholder biography.
+- Eugene's supplied example email and email action.
+- Enquiry form, linking to #contact until a real form exists.
 
-| Preview | Lattice | Generation cost, p95 | Draw cost, p95 | Highest sampled draw |
-| --- | --- | --- | --- | --- |
-| 390px, 4× CPU | 26 × 354 = 9,204 cells | 3.0ms | 7.2ms | 21.0ms |
-| 1440px, normal CPU | 72 × 243 = 17,496 cells | 1.1ms | 1.7ms | 4.3ms |
-
-These are browser-instrumented function durations, not claims about real-device frame rate or battery life. The page HTML, CSS and interaction script total about 41KB uncompressed; the two supplied local photographs total about 291KB. Human screen-reader and physical-device checks remain production follow-ups.
-
-## Content, placeholders and assumptions
-
-Claims and both full parent quotations come from `company/copy-v3.md`. Reviews explicitly belong to Barney and link to his MyTutor profile. The 300+ hours / 5.0 figure is on Barney's card; the separate MyTutor figures retain their source and checked date. Lesson copy and approximate timings are explicitly Barney's Computer Science material. Eugene's real photo and supplied academic credentials receive equal prominence.
-
-All missing content is visibly dotted and wrapped in `span.ph`:
-
-- Working site name, “Barney & Eugene”.
-- Eugene's four prices: “£XX/hour”, repeated in quick facts and on his card where appropriate.
-- Eugene's exam boards: “[exam boards to confirm]” for Physics and Maths at both levels.
-- Eugene's assumed format: “1-to-1, online via Zoom”.
-- The supplied “Placeholder bio: Eugene will write a couple of sentences here about how he teaches Physics and Maths.”
-- Eugene's email address and email action, using `mailto:eugene@example.com` exactly as supplied.
-- “Enquiry form”, which links to `#contact` until a form exists.
-
-No free call, availability, response time, outcome guarantee or additional review is invented. Enquire is always a solid enabled link to contact. The photons, artistic captions and section headings are design language, not teaching claims.
+The graduation and cycling portraits are the approved supplied photos. Eugene has equal naming, portrait scale and contact treatment, without borrowing any of Barney's reviews. His missing offer details still require supplied content before launch.

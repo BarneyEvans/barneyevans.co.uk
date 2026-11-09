@@ -1,88 +1,88 @@
 {
-  "date": "2026-11-06T19:10:38.016Z",
+  "date": "2026-11-09T00:24:46.831Z",
   "captures": [
     {
       "width": 390,
       "id": "top",
       "scroll": 0,
-      "zoom": 1.0002660119916305,
+      "zoom": 1.0048978033367189,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-top.png"
     },
     {
       "width": 390,
       "id": "subjects",
-      "scroll": 995,
-      "zoom": 1.6607989980019726,
+      "scroll": 1155,
+      "zoom": 1.6642422686438894,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-subjects.png"
     },
     {
       "width": 390,
       "id": "tutors",
-      "scroll": 2157,
-      "zoom": 2.1603870215639405,
+      "scroll": 2162,
+      "zoom": 2.1757138826480333,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-tutors.png"
     },
     {
       "width": 390,
       "id": "lessons",
-      "scroll": 3805,
-      "zoom": 3.0832075510012897,
+      "scroll": 3196,
+      "zoom": 3.0830766020899714,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-lessons.png"
     },
     {
       "width": 390,
       "id": "reviews",
-      "scroll": 5058,
-      "zoom": 2.176192186062218,
+      "scroll": 4444,
+      "zoom": 2.1675798448459216,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-reviews.png"
     },
     {
       "width": 390,
       "id": "contact",
-      "scroll": 6136,
-      "zoom": 1.0028359553981085,
+      "scroll": 5203,
+      "zoom": 1.0907327107704472,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-contact.png"
     },
     {
       "width": 1440,
       "id": "top",
       "scroll": 0,
-      "zoom": 1.0096815672153636,
+      "zoom": 1.0064678841628407,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-top.png"
     },
     {
       "width": 1440,
       "id": "subjects",
-      "scroll": 793,
-      "zoom": 1.672995018679084,
+      "scroll": 911,
+      "zoom": 1.6834295728865911,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-subjects.png"
     },
     {
       "width": 1440,
       "id": "tutors",
-      "scroll": 1758,
-      "zoom": 2.183661510919452,
+      "scroll": 1608,
+      "zoom": 2.2095903562862858,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-tutors.png"
     },
     {
       "width": 1440,
       "id": "lessons",
-      "scroll": 2864,
-      "zoom": 3.0515201905818348,
+      "scroll": 2329,
+      "zoom": 3.050993571094643,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-lessons.png"
     },
     {
       "width": 1440,
       "id": "reviews",
-      "scroll": 3752,
-      "zoom": 2.123620748714125,
+      "scroll": 3106,
+      "zoom": 2.083177009930181,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-reviews.png"
     },
     {
       "width": 1440,
       "id": "contact",
-      "scroll": 4441,
-      "zoom": 1,
+      "scroll": 3404,
+      "zoom": 1.2356947660008748,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-contact.png"
     }
   ],
@@ -105,13 +105,20 @@
     "eugene: flips to reverse",
     "eugene: focus moves to reverse control",
     "Keyboard planting and Eugene selection",
-    "Touch planting on empty paper",
+    "Touch planting inside the dedicated simulation",
+    "Simulation window supports Enter",
+    "Simulation window supports Space",
     "Pause stops generations",
     "Reduced motion: no automatic evolution or camera zoom",
     "Reduced motion: instant card swap",
     "MyTutor and overall teaching figures remain separate",
     "Enquire links consistently target contact",
     "Preview is noindex",
+    "Eugene MSc is retained",
+    "Both names and faces within two phone screens",
+    "Separate GCSE and A-Level rates within two phone screens",
+    "Opening rates use 16px text",
+    "Play controls remain in document flow",
     "1440px: no horizontal overflow at top",
     "1440px: no horizontal overflow at subjects",
     "1440px: no horizontal overflow at tutors",
@@ -128,45 +135,45 @@
       "cpuThrottle": 4,
       "viewport": "390×844",
       "grid": [
-        30,
-        505
+        48,
+        48
       ],
       "pixelRatio": 2,
-      "renderSamples": 70,
+      "renderSamples": 71,
       "stepSamples": 3,
-      "drawP95": 1.5999999642372131,
-      "stepP95": 6.600000023841858,
-      "frameIntervalP95": 6.199999999998909
+      "drawP95": 1.3999999985098839,
+      "stepP95": 4.799999997019768,
+      "frameIntervalP95": 6.199999999999818
     },
     {
       "section": "lessons",
       "cpuThrottle": 4,
       "viewport": "390×844",
       "grid": [
-        30,
-        505
+        48,
+        48
       ],
       "pixelRatio": 2,
-      "renderSamples": 69,
-      "stepSamples": 3,
-      "drawP95": 0.5,
-      "stepP95": 2.699999988079071,
-      "frameIntervalP95": 6.199999999998909
+      "renderSamples": 72,
+      "stepSamples": 4,
+      "drawP95": 2.399999998509884,
+      "stepP95": 0.3999999985098839,
+      "frameIntervalP95": 6.200000000000728
     },
     {
       "section": "contact",
       "cpuThrottle": 4,
       "viewport": "390×844",
       "grid": [
-        30,
-        505
+        48,
+        48
       ],
       "pixelRatio": 2,
-      "renderSamples": 70,
+      "renderSamples": 71,
       "stepSamples": 3,
-      "drawP95": 2.5,
-      "stepP95": 2.300000011920929,
-      "frameIntervalP95": 6.199999999998909
+      "drawP95": 1.1000000014901161,
+      "stepP95": 0.29999999701976776,
+      "frameIntervalP95": 6.200000000000728
     }
   ]
 }
