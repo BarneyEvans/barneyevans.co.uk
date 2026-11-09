@@ -22,8 +22,8 @@
   }
   function draw(kind, w, h, p) {
     const paths = [], vertical = kind === 1;
-    const thickness = kind === 2 ? 18 : vertical ? Math.min(24, Math.max(16,w*.15)) : Math.min(29, Math.max(20,w*.055));
-    const contact = kind === 2 ? document.querySelector('.contact-pair').getBoundingClientRect() : null;
+    const thickness = kind === 2 ? 12 : vertical ? Math.min(24, Math.max(16,w*.15)) : Math.min(29, Math.max(20,w*.055));
+    const contact = kind === 2 ? host.getBoundingClientRect() : null;
     const routes = kind === 2 ? [...document.querySelectorAll('.contact-route')].map(el => ({
       route: el.getBoundingClientRect(),
       name: el.querySelector('h3').getBoundingClientRect(),
@@ -46,14 +46,43 @@
           x = w/2 + sign*w*(w>80?.34:.29)*Math.sin(t*Math.PI*4 + (1-p)*.65 + swap*Math.PI);
           x += Math.sin(t*Math.PI)*pointer*3;
         } else {
-          // Each strand settles beside its own tutor's email action.
-          // Identical bends keep the two routes parallel, including when stacked.
+          // A paired bend recalls the braid before the two email arrivals.
+          // All ink stays in the existing upper space and 56px route gutters.
           const {route,name,action} = routes[side];
           const from = name.top-contact.top+5;
           const to = action.top-contact.top+action.height/2;
-          x = route.left-contact.left+22 + Math.sin(t*Math.PI*2)*9*(1-p*.45);
-          x += ease(clamp((t-.65)/.35))*10;
-          y = from+(to-from)*t;
+          if (routes[1].route.top > routes[0].route.top+20) {
+            const sharedFrom = routes[0].name.top-contact.top+5;
+            const sharedTo = routes[0].action.top-contact.top+routes[0].action.height/2;
+            y = sharedFrom+(to-sharedFrom)*t;
+            const bend = clamp((y-sharedFrom)/(sharedTo-sharedFrom));
+            x = 13+side*21 + Math.sin(bend*Math.PI*2)*5*(1+(1-p)*.15);
+            if (side === 0) x += ease(clamp((bend-.7)/.3))*13;
+            else if (y > sharedTo+20) {
+              x = 34-12*Math.sin(clamp((y-sharedTo-20)/(from-sharedTo-20))*Math.PI);
+              x += ease(clamp((y-from)/(to-from)))*4;
+            }
+          } else {
+            const gutter = route.left-contact.left+22;
+            const middle = w/2, radius = 28, direction = side ? 1 : -1;
+            const turnX = gutter-direction*radius;
+            const waveY = x => Math.sin(clamp((x-middle+65)/130)*Math.PI*2)*5*(1+(1-p)*.15);
+            const turnY = 13+side*17+waveY(turnX);
+            if (t < .65) {
+              const u = t/.65;
+              x = middle+(side ? -65 : 65)+(turnX-middle-(side ? -65 : 65))*u;
+              // Both strokes use the same shallow S, offset as a pair.
+              y = 13+side*17+waveY(x);
+            } else if (t < .8) {
+              const angle = (t-.65)/.15*Math.PI/2;
+              x = turnX+direction*radius*Math.sin(angle);
+              y = turnY+radius*(1-Math.cos(angle));
+            } else {
+              const u = (t-.8)/.2;
+              x = gutter+ease(clamp((u-.6)/.4))*10;
+              y = turnY+radius+(to-turnY-radius)*u;
+            }
+          }
         }
         points.push([x,y]);
       }

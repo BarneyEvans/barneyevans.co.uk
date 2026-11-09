@@ -70,3 +70,15 @@ Final strips used real wheel scrolling at 4x CPU; all three report 0% frames ove
 Overwrote and opened `after-390.png` and `after-1440.png`, ran 320 once as `after-320.png`, and opened that strip too. All evidence is outside Git at `C:/Users/evans/geo/polish-run/film/A1/`; `scratch/r2-pluck.png` shows the same ripple moving around Barney and into Eugene, with the unchanged contact routes at its finish. The four-width audit remains in `verification.json`, with all interaction checks true, no text collisions even with Experience open, 4.81:1 minimum measured contrast and every numbered marker within 0.70px of the sampled path.
 
 No copy or page structure changed in Round 2. Early rates, equal billing, in-flow controls, complete reviews attributed to Barney and visible placeholders are preserved. Nothing remains from this design brief; the supplied name, Eugene offer/bio/email and enquiry-form placeholders remain the owner's content decisions.
+
+## Round 3
+
+Preserved the supplied after strips as `r2-390.png` and `r2-1440.png` before editing. Shortened just the opening perimeter detour: on phones the thread takes a loose diagonal below Pluck toward the subjects; on desktop it returns below the portrait captions through the spare column gap instead of tracing the whole panel bottom. Both portrait loops, the travelling pluck and every later chapter remain intact. The complete path is 52px shorter at 320/390, 26px shorter at 768 and 35px shorter at 1440. A before/after DOM comparison confirms identical copy, element positions and dimensions at all four widths; evidence is outside Git in `scratch/r3-comparison.json`.
+
+| Final strip | Page height (unchanged) | Screens | p95 at 4x CPU | Overflow | JS errors |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 390 x 844 | 6277px | 7.4 | 6.2ms | 0px | 0 |
+| 1440 x 900 | 3919px | 4.4 | 12.1ms | 0px | 0 |
+| 320 x 568 | 6821px | 12.0 | 6.2ms | 0px | 0 |
+
+Overwrote and opened both required after strips, ran the 320 strip once, and viewed the worktree-scoped Orca preview. All three strips report 0% frames over 50ms. The four-width audit passes: no text collisions, including with Experience open, 4.81:1 minimum text contrast, intact early rates, stationary content during plucks, working touch/Enter/Pause, and complete still reduced motion. Final pluck p95 is 6.2–12.2ms. Fixed an audit startup race by waiting for the measured SVG path before inspecting it. No text, prices, CSS or HTML changed; Pause stays in flow and the approved copy/placeholders remain intact. No Round 3 design work remains; owner-supplied content decisions are unchanged.

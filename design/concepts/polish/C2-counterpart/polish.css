@@ -64,3 +64,5 @@ footer{padding-block:24px}
 .contact-route+.contact-route:before{background:#bc9ab7}
 .contact-pair .motion-scene:before,.contact-pair .motion-scene:after,.js .contact-route:before{display:none}
 @media(max-width:760px){.contact-route+.contact-route:before{top:33px}}
+/* The shared closing bend uses existing space, without shifting contact copy. */
+@media(min-width:761px){.contact-pair .motion-scene{top:-20px;height:calc(100% + 20px)}}

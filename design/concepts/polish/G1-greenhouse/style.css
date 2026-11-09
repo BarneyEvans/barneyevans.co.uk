@@ -96,3 +96,11 @@ html{scroll-padding-top:24px}
 @media(prefers-reduced-motion:reduce){.journey-light{display:none}.lesson-path:after{transform:translateY(100px)}.contact-sun{transform:none;opacity:1}}
 
 .tutor-card[data-species="1"] .profile-heading img{transform:scale(1.55);transform-origin:50% 25%}
+
+/* Round 3: a split golden seed gives the broad light a familiar centre. */
+.journey-light:after{content:"";position:absolute;inset:23px 28px;background:url("assets/sun-centre.svg") center/contain no-repeat;transform:scale(var(--core-scale,1))}
+.lesson-path:after{background-image:url("assets/sun-centre.svg"),radial-gradient(ellipse,#efcf8b99,#f4dfaa66 35%,#f4dfaa00 70%);background-size:56px 70px,100% 100%;background-position:center;background-repeat:no-repeat}
+.contact-sun:after{content:"";position:absolute;width:56px;height:70px;left:calc(50% - 28px);top:140px;background:url("assets/sun-centre.svg") center/contain no-repeat}
+@media(prefers-reduced-motion:reduce){
+ .glass-arch:after{width:112px;height:112px;top:-17px;left:calc(50% - 56px);border:0;background:url("assets/sun-centre.svg") center/48px 60px no-repeat,radial-gradient(ellipse,#edc56d8c,#f1d58d66 28%,#edce8500 72%)}
+}

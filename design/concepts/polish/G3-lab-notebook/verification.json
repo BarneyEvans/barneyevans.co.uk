@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-09T01:18:15.619Z",
+  "date": "2026-11-09T05:28:58.742Z",
   "captures": [
     {
       "width": 390,
@@ -146,10 +146,10 @@
         48
       ],
       "pixelRatio": 2,
-      "renderSamples": 71,
+      "renderSamples": 69,
       "stepSamples": 3,
-      "drawP95": 1,
-      "stepP95": 6.299999997019768,
+      "drawP95": 0.6000000014901161,
+      "stepP95": 2.5999999940395355,
       "frameIntervalP95": 6.199999999999818
     },
     {
@@ -163,9 +163,9 @@
       "pixelRatio": 2,
       "renderSamples": 70,
       "stepSamples": 3,
-      "drawP95": 1,
-      "stepP95": 0.6000000014901161,
-      "frameIntervalP95": 6.200000000000728
+      "drawP95": 0.5,
+      "stepP95": 0.3999999985098839,
+      "frameIntervalP95": 6.199999999998909
     },
     {
       "section": "contact",
@@ -178,9 +178,9 @@
       "pixelRatio": 2,
       "renderSamples": 70,
       "stepSamples": 3,
-      "drawP95": 0.7999999970197678,
-      "stepP95": 1,
-      "frameIntervalP95": 6.199999999998909
+      "drawP95": 0.5,
+      "stepP95": 0.6000000014901161,
+      "frameIntervalP95": 6.200000000000728
     }
   ]
 }

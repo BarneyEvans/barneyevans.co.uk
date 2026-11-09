@@ -59,3 +59,15 @@ All final films have a 6.1ms median and 0% frames over 50ms. Visually inspected 
 `verify.mjs` passes **47 checks**, including six-position overflow sweeps at 320/390/1440, both profile turns and focus transfer, disclosure closed by default, visible lens scenes outside the disclosure, default touch without accidental planting, optional touch/Enter/Space planting, four synchronised Pause controls, a scrolling phone header, early 16px rates and named faces, approved credentials/review figures, noindex, no-JavaScript biographies and zero browser errors. A 1.1-second canvas comparison confirms the enlarged nucleus is completely still in reduced motion. At 390px/DPR 2/4× CPU, visible-window draw p95 is 1.0 / 1.0 / 0.8ms (opening / lessons / contact), with generation-step p95 6.3 / 0.6 / 1.0ms. These remain synthetic local measurements.
 
 Round 2 is complete. Production content remains as listed above, visibly marked; no supplied facts or reviews were replaced or invented.
+
+## Round 3
+
+Preserved the previous after PNGs as `r2-390.png` and `r2-1440.png` before editing. Enlarged the same six-cell contact specimen to fit the existing lens, using more of its vertical enclosure: settled scale rises from 1 to 1.76 on phones and 2.12 on desktop. The paired nucleus and all six cells remain visible above the clear email actions. Only contact canvas geometry changes; no HTML, CSS, copy, prices or page spacing changed.
+
+| Strip | Round 2 / Round 3 height | Screens | p95 | Overflow / errors |
+|---|---:|---:|---:|---:|
+| 390×844 | 6042px / 6042px | 7.2 | 6.2ms | 0px / 0 |
+| 1440×900 | 4519px / 4519px | 5.0 | 6.2ms | 0px / 0 |
+| 320×568 (one run) | 6336px / 6336px | 11.2 | 6.2ms | 0px / 0 |
+
+Inspected all three refreshed films, full-size settled contact captures and the worktree-scoped Orca preview. All films have 6.1ms median and 0% frames over 50ms at 4× CPU throttle. A direct comparison with the Round 2 script confirms identical text/control bounding boxes at all three widths, including contact actions. The existing 47 checks pass, retaining in-flow Pause, early readable rates, touch/keyboard behavior and reduced motion; refreshed results are in `verification.json`. Contact draw p95 is 0.5ms at 390px/DPR 2/4× CPU. Required after PNGs and JSONs remain outside Git in the G3 film folder. No further Round 3 work remains; production placeholders remain as listed above.

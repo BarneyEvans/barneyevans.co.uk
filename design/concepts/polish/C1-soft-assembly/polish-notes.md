@@ -77,3 +77,15 @@ Overwrote and visually inspected all three `after` films using the required real
 Opened the worktree in Orca's browser and inspected its capture, plus phone/desktop strips and focused contact/review screenshots. `director-r2-verification.json` in the external film folder records passing layout and interaction checks at all three widths: quotation areas above text, full review widths, two-line phone contact headings, both named portraits and rates within two phone screens, full-size desktop bridge, 48px price-to-tutor gap, zero overflow/errors, Pause, keyboard rearrangement and settled reduced motion with Pause disabled. HTML and JavaScript are unchanged, preserving all approved copy and existing scroll choreography.
 
 No implementation blocker remains. Eugene's final details and the real enquiry route remain the existing visibly marked content placeholders. All screenshots, metrics and the reproducible check script remain outside Git.
+
+## Round 3: tighter phone artwork spacing
+
+Saved the previous films as `r2-390.png` and `r2-1440.png` before editing. On phones only, shortened the quotation areas from 114 x 122px to 114 x 100px and the doorway from 164 x 224px to 164 x 184px, with 8px rather than 12px gaps below. Both compositions remain above full-width text, with the assembling quotations and opening doorway intact. Only these two CSS rules changed; HTML, prices, wording, type sizes, colours, controls and animation code are unchanged.
+
+| Viewport | Round 2 | Round 3 | p95 / overflow / JS errors |
+| --- | --- | --- | --- |
+| 390 x 844 | 7161px / 8.5 screens | 7065px / 8.4 screens | 6.2ms / 0px / 0 |
+| 1440 x 900 | 4832px / 5.4 screens | 4832px / 5.4 screens | 6.2ms / 0px / 0 |
+| 320 x 568 | 7444px / 13.1 screens | 7348px / 12.9 screens | 6.2ms / 0px / 0 |
+
+Overwrote and visually reviewed all three required films at 4x CPU (6.1ms median, 0% over 50ms), plus focused review/contact captures and an Orca browser capture. Recovered 96px at both phone widths. External `director-r3-verification.json` confirms unchanged opening/subjects/tutors/lessons geometry and all text widths, sizes, line heights and colours, full-width reviews, two-line phone contact heading, early rates and equal portraits, Pause, keyboard rearrangement and settled reduced motion. No implementation issue remains; existing content placeholders still need the tutors' final details.

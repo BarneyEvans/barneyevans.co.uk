@@ -10,10 +10,10 @@
       "minimumContrastText": "Say hello",
       "threadTextCollisions": [],
       "markerDistancePx": [
-        0.2,
-        0.19,
-        0.18,
-        0.17
+        0.39,
+        0.11,
+        0.6,
+        0.24
       ],
       "portraits": [
         {
@@ -67,10 +67,10 @@
       "minimumContrastText": "Say hello",
       "threadTextCollisions": [],
       "markerDistancePx": [
-        0.07,
-        0.25,
-        0.56,
-        0.41
+        0.21,
+        0.36,
+        0.34,
+        0.22
       ],
       "portraits": [
         {
@@ -104,7 +104,7 @@
       "pluckReachesOtherPortrait": true,
       "pluckReachesClosingLoop": true,
       "pluckKeepsContentStill": true,
-      "pluckP95Ms": 12.2,
+      "pluckP95Ms": 6.2,
       "pluckSettled": true,
       "keyboardChangesThread": true,
       "pauseCancelsPluck": true,
@@ -124,10 +124,10 @@
       "minimumContrastText": "Say hello",
       "threadTextCollisions": [],
       "markerDistancePx": [
-        0.39,
-        0.56,
-        0.3,
-        0.04
+        0.42,
+        0.54,
+        0.31,
+        0.08
       ],
       "portraits": [
         {
@@ -161,7 +161,7 @@
       "pluckReachesOtherPortrait": true,
       "pluckReachesClosingLoop": true,
       "pluckKeepsContentStill": true,
-      "pluckP95Ms": 12.1,
+      "pluckP95Ms": 12.2,
       "pluckSettled": true,
       "keyboardChangesThread": true,
       "pauseCancelsPluck": true,
@@ -181,10 +181,10 @@
       "minimumContrastText": "Say hello",
       "threadTextCollisions": [],
       "markerDistancePx": [
-        0.5,
-        0.19,
-        0.69,
-        0.01
+        0.16,
+        0.13,
+        0.41,
+        0.7
       ],
       "portraits": [
         {
@@ -218,7 +218,7 @@
       "pluckReachesOtherPortrait": true,
       "pluckReachesClosingLoop": true,
       "pluckKeepsContentStill": true,
-      "pluckP95Ms": 18.3,
+      "pluckP95Ms": 12.2,
       "pluckSettled": true,
       "keyboardChangesThread": true,
       "pauseCancelsPluck": true,

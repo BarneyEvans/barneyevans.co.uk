@@ -109,3 +109,17 @@ Updated qa.cjs passed at 390/1440 plus 320, reduced-motion and no-JavaScript cas
 Opened the working page in this worktree's Orca browser and reviewed desktop capture plus headless phone/desktop films and the expanded Eugene screenshot. External evidence: C:/Users/evans/geo/polish-run/film/G2/after-{390,1440,320}.png and matching JSON, director-r2-qa.json, and director-r2-biography-390.png. No images entered Git; git diff --check passed.
 
 No unresolved implementation blocker. Eugene's rates, boards, format, bio/email, the final site name and enquiry route remain visibly marked supplied-content placeholders; real-phone and human screen-reader checks remain launch follow-ups. Both full reviews remain Barney's, and no factual copy was changed.
+
+## Round 3 - planting lower gap, 9 November 2026
+
+Preserved the supplied after films as r2-390.png and r2-1440.png (plus JSON) before editing. Reduced only the planting area's bottom padding to 24px, from 44px on phones and 52px on desktop, and lowered its minimum height to let that saving take effect. The 44px colony bed remains; visual review confirms visible colonies and a quicker approach to detailed subjects.
+
+| Viewport | Round 2 height | Round 3 height / screens | Saved | p95 | Overflow | JS errors |
+| --- | --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 5715px | 5695px / 6.7 | 20px | 6.2ms | 0px | 0 |
+| 1440 x 900 | 3928px | 3900px / 4.3 | 28px | 6.2ms | 0px | 0 |
+| 320 x 568 | 6032px | 6012px / 10.6 | 20px | 6.2ms | 0px | 0 |
+
+Overwrote and inspected after-390.png and after-1440.png, and ran/inspected 320 once at 4x CPU; all have median 6.1ms and 0% frames over 50ms. Existing qa.cjs passed, including synchronized in-flow Pause, planting, disclosures, early readable rates, contrast (4.75:1 minimum), reduced motion and no JavaScript. A before/after layout comparison confirms identical page copy, unchanged opening rate geometry and unchanged invitation/control positions at all three widths; subsequent sections simply arrive 20px/28px sooner. No HTML, prices, typography, colors or motion code changed.
+
+Evidence stays outside Git under C:/Users/evans/geo/polish-run/film/G2/: final films/JSON, r3-layout-qa.json, r3-interaction-qa.json and planting close-ups. Reviewed the page in this worktree's Orca browser as well. No unresolved Round 3 work; existing supplied-content and launch follow-ups remain.

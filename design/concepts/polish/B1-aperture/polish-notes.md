@@ -65,3 +65,15 @@ Round 1 PNG headers record 7359px at 390 (the earlier notes recorded 7355px) and
 The opening completes at y778 at 390 and y780 at 320, preserving the early faces, full names, subjects, separate readable rate lines and Enquire. Automated checks at 320/390/1440 found no small body/rate text below 16px, no readable text below 13px, no computed solid-background contrast below 4.5:1, broken anchors, unloaded images or JavaScript errors. Touch changes the original aperture, the biography disclosure opens and Enquire reaches contact. Reduced-motion screenshots at opening, lessons and contact remain identical across a settled observation; pointer and scroll leave the aperture still. No autoplay or floating controls were introduced. `node --check motion.js` and `git diff --check` pass. The final composition also ran in Orca's embedded browser; final films, scene captures, QA script/results and browser capture stay outside Git in the strips folder and `scratch/r2-*`.
 
 All required credentials, experience claims, Barney's attributed lesson copy and complete reviews remain. No implementation issue remains; the existing dotted launch-content placeholders still require the supplied final content described above. Performance numbers are local 4x-throttled browser evidence, not physical-phone measurements.
+
+## Round 3
+
+Preserved the supplied after strips as `r2-390.png` and `r2-1440.png` before editing. Strengthened just the contact convergence: seven warm/lilac rays now span the existing spare band, pass through a visible aperture and gather in an apricot focus before opening out again. This recalls the opening optics at a comparable visual scale; the scroll arrival draws early enough to be seen as contact enters. No layout or copy files changed. Before/after text-node rectangles and page heights match exactly at 320, 390 and 1440px, including all prices and actions.
+
+| Viewport | R2 → R3 page | Screens | p95 at 4x | Frames over 50ms | Overflow | JS errors |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 390 x 844 | 6861 → 6861px | 8.1 | 6.2ms | 0% | 0px | 0 |
+| 1440 x 900 | 4789 → 4789px | 5.3 | 6.2ms | 0% | 0px | 0 |
+| 320 x 568 | 7298 → 7298px | 12.8 | 6.2ms | 0% | 0px | 0 |
+
+Overwrote and visually inspected the required after strips, with one 320px strip run. Phone/desktop scenes and Orca's embedded-browser opening were inspected; all evidence stays outside Git in the strips folder and `scratch/r3-*`. Final QA passes touch, Enquire, biography disclosure, settled reduced-motion screenshots and reduced-motion pointer/scroll checks; no small text, sampled solid-background contrast failures, broken anchors, unloaded images or JS errors were found. `node --check motion.js` and `git diff --check` pass. Motion remains driven only by scroll/input, with no autoplay or floating controls added. Nothing remains for this refinement; existing dotted launch-content placeholders still need final supplied content.

@@ -91,7 +91,7 @@
     stops=[{...pair[0],at:0},{...pair[0],at:meeting},{...pair[1],at:meeting+150},{...pair[1],at:meeting+210}];
     // A quiet margin passage keeps the travelling light clear of prices and copy.
     const subject=document.querySelector('#subjects').getBoundingClientRect();
-    const rail=Math.max(10,subject.left-21);
+    const rail=Math.max(4,subject.left-36);
     stops.push({x:rail,y:pair[1].y,at:stops.at(-1).at+70});
     stops.push({x:rail,y:subject.top+scrollY,at:subject.top+scrollY-innerHeight*.4});
     stops.push({x:rail,y:lesson-40,at:start-70});
@@ -150,18 +150,23 @@
     ctx.clearRect(0,0,innerWidth,innerHeight);
     travel();
     const bx=lightPoint?.x||0;beam=lightPoint?.y||0;
-    // Fit the soft optical field inside actual spare space. This keeps text
-    // untouched without cutting hard rectangular holes into the glow.
-    let clearance=innerWidth<=700?150:230;
+    // The round arrival gently lengthens into a shaft of light in the margin.
+    // Fit its whole ellipse to padded reading space, keeping the same text gap.
+    const arrival=Math.max(...[...pairPoints,...markerPoints,restPoint].map(p=>Math.max(0,1-Math.hypot(bx-p.x,beam-p.y)/150)));
+    const passage=(1-arrival)*(1-arrival)*(1+2*arrival),stretch=1+passage*4;
+    const pool=innerWidth<=700?150:230;
+    let clearance=(pool+(80-pool)*passage)/stretch;
     for(const r of quiet){
-      const dx=Math.max(r.x-bx,0,bx-r.right),dy=Math.max(r.y-beam,0,beam-r.bottom);
-      clearance=Math.min(clearance,Math.max(0,Math.hypot(dx,dy)-7));
+      const dx=Math.max(r.x-7-bx,0,bx-r.right-7),dy=Math.max(r.y-7-beam,0,beam-r.bottom-7);
+      clearance=Math.min(clearance,Math.hypot(dx,dy/stretch));
     }
     const diameter=Math.max(.1,clearance*2);
-    ctx.drawImage(field,bx-diameter/2,beam-sy-diameter/2,diameter,diameter);
+    ctx.save();ctx.translate(bx,beam-sy);ctx.scale(1,stretch);
+    ctx.drawImage(field,-diameter/2,-diameter/2,diameter,diameter);
     // One local optical caustic belongs to the traveller, never a page divider.
     ctx.strokeStyle='#8da07755';ctx.lineWidth=1;
-    ctx.beginPath();ctx.ellipse(bx,beam-sy,Math.min(clearance,innerWidth<=700?75:115),Math.min(clearance*.53,innerWidth<=700?40:65),-.5,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.ellipse(0,0,Math.min(clearance,innerWidth<=700?75:115),Math.min(clearance*.53,innerWidth<=700?40:65),-.5,0,Math.PI*2);ctx.stroke();
+    ctx.restore();
     const first=Math.max(0,Math.floor(sy/cell)-2),last=Math.min(rows,Math.ceil((sy+innerHeight)/cell)+2);
     for(let y=first;y<last;y++)for(let x=0;x<cols;x++){
       const i=y*cols+x,target=world[i]?1:0;
@@ -177,11 +182,13 @@
     // The traveller and its lens share this canvas and the measured safe radius.
     // Their soft edges stop before text, controls and photos.
     if(!motionOff){
+      ctx.save();ctx.translate(bx,beam-sy);ctx.scale(1,stretch);
       const radius=Math.max(.1,Math.min(29,clearance));
-      const glow=ctx.createRadialGradient(bx,beam-sy,0,bx,beam-sy,radius);
+      const glow=ctx.createRadialGradient(0,0,0,0,0,radius);
       glow.addColorStop(0,'#fffef4');glow.addColorStop(.3,'#f9df8b');glow.addColorStop(.58,'#b7be83cc');glow.addColorStop(1,'#d6d9a200');
-      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(bx,beam-sy,radius,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle='#8e824eaa';ctx.beginPath();ctx.ellipse(bx,beam-sy,radius*.96,radius*.62,-.55,0,Math.PI*2);ctx.stroke();
+      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(0,0,radius,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#8e824eaa';ctx.beginPath();ctx.ellipse(0,0,radius*.96,radius*.62,-.55,0,Math.PI*2);ctx.stroke();
+      ctx.restore();
     }
 
     metrics.drawMs.push(performance.now()-start);if(metrics.drawMs.length>240)metrics.drawMs.shift();

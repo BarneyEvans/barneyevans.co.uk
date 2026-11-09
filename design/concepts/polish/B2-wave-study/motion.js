@@ -74,11 +74,11 @@
       });
       let d=curve(pts);
       if(desktop){
-        // A broad sweep beneath the facts turns through spare space outside the
-        // portraits. Its curve never needs to pass between prices and faces.
-        const sweep=Array.from({length:81},(_,i)=>{const t=i/80;return{x:opening.x+t*opening.w,y:opening.y+wave(t,phase)*18};});
-        const end=pts[80],outer=Math.min(innerWidth-34,end.x+94);
-        d=curve(sweep)+` C${outer} ${opening.y} ${outer} ${end.y} ${end.x} ${end.y} `+pts.slice(0,-1).reverse().map(p=>`L${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+        // Let the crest pass the portraits and leave through the open right edge.
+        // Match its outgoing tangent instead of turning back beneath the prices.
+        const end=pts[80],previous=pts[79],reach=innerWidth+70-end.x;
+        const slope=(end.y-previous.y)/(end.x-previous.x);
+        d+=` C${end.x+reach*.34} ${end.y+slope*reach*.34} ${end.x+reach*.72} ${end.y+48} ${innerWidth+70} ${end.y+48}`;
       }
       welcome.setAttribute('d',d);welcomeEdge.setAttribute('d',d);
     }

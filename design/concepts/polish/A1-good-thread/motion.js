@@ -34,7 +34,7 @@
     svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
     svg.setAttribute('width',w);svg.setAttribute('height',h);
     const photos=[...document.querySelectorAll('.hero-art .photo-wrap')].map(box);
-    const [a,b]=photos, hero=box(document.querySelector('.hero'));
+    const [a,b]=photos;
     const subjects=box(document.querySelector('#subjects'));
     const lessons=box(document.querySelector('#lessons'));
     const mapTitle=box(document.querySelector('.lesson-map-title'));
@@ -48,7 +48,17 @@
     const portraitRoute=` C ${f(b.x-20)} ${f(b.y+b.h*.25)} ${f(b.x-14)} ${f(b.y-18)} ${f(b.x+b.w*.5)} ${f(b.y-18)} C ${f(b.x+b.w+32)} ${f(b.y-24)} ${f(right-10)} ${f(b.y+18)} ${f(right)} ${f(b.y+b.h*.62)}`;
     track.setAttribute('d',heroShape(0)+portraitRoute);
     portraitLength=track.getTotalLength();
-    const heroRoute=portraitRoute+` L ${f(right)} ${f(hero.h-64)} C ${f(right)} ${f(hero.h+30)} ${f(w*.58)} ${f(hero.h-32)} ${f(w*.42)} ${f(hero.h-16)} C ${f(w*.2)} ${f(hero.h+8)} ${f(gutter)} ${f(hero.h-28)} ${f(gutter)} ${f(subjects.y+48)}`;
+    // Return just beneath the people, rather than tracing the hero panel's perimeter.
+    const captions=[...document.querySelectorAll('.hero-art figcaption')].map(box);
+    const bridgeY=Math.max(...captions.map(r=>r.y+r.h))+12;
+    const copy=box(document.querySelector('.hero-copy'));
+    const art=box(document.querySelector('.hero-art'));
+    const turnX=w>700?(copy.x+copy.w+art.x)/2:gutter+32;
+    const joinY=w>700?Math.max(bridgeY+40,copy.y+copy.h+24):bridgeY+28;
+    const pluckBox=box(pluck);
+    const heroRoute=portraitRoute+(w<=700
+      ? ` L ${f(right)} ${f(bridgeY-12)} C ${f(right)} ${f(pluckBox.y+pluckBox.h+24)} ${f(w*.65)} ${f(pluckBox.y+pluckBox.h+12)} ${f(gutter)} ${f(subjects.y+48)}`
+      : ` L ${f(right)} ${f(bridgeY-12)} C ${f(right)} ${f(bridgeY+10)} ${f(right-50)} ${f(bridgeY)} ${f(turnX+16)} ${f(bridgeY)} C ${f(turnX)} ${f(bridgeY)} ${f(turnX)} ${f(bridgeY+8)} ${f(turnX)} ${f(joinY-24)} C ${f(turnX)} ${f(joinY+24)} ${f(gutter)} ${f(joinY-8)} ${f(gutter)} ${f(subjects.y+48)}`);
     track.setAttribute('d',heroShape(0)+heroRoute);
     const openingLength=track.getTotalLength();
     remainder=heroRoute+` L ${f(gutter)} ${f(lessons.y+16)}`;

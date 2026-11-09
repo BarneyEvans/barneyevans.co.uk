@@ -74,3 +74,17 @@ Overwrote and visually inspected after-390.png, after-1440.png and after-320.png
 Final outcome: all three requested director changes are implemented, the opening retains early readable rates and equal portraits, all approved copy and full reviews remain, and no control floats over content. Round-one captures remain available as r1-390.png and r1-1440.png. Final source syntax and git whitespace checks pass; implementation milestones are 888989b and c315972.
 
 No implementation blocker remains. The supplied-content placeholders and real-phone/human validation listed in round one remain launch follow-ups. Only this concept folder changed, with no push and no screenshots committed.
+
+## Round 3 — gentler light passage
+
+Preserved the previous after strips as r2-390.png and r2-1440.png before editing. The same golden light now eases from its round arrivals into a longer, soft shaft through the existing margin, then rounds out again near the paired cells, lesson stops and contact. Moved its margin route slightly outward and fitted the whole elliptical glow inside the existing 7px text protection; no layout, copy, prices or controls changed.
+
+Overwrote and visually inspected after-390.png, after-1440.png and the single required 320px film, plus the Orca preview. All three remain exactly the Round 2 height:
+
+| Viewport | Height / screens | Median / p95 | Over 50ms | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 x 844 | 5827px / 6.9 | 6.1 / 6.2ms | 0.1% | 0px / 0 |
+| 1440 x 900 | 3942px / 4.4 | 6.1 / 6.2ms | 0.1% | 0px / 0 |
+| 320 x 568 | 6091px / 10.7 | 6.1 / 6.2ms | 0.1% | 0px / 0 |
+
+Existing qa.cjs passes: synchronized in-flow Pause, frozen travel, all reachable arrivals, keyboard paired response, full-width biographies, early rates/names, contrast, reduced motion and no-JavaScript content. A separate comparison against Round 2 confirms identical rendered copy and text/price/portrait/control geometry at all three widths; evidence is outside Git in film/G12/scratch/r3-geometry.json. Syntax and whitespace checks pass. No remaining Round 3 blocker; supplied-content and real-device launch follow-ups remain as previously recorded.

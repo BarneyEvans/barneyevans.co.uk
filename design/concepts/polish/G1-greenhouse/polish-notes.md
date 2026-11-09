@@ -59,3 +59,17 @@ The final 4? CPU real-wheel strips overwrite `after-390.png`, `after-1440.png` a
 | 320 ? 568 | 7840px / 13.8 | 7289px / 12.8 | 6.2ms | 6.2ms | 0px / 0 |
 
 The phone loses 468px from round 1; desktop loses 264px; 320px loses 551px. Final median frame spacing is 6.1ms at all three widths; frames over 50ms are 0.1% at 390, 0.2% at 1440 and 0% at 320. The adjacent JSON files contain the raw metrics. Nothing remains from this round's brief; the existing visibly marked missing Eugene details and final enquiry route still require supplied content before launch.
+
+## Round 3
+
+Preserved the previous final strips as `r2-390.png` and `r2-1440.png` before editing. Added one split golden seed centre to the existing broad sunlight: it meets the portraits, gathers in the planting bed, follows the lesson pool and settles in the contact crown. Its scale is capped independently of the surrounding light, so the pool retains its presence. The same centre remains settled with reduced motion; no copy or layout rules changed.
+
+| Viewport | Round 2 / Round 3 height | Screens | Round 2 / Round 3 p95 | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 × 844 | 6838px / 6838px | 8.1 | 6.4ms / 12.1ms | 0px / 0 |
+| 1440 × 900 | 4754px / 4754px | 5.3 | 12.1ms / 12.0ms | 0px / 0 |
+| 320 × 568 | 7289px / 7289px | 12.8 | 6.2ms / 6.2ms | 0px / 0 |
+
+Overwrote all three `after-*.png` strips and inspected them, the arrival captures and the worktree's Orca desktop preview. Median frame spacing is 6.1ms throughout; frames over 50ms are 0.2%, 0.1% and 0.2% respectively at 4× CPU throttle. These are local browser measurements.
+
+`verify.cjs` passes, including opening rates, both profile reveals, planting, synchronised Pause/resume, reduced motion and no-JavaScript content. An external audit compared every main heading, paragraph, link, button and rate rectangle against Round 2 at all three widths: identical positions and page heights. Its 31-position sweeps found no fixed/sticky controls, overflow, labels below 13px or contact-centre/text intersections; reduced-motion opening, lesson and contact screenshots were byte-identical after 1.1 seconds. Rendered-background sampling at two lesson and two contact positions at 390/1440 found a minimum 4.566:1 contrast. Scripts, captures and reports are in the external film folder's `scratch/round3-*` and `scratch/r3-*` files. Nothing remains from this refinement; the existing marked Eugene details and final enquiry route still need supplied content before launch.

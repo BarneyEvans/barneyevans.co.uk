@@ -62,3 +62,19 @@ All final films used the supplied real-wheel tool at 4x CPU, sequentially; media
 The extra 151px on phone / 114px on desktop reserves space for the gathering and the taller contact crests. This is a deliberate small increase to restore the director's three motion moments while keeping text clear; the page remains 591px shorter on phone and 1214px shorter on desktop than v3. The headline, early prices and portrait placement did not move.
 
 Artifacts outside Git: `r1-390.png`, `r1-1440.png` and measurement JSON preserve round one; `after-390.png`, `after-1440.png`, `after-320.png` and JSON contain the final round-two runs. Additional captures and executable checks are in `scratch/r2-*`, including `r2-verification.json` and `r2-motion.json`. `node --check` and `git diff --check` pass. No unresolved implementation issue; the owner-supplied placeholders listed above remain unchanged.
+
+## Round 3
+
+Replaced only the desktop opening's enclosing U-turn with a wave that passes the portraits and continues beyond the right edge. Its outgoing curve follows the crest's tangent, retaining the rose/sky body, pointer response and settled motion-off state. Removed the thick return beneath the prices; the existing gutter journey, gathering and contact remain intact. No HTML, CSS or copy changed.
+
+Preserved the previous strips and measurements as external `r2-390.*` and `r2-1440.*` before editing. Overwrote all three `after-*` strips and opened them for visual review; also inspected the opening in Orca and full-size desktop/phone captures. The 320px strip ran once.
+
+| Viewport | Round 2 → Round 3 height / screens | p95 before → after | Overflow / JS errors |
+| --- | --- | --- | --- |
+| 390 × 844 | 6645 → 6645px / 7.9 | 6.2 → 6.2ms | 0px / 0 |
+| 1440 × 900 | 4783 → 4783px / 5.3 | 6.2 → 6.2ms | 0px / 0 |
+| 320 × 568 | 7036 → 7036px / 12.4 | 6.2 → 6.2ms | 0px / 0 |
+
+All films used real wheel scrolling at 4× CPU, sequentially. Median was 6.1ms throughout; frames over 50ms were 0% on phones and 0.1% on desktop. These remain local emulation measurements.
+
+Baseline comparison confirms every text position and page height unchanged at 390/768/1024/1440px, with the 390px wave path identical. Desktop path samples travel only forward and exit the viewport, staying above the portrait labels. Pointer, Pause, reduced-motion path stability, keyboard disclosure/focus, images, anchors, exact rates and full reviews pass; sampled text contrast remains at least 5.15:1. Evidence is in external `scratch/r3-*`; `node --check` and `git diff --check` pass. Nothing remains for this refinement; existing owner-supplied placeholders remain visible.

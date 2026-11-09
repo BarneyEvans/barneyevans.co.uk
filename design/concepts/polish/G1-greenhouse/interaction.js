@@ -145,6 +145,7 @@
     const size=a.size+(b.size-a.size)*smooth;
     light.style.transform=`translate3d(${(x-48).toFixed(1)}px,${(y-48).toFixed(1)}px,0) scale(${size.toFixed(3)})`;
     light.style.opacity=clamp((size-.16)/1.2,0,1).toFixed(3);
+    light.style.setProperty('--core-scale',Math.min(1,1.7/size).toFixed(3));
   }
 
   function evolve() {

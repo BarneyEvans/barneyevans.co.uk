@@ -19,13 +19,15 @@
   const path = (cls, parent = art) => make('path', { class: cls, fill: 'none', 'vector-effect': 'non-scaling-stroke' }, parent);
   const headHalo = make('circle', { r: '16', class: 'beam-head-halo' }, art);
   const head = make('circle', { r: '6', class: 'beam-head' }, art);
-  const halo = make('circle', { r: '33', class: 'beam-halo' }, art);
-  const contactLens = make('ellipse', { rx: '51', ry: '20', class: 'contact-lens' }, art);
+  const contactLight = make('radialGradient', { id: 'contact-light' }, defs);
+  [['0%', '#edbc8f', '.8'], ['45%', '#edc6a6', '.45'], ['100%', '#edc6a6', '0']].forEach(([offset, color, opacity]) => make('stop', { offset, 'stop-color': color, 'stop-opacity': opacity }, contactLight));
+  const halo = make('ellipse', { rx: '62', ry: '38', class: 'beam-halo' }, art);
+  const contactLens = make('ellipse', { rx: '14', ry: '36', class: 'contact-lens' }, art);
   const settled = make('circle', { r: '7', class: 'beam-settled' }, art);
   const branches = [...document.querySelectorAll('.subject-symbol, .meeting-photo, .step-number')].map(anchor => ({
     anchor, track: path('beam-track beam-branch'), glow: path('beam-glow beam-branch'), line: path('beam-line beam-branch'), y: 0
   }));
-  const closing = Array.from({length: 3}, () => ({track: path('beam-track'), glow: path('beam-glow'), line: path('beam-line')}));
+  const closing = Array.from({length: 7}, (_, i) => ({track: path('beam-track closing-ray'), glow: path('beam-glow closing-ray'), line: path(`beam-line closing-ray${i % 2 ? ' closing-warm' : ''}`)}));
   const hero = make('svg', { viewBox: '0 0 600 510', preserveAspectRatio: 'none', class: 'aperture-art', 'aria-hidden': 'true' }, document.querySelector('.optics-stage'));
   const rays = Array.from({ length: 7 }, (_, i) => path(i % 2 ? 'ray ray-warm' : 'ray', hero));
   const lens = make('ellipse', { cx: '270', cy: '75', rx: '24', ry: '70', class: 'lens-plane' }, hero);
@@ -70,16 +72,21 @@
       b.line.setAttribute('pathLength', '1'); b.glow.setAttribute('pathLength', '1');
       b.y = a.y; b.length = b.line.getTotalLength();
     });
+    // The opening's seven rays return at full breadth in the existing empty
+    // contact band, refract through a lens, then gather before the email routes.
+    const startX = narrow ? wrap.x : wrap.x + wrap.w * .22;
+    const lensX = startX + (end.x - startX) * .52;
+    const exitX = innerWidth - wrap.x;
     closing.forEach((b, i) => {
-      const spread = narrow ? 90 : 190;
-      const x = end.x - spread, y = end.y + (i - 1) * 23;
-      const d = `M${x} ${y} C${x + spread * .5} ${y} ${end.x - 38} ${end.y} ${end.x} ${end.y}`;
+      const offset = (i - 3) * 10;
+      const y = end.y + offset;
+      const d = `M${startX} ${y} C${startX + (lensX - startX) * .5} ${y} ${lensX - 22} ${y} ${lensX} ${y} Q${end.x - 28} ${end.y + offset * .18} ${end.x} ${end.y} L${exitX} ${end.y - offset * .6}`;
       for (const node of [b.track, b.glow, b.line]) node.setAttribute('d', d);
       b.line.setAttribute('pathLength', '1'); b.glow.setAttribute('pathLength', '1');
     });
     halo.setAttribute('cx', end.x); halo.setAttribute('cy', end.y);
     settled.setAttribute('cx', end.x); settled.setAttribute('cy', end.y);
-    contactLens.setAttribute('cx', end.x); contactLens.setAttribute('cy', end.y);
+    contactLens.setAttribute('cx', lensX); contactLens.setAttribute('cy', end.y);
     geometry = { base, v, end };
     dirty = false;
   }
@@ -116,7 +123,7 @@
       for (const node of [head, headHalo]) { node.setAttribute('cx', point.x); node.setAttribute('cy', point.y); }
     }
     head.style.opacity = headHalo.style.opacity = !reduced.matches && active ? '1' : '0';
-    const arrival = reduced.matches ? 1 : clamp((scrollY + innerHeight * .85 - (end.y + base.y)) / (innerHeight * .35));
+    const arrival = reduced.matches ? 1 : clamp((scrollY + innerHeight * 1.08 - (end.y + base.y)) / (innerHeight * .3));
     closing.forEach(b => {
       b.line.style.strokeDasharray = b.glow.style.strokeDasharray = '1';
       b.line.style.strokeDashoffset = b.glow.style.strokeDashoffset = 1 - arrival;

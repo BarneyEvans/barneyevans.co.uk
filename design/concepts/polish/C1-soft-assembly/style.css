@@ -61,8 +61,8 @@ figcaption{font-size:13px;margin-top:20px}.review-source{font-size:13px;margin-t
 @media(max-width:760px){
  #tutors .section-heading h2{font-size:34px;max-width:100%}#tutors .scene-1{height:116px;margin-top:4px}
  .lesson-steps li>.step-marker{width:104px}.lesson-section .step-marker .scene-2{width:104px;height:102px}.lesson-steps li{gap:16px;padding-block:14px}
- .review-pair .scene-3{width:114px;height:122px;margin:0 0 12px}.review-pair figure+figure{margin-top:28px}
- .contact-heading{grid-template-columns:minmax(0,1fr);gap:0}.contact-heading>.eyebrow{grid-row:1}.contact-heading h2{grid-row:3;font-size:40px}.contact-heading .motion-scene{grid-row:2;width:164px;height:224px;justify-self:start;margin:0 0 12px}
+ .review-pair .scene-3{width:114px;height:100px;margin:0 0 8px}.review-pair figure+figure{margin-top:28px}
+ .contact-heading{grid-template-columns:minmax(0,1fr);gap:0}.contact-heading>.eyebrow{grid-row:1}.contact-heading h2{grid-row:3;font-size:40px}.contact-heading .motion-scene{grid-row:2;width:164px;height:184px;justify-self:start;margin:0 0 8px}
 }
 @media(max-width:350px){
  .lesson-steps li>.step-marker{width:92px}.lesson-section .step-marker .scene-2{width:92px;height:96px}.lesson-steps li{gap:12px}

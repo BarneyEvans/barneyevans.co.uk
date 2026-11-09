@@ -12,7 +12,11 @@
 .beam-branch.beam-line{stroke:#a184af;stroke-width:2.7}
 .beam-head-halo{fill:#e7ba8c;fill-opacity:.3}
 .beam-head,.beam-settled{fill:#aa794e;stroke:#fbf8f2;stroke-width:2}
-.beam-halo{fill:#edc6a6;fill-opacity:.7;stroke:#c29676;stroke-width:1}
-.contact-lens{fill:none;stroke:#a184af;stroke-width:2}
+.beam-halo{fill:url(#contact-light)}
+.contact-lens{fill:#f4d9bf;fill-opacity:.4;stroke:#a184af;stroke-width:1.4}
+.closing-ray.beam-track{stroke-width:1;opacity:.35}
+.closing-ray.beam-glow{stroke-width:8;stroke-opacity:.12}
+.closing-ray.beam-line{stroke:#9281b1;stroke-width:1.8}
+.closing-ray.closing-warm{stroke:#b5835e}
 .subject-symbol,.step-number{background:color-mix(in srgb,#eac4a3 calc(var(--beam-light,0) * 65%),#eae5f6)}
 @media(prefers-reduced-motion:reduce){.beam-head,.beam-head-halo{display:none}}

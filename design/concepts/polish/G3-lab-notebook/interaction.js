@@ -60,7 +60,10 @@
     lessonTop=document.querySelector('#lessons').offsetTop;
     scenes=sceneElements.map((el,i)=>{
       const rect=el.getBoundingClientRect();
-      return {left:rect.left,top:rect.top+scrollY,width:rect.width,height:rect.height,scale:[1,2.3,4.8,1][i],index:i};
+      // Let the returning whole specimen fill its reserved contact lens.
+      // Fit all six cells without changing the surrounding content geometry.
+      const contactScale=.93*Math.min((rect.width-12)/(4*cell),(rect.height-8)/(3*cell));
+      return {left:rect.left,top:rect.top+scrollY,width:rect.width,height:rect.height,scale:[1,2.3,4.8,contactScale][i],index:i};
     });
     diagnostics.grid=[cols,rows];diagnostics.pixelRatio=Math.min(devicePixelRatio||1,2);
     diagnostics.cluster=cluster;
@@ -108,8 +111,9 @@
     let sceneZoom=from+(scene.scale-from)*arrival;
     if(scene.index===0&&!media.matches&&now<peekUntil)sceneZoom+=.45*Math.sin((1-(peekUntil-now)/900)*Math.PI);
     const size=cell*sceneZoom;
-    const cx=scene.left+scene.width/2,cy=scene.top-scrollY+scene.height/2-9;
-    const rx=scene.width/2-6,ry=scene.height/2-18;
+    const contact=scene.index===3;
+    const cx=scene.left+scene.width/2,cy=scene.top-scrollY+scene.height/2-(contact?0:9);
+    const rx=scene.width/2-6,ry=scene.height/2-(contact?4:18);
     // The camera tracks the same beehive, then centres its distinctive left cell.
     const focusX=scene.index===2?24-1.5*arrival:24;
     const ox=cx-focusX*size,oy=cy-25.5*size;
