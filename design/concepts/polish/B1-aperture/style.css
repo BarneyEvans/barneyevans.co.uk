@@ -122,3 +122,6 @@ footer .brand{font-size:15px}
  .reviews{padding-bottom:40px}.contact{padding-bottom:40px}.contact-pair{margin-top:24px}
  .tutor-profiles{gap:24px}
 }
+
+/* Checker 3b: keep the timing label readable over the warm beam. */
+.lesson-heading>span{color:#484b66}
