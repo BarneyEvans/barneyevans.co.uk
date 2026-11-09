@@ -32,3 +32,30 @@ Inspected the Orca browser desktop opening and the 390, 1440 and 320 real-scroll
 ## Left
 
 No product content was invented. Eugene's real rates, exam boards, format, biography and email still require supplied content; these remain visibly marked placeholders.
+
+
+## Round 2
+
+### Director's changes
+
+- Preserved round 1's final phone and desktop strips as `r1-390.png` and `r1-1440.png` in the external G1 film folder before editing.
+- Removed the sticky dock on every width. The opening header now scrolls away; synchronised in-flow Pause controls sit at the opening, planting bed, lesson path and contact crown. Planting stays in flow. All four controls retain accessible garden-growth labels and a shared pressed state.
+- Kept the large opening portrait arches and early separate rate lines. Replaced the later 200/270px photos with equal arched profile headshots: 64 ? 78px on phones, 76 ? 92px on desktop. Tightened the planting/profile boundary, tutor heading and lower profile spacing. Visible credentials, full experience reveals and the cell-mosaic transition remain; both full Barney reviews and all approved factual copy remain.
+- Replaced the small petal symbol with one soft golden pool. It grows above the paired opening, gathers in the planting bed, widens along the lesson stem and spreads at the contact arch. The pool fades while passing narrow margins. The lesson/contact arrivals use scoped decorative layers behind the text; the steps, prices and email actions stay still. Reduced motion presents settled pools and a complete stem.
+- Added a reduced-motion check at animation work boundaries after a live preference-switch audit found the browser could miss its change callback. Growth now stops and the controls show Motion off in that case too.
+
+### Verification and evidence
+
+`verify.cjs` passes at 390 and 1440, including both profile reveals, planting, cumulative chapter seeds, stable Pause, resuming from a different chapter, synchronised controls, a scrolling header, equal small secondary portraits and the retained opening hierarchy. Reduced motion at 320 and no-JavaScript profiles/contact also pass. Opening rates still end at 611px and the paired portraits/names at 1070px at 390; the 320 opening still fits in two screens.
+
+An additional external audit swept 31 scroll positions at 320, 390 and 1440: no fixed/sticky content controls, no protected-content intersections, no document overflow, no readable type below 13px and no JavaScript errors. Both expanded profiles and Barney's complete experience disclosure were inspected at all three widths. Settled reduced-motion screenshots at the opening, lessons and contact were byte-identical across a further 1.1 seconds. The pools arrive visibly at the stem. A targeted rendered-background contrast check across two lesson and two contact positions at 390/1440 found a minimum of 4.60:1 (Evening light); the previously darkened contact heading remains. These are sampled local-browser checks, not a real-phone guarantee.
+
+The final 4? CPU real-wheel strips overwrite `after-390.png`, `after-1440.png` and `after-320.png` in `C:/Users/evans/geo/polish-run/film/G1/`. The desktop opening was inspected in the worktree's Orca browser, and phone/desktop chapters in headless Edge; the final films and expanded 320px/390px profiles were visually checked. Additional audit scripts, captures and JSON are in the external `scratch/` subfolder. No images were added to Git.
+
+| Viewport | Round 1 height / screens | Round 2 height / screens | Round 1 p95 | Round 2 p95 | Overflow / JS errors |
+| --- | --- | --- | --- | --- | --- |
+| 390 ? 844 | 7306px / 8.7 | 6838px / 8.1 | 12.1ms | 6.4ms | 0px / 0 |
+| 1440 ? 900 | 5018px / 5.6 | 4754px / 5.3 | 12.2ms | 12.1ms | 0px / 0 |
+| 320 ? 568 | 7840px / 13.8 | 7289px / 12.8 | 6.2ms | 6.2ms | 0px / 0 |
+
+The phone loses 468px from round 1; desktop loses 264px; 320px loses 551px. Final median frame spacing is 6.1ms at all three widths; frames over 50ms are 0.1% at 390, 0.2% at 1440 and 0% at 320. The adjacent JSON files contain the raw metrics. Nothing remains from this round's brief; the existing visibly marked missing Eugene details and final enquiry route still require supplied content before launch.

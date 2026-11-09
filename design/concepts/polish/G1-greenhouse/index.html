@@ -15,9 +15,9 @@
   <canvas id="garden" aria-hidden="true"></canvas>
   <div class="motion-dock">
     <a class="brand" href="#home"><span class="brand-garden" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="ph">Barney &amp; Eugene</span></a>
-    <button id="pause" aria-pressed="false">Pause &#8545;</button>
+    <button id="pause" data-pause aria-pressed="false">Pause &#8545;</button>
   </div>
-  <div class="journey-light" aria-hidden="true"><svg viewBox="0 0 100 100"><circle class="sun-orbit" cx="50" cy="50" r="46"/><circle class="sun-core" cx="50" cy="50" r="13"/><g class="sun-leaves"><path style="--petal:0deg" d="M50 33C30 29 31 9 50 5C61 17 62 28 50 33Z"/><path style="--petal:90deg" d="M50 33C30 29 31 9 50 5C61 17 62 28 50 33Z"/><path style="--petal:180deg" d="M50 33C30 29 31 9 50 5C61 17 62 28 50 33Z"/><path style="--petal:270deg" d="M50 33C30 29 31 9 50 5C61 17 62 28 50 33Z"/></g></svg></div>
+  <div class="journey-light" aria-hidden="true"></div>
   <header class="site-header">
     <nav aria-label="Main navigation"><a href="#subjects">Subjects &amp; prices</a><a href="#tutors">Meet us</a><a href="#lessons">Lessons</a></nav>
     <a class="button small" href="#contact">Enquire <span aria-hidden="true">↗</span></a>
@@ -72,16 +72,16 @@
     <div class="garden-crossing" id="planting">
       <p>Different subjects. Shared ground.</p>
       <div class="planting-bed" aria-label="Garden planting area"></div>
-      <div class="garden-controls" role="group" aria-label="Garden controls"><button id="species" aria-label="Plant pattern: Barney. Switch to Eugene.">Plant: Barney <span aria-hidden="true">&#8964;</span></button><button id="plant" aria-label="Plant selected pattern in the garden bed">Plant +</button></div>
+      <div class="garden-controls" role="group" aria-label="Garden controls"><button id="species" aria-label="Plant pattern: Barney. Switch to Eugene.">Plant: Barney <span aria-hidden="true">&#8964;</span></button><button id="plant" aria-label="Plant selected pattern in the garden bed">Plant +</button><button class="motion-pause" data-pause aria-pressed="false">Pause &#8545;</button></div>
     </div>
 
     <section class="section tutors" id="tutors" data-chapter="2">
-      <div class="section-heading quiet"><p class="eyebrow">02 / A face to the name</p><h2>Hello, we're Barney &amp; Eugene.</h2></div>
+      <div class="section-heading quiet"><p class="eyebrow">02 / A face to the name</p><h2>Meet the tutors.</h2></div>
       <div class="tutor-pair">
         <article class="tutor-card" id="barney" data-species="1">
           <div class="tutor-front">
-            <div class="tutor-photo"><img src="assets/grad_photo.jpg" alt="Barney Evans at his graduation" width="720" height="900" loading="lazy"><span class="subject-tag">Computer Science</span></div>
-            <div class="tutor-copy"><p class="eyebrow">Computer Science, with Barney</p><h3>Barney Evans</h3><p class="credential">Associate AI Engineer, Homeprotect Home Insurance</p><p class="qualification">MEng Computer Science with Artificial Intelligence, University of Southampton</p><p class="dbs"><span aria-hidden="true">✓</span> Enhanced DBS checked</p><p class="hours">300+ hours taught with a 5.0/5 rating.</p></div>
+            <div class="profile-heading"><div class="tutor-photo"><img src="assets/grad_photo.jpg" alt="Barney Evans at his graduation" width="720" height="900" loading="lazy"></div><div><p class="eyebrow">Computer Science, with Barney</p><h3>Barney Evans</h3></div></div>
+            <div class="tutor-copy"><p class="credential">Associate AI Engineer, Homeprotect Home Insurance</p><p class="qualification">MEng Computer Science with Artificial Intelligence, University of Southampton</p><p class="dbs"><span aria-hidden="true">✓</span> Enhanced DBS checked</p><p class="hours">300+ hours taught with a 5.0/5 rating.</p></div>
           </div>
           <div class="tutor-back" id="barney-details">
             <p class="eyebrow">A little more about</p><h3>Barney Evans</h3>
@@ -96,8 +96,8 @@
         </article>
         <article class="tutor-card" id="eugene" data-species="2">
           <div class="tutor-front">
-            <div class="tutor-photo"><img src="assets/eugene.jpg" alt="Eugene Bevilacqua" width="800" height="800" loading="lazy"><span class="subject-tag">Physics &amp; Maths</span></div>
-            <div class="tutor-copy"><p class="eyebrow">Physics &amp; Maths, with Eugene</p><h3>Eugene Bevilacqua</h3><p class="credential">PhD student in Optics, Imperial College London</p><p class="dbs"><span aria-hidden="true">✓</span> Enhanced DBS checked</p><p class="hours">MSc Optics and Photonics, Distinction, Imperial College London</p></div>
+            <div class="profile-heading"><div class="tutor-photo"><img src="assets/eugene.jpg" alt="Eugene Bevilacqua" width="800" height="800" loading="lazy"></div><div><p class="eyebrow">Physics &amp; Maths, with Eugene</p><h3>Eugene Bevilacqua</h3></div></div>
+            <div class="tutor-copy"><p class="credential">PhD student in Optics, Imperial College London</p><p class="dbs"><span aria-hidden="true">✓</span> Enhanced DBS checked</p><p class="hours">MSc Optics and Photonics, Distinction, Imperial College London</p></div>
           </div>
           <div class="tutor-back" id="eugene-details">
             <p class="eyebrow">A little more about</p><h3>Eugene Bevilacqua</h3><p>MSc Optics and Photonics, Distinction, Imperial College London</p><p>First-class degree in Physics, Durham University</p><p>Studied Physics for a year at Kyoto University, 2023–24</p>
@@ -113,7 +113,7 @@
 
     <section class="section lessons" id="lessons" data-chapter="3">
       <div class="lesson-intro quiet"><p class="eyebrow">03 / How lessons work</p><h2>One step at a time.</h2><p class="gentle-quote">“We move at the speed the student needs to fully understand.”</p><p class="quote-by">— Barney, Computer Science</p><p>My lessons feature real-time document collaboration, allowing students to actively participate rather than passively watch.</p><p>Every lesson is built with a custom set of slides tailored to the current topic and progress which can be used for recap at a later stage.</p><p>Rather than memorisation, I emphasise understanding core concepts and developing problem-solving skills that will serve you beyond exams.</p></div>
-      <div class="lesson-path"><div class="path-heading"><h3>Typical 60-Minute Lesson</h3><p>Barney's Computer Science lessons<br><span>Approximate timings</span></p></div><ol>
+      <div class="lesson-path"><div class="chapter-control"><span>Lesson garden</span><button class="motion-pause" data-pause aria-pressed="false">Pause &#8545;</button></div><div class="path-heading"><h3>Typical 60-Minute Lesson</h3><p>Barney's Computer Science lessons<br><span>Approximate timings</span></p></div><ol>
         <li><span class="step-seed" aria-hidden="true">1</span><div><h4>Recap <span>5-10m</span></h4><p>Reviewing previous concept or homework.</p></div></li>
         <li><span class="step-seed" aria-hidden="true">2</span><div><h4>Live Teaching <span>20-25m</span></h4><p>New concept explained via interactive coding.</p></div></li>
         <li><span class="step-seed" aria-hidden="true">3</span><div><h4>Practice <span>20-25m</span></h4><p>Student writes code with guidance &amp; feedback.</p></div></li>
@@ -129,7 +129,7 @@
 
     <section class="section contact" id="contact" data-chapter="5">
       <div class="contact-sun" aria-hidden="true"></div>
-      <div class="contact-inner"><p class="eyebrow">05 / Let's begin</p><h2>Ready to<br><em>get started?</em></h2><div class="contact-pair"><div><span class="species-dot sage" aria-hidden="true"></span><h3>Barney Evans</h3><p>Computer Science</p><a class="button" href="mailto:ebarneytutoring@gmail.com">Email Barney <span aria-hidden="true">↗</span></a><a class="email-address" href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a></div><div><span class="species-dot lavender" aria-hidden="true"></span><h3>Eugene Bevilacqua</h3><p>Physics &amp; Maths</p><a class="button" href="mailto:eugene@example.com"><span class="ph">Email Eugene</span> <span aria-hidden="true">↗</span></a><a class="email-address" href="mailto:eugene@example.com"><span class="ph">eugene@example.com</span></a></div></div><a class="form-placeholder" href="#contact"><span class="ph">Enquiry form</span> <span aria-hidden="true">↗</span></a></div>
+      <div class="contact-inner"><div class="chapter-control"><span>Evening light</span><button class="motion-pause" data-pause aria-pressed="false">Pause &#8545;</button></div><p class="eyebrow">05 / Let's begin</p><h2>Ready to<br><em>get started?</em></h2><div class="contact-pair"><div><span class="species-dot sage" aria-hidden="true"></span><h3>Barney Evans</h3><p>Computer Science</p><a class="button" href="mailto:ebarneytutoring@gmail.com">Email Barney <span aria-hidden="true">↗</span></a><a class="email-address" href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a></div><div><span class="species-dot lavender" aria-hidden="true"></span><h3>Eugene Bevilacqua</h3><p>Physics &amp; Maths</p><a class="button" href="mailto:eugene@example.com"><span class="ph">Email Eugene</span> <span aria-hidden="true">↗</span></a><a class="email-address" href="mailto:eugene@example.com"><span class="ph">eugene@example.com</span></a></div></div><a class="form-placeholder" href="#contact"><span class="ph">Enquiry form</span> <span aria-hidden="true">↗</span></a></div>
     </section>
   </main>
   <footer><a class="brand" href="#home"><span class="ph">Barney &amp; Eugene</span></a><p>© 2026 Barney &amp; Eugene. All rights reserved.</p><a href="#home">Back to the top ↑</a></footer>

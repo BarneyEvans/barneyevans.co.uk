@@ -1,88 +1,88 @@
 {
-  "date": "2026-11-09T00:24:46.831Z",
+  "date": "2026-11-09T01:18:15.619Z",
   "captures": [
     {
       "width": 390,
       "id": "top",
       "scroll": 0,
-      "zoom": 1.0048978033367189,
+      "zoom": 1,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-top.png"
     },
     {
       "width": 390,
       "id": "subjects",
-      "scroll": 1155,
-      "zoom": 1.6642422686438894,
+      "scroll": 1087,
+      "zoom": 1,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-subjects.png"
     },
     {
       "width": 390,
       "id": "tutors",
-      "scroll": 2162,
-      "zoom": 2.1757138826480333,
+      "scroll": 2061,
+      "zoom": 1,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-tutors.png"
     },
     {
       "width": 390,
       "id": "lessons",
-      "scroll": 3196,
-      "zoom": 3.0830766020899714,
+      "scroll": 3095,
+      "zoom": 2.3,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-lessons.png"
     },
     {
       "width": 390,
       "id": "reviews",
-      "scroll": 4444,
-      "zoom": 2.1675798448459216,
+      "scroll": 4366,
+      "zoom": 4.8,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-reviews.png"
     },
     {
       "width": 390,
       "id": "contact",
-      "scroll": 5203,
-      "zoom": 1.0907327107704472,
+      "scroll": 5198,
+      "zoom": 4.8,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-390-contact.png"
     },
     {
       "width": 1440,
       "id": "top",
       "scroll": 0,
-      "zoom": 1.0064678841628407,
+      "zoom": 1,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-top.png"
     },
     {
       "width": 1440,
       "id": "subjects",
       "scroll": 911,
-      "zoom": 1.6834295728865911,
+      "zoom": 1,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-subjects.png"
     },
     {
       "width": 1440,
       "id": "tutors",
       "scroll": 1608,
-      "zoom": 2.2095903562862858,
+      "zoom": 1,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-tutors.png"
     },
     {
       "width": 1440,
       "id": "lessons",
-      "scroll": 2329,
-      "zoom": 3.050993571094643,
+      "scroll": 2365,
+      "zoom": 2.3,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-lessons.png"
     },
     {
       "width": 1440,
       "id": "reviews",
-      "scroll": 3106,
-      "zoom": 2.083177009930181,
+      "scroll": 3202,
+      "zoom": 4.8,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-reviews.png"
     },
     {
       "width": 1440,
       "id": "contact",
-      "scroll": 3404,
-      "zoom": 1.2356947660008748,
+      "scroll": 3619,
+      "zoom": 4.8,
       "file": "C:\\Users\\evans\\AppData\\Local\\Temp\\g3-1440-contact.png"
     }
   ],
@@ -104,12 +104,19 @@
     "barney: focus moves to reverse control",
     "eugene: flips to reverse",
     "eugene: focus moves to reverse control",
+    "Experiment rules and choices are optional by default",
+    "All three microscope scenes remain outside the disclosure",
+    "Default touch looks closer without planting",
     "Keyboard planting and Eugene selection",
     "Touch planting inside the dedicated simulation",
     "Simulation window supports Enter",
     "Simulation window supports Space",
     "Pause stops generations",
+    "Pause state is synchronised across all four lenses",
+    "Phone header scrolls away and all Pause controls stay in flow",
     "Reduced motion: no automatic evolution or camera zoom",
+    "Reduced motion settles all four Pause controls",
+    "Reduced motion: enlarged nucleus remains completely still",
     "Reduced motion: instant card swap",
     "MyTutor and overall teaching figures remain separate",
     "Enquire links consistently target contact",
@@ -141,8 +148,8 @@
       "pixelRatio": 2,
       "renderSamples": 71,
       "stepSamples": 3,
-      "drawP95": 1.3999999985098839,
-      "stepP95": 4.799999997019768,
+      "drawP95": 1,
+      "stepP95": 6.299999997019768,
       "frameIntervalP95": 6.199999999999818
     },
     {
@@ -154,10 +161,10 @@
         48
       ],
       "pixelRatio": 2,
-      "renderSamples": 72,
-      "stepSamples": 4,
-      "drawP95": 2.399999998509884,
-      "stepP95": 0.3999999985098839,
+      "renderSamples": 70,
+      "stepSamples": 3,
+      "drawP95": 1,
+      "stepP95": 0.6000000014901161,
       "frameIntervalP95": 6.200000000000728
     },
     {
@@ -169,11 +176,11 @@
         48
       ],
       "pixelRatio": 2,
-      "renderSamples": 71,
+      "renderSamples": 70,
       "stepSamples": 3,
-      "drawP95": 1.1000000014901161,
-      "stepP95": 0.29999999701976776,
-      "frameIntervalP95": 6.200000000000728
+      "drawP95": 0.7999999970197678,
+      "stepP95": 1,
+      "frameIntervalP95": 6.199999999998909
     }
   ]
 }

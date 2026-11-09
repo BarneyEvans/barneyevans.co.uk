@@ -15,7 +15,7 @@
 
 <header class="masthead">
   <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">b<span>e</span></span><span class="ph">Barney & Eugene</span></a>
-  <nav aria-label="Main navigation"><a href="#subjects">Subjects & prices</a><a href="#tutors">Meet the tutors</a><a class="button" href="#contact">Enquire <span aria-hidden="true">↗</span></a></nav><button id="play" aria-pressed="true">Pause <span aria-hidden="true">Ⅱ</span></button>
+  <nav aria-label="Main navigation"><a href="#subjects">Subjects & prices</a><a href="#tutors">Meet the tutors</a><a class="button" href="#contact">Enquire <span aria-hidden="true">↗</span></a></nav>
 </header>
 <main id="main">
   <section class="hero page-width" id="top">
@@ -35,8 +35,10 @@
   </section>
 
   <section class="experiment page-width" aria-label="Explore the shared simulation">
-    <div class="experiment-copy"><p class="eyebrow">A closer look</p><p>One shared simulation.<br>Two kinds of cell.</p><div class="garden-controls" role="group" aria-label="Simulation controls"><button id="choose-b" aria-pressed="true"><i class="b-dot" aria-hidden="true"></i>Glider</button><button id="choose-e" aria-pressed="false"><i class="e-dot" aria-hidden="true"></i>Pulsar</button><button id="plant-near">Add a pattern <span aria-hidden="true">＋</span></button></div></div>
-    <div class="simulation-window" tabindex="0" role="button" aria-label="Add the selected pattern to the shared simulation"><div class="dish" aria-hidden="true"><div class="dish-inner"></div></div><span class="magnification" aria-hidden="true">1.0×</span><span class="window-hint">Tap to add a pattern</span></div>
+    <div class="experiment-copy"><div class="motion-row"><p class="eyebrow">A closer look</p><button id="play" class="motion-toggle" aria-pressed="true">Pause <span aria-hidden="true">Ⅱ</span></button></div>
+      <details class="experiment-details"><summary>Try an experiment</summary><div class="experiment-options"><p>One shared simulation.<br>Two kinds of cell.</p><p>Three neighbours → a new cell.<br>Two or three → a cell stays.</p><div class="garden-controls" role="group" aria-label="Simulation controls"><button id="choose-b" aria-pressed="true"><i class="b-dot" aria-hidden="true"></i>Glider</button><button id="choose-e" aria-pressed="false"><i class="e-dot" aria-hidden="true"></i>Pulsar</button><button id="plant-near">Add a pattern <span aria-hidden="true">＋</span></button></div></div></details>
+    </div>
+    <div class="simulation-window" tabindex="0" role="button" aria-label="Take a closer look at the cell cluster"><span class="window-hint">Touch to look closer</span></div>
   </section>
 
   <section class="subjects page-width chapter" id="subjects">
@@ -65,7 +67,7 @@
   <section class="tutors page-width chapter" id="tutors">
     <div class="chapter-top"><p class="eyebrow">Meet the tutors</p></div>
     <div class="section-heading quiet"><h2>Meet the <em>tutors.</em></h2><p>Computer Science with Barney.<br>Physics & Maths with Eugene.</p></div>
-    <div class="tutor-lens lens-space" aria-hidden="true"><span>Two colonies, one shared world · 2.1×</span></div>
+    <div class="lens-stage"><div class="tutor-lens lens-space" aria-hidden="true"></div><button class="motion-toggle" aria-pressed="true">Pause <span aria-hidden="true">Ⅱ</span></button></div>
     <div class="tutor-pair">
       <article class="slide barney-slide" id="barney" data-species="1">
         <div class="slide-inner">
@@ -87,17 +89,17 @@
     <div class="chapter-top"><p class="eyebrow">How lessons work</p></div>
     <div class="lesson-grid"><div class="lesson-intro quiet"><h2>How lessons<br><em>take shape.</em></h2><p class="attribution">Barney on his Computer Science lessons</p><p>My lessons feature real-time document collaboration, allowing students to actively participate rather than passively watch.</p><p>Every lesson is built with a custom set of slides tailored to the current topic and progress which can be used for recap at a later stage.</p><p>Rather than memorisation, I emphasise understanding core concepts and developing problem-solving skills that will serve you beyond exams.</p></div>
     <div class="lesson-sequence quiet"><h3>Typical 60-Minute Lesson</h3><p class="format">Approximate timings</p><ol><li><span>01</span><div><h4>Recap <small>5-10m</small></h4><p>Reviewing previous concept or homework.</p></div></li><li><span>02</span><div><h4>Live Teaching <small>20-25m</small></h4><p>New concept explained via interactive coding.</p></div></li><li><span>03</span><div><h4>Practice <small>20-25m</small></h4><p>Student writes code with guidance & feedback.</p></div></li><li><span>04</span><div><h4>Wrap Up <small>5m</small></h4><p>Summary of lesson & next steps.</p></div></li></ol></div></div>
-    <aside class="rule-note"><div class="lesson-lens lens-space" aria-hidden="true"><span>A closer look · 3.1×</span></div><div><span class="eyebrow">The shared simulation</span><p>Three neighbours → a new cell.<br>Two or three → a cell stays.</p></div></aside>
+    <aside class="rule-note lens-stage"><div class="lesson-lens lens-space" aria-hidden="true"></div><button class="motion-toggle" aria-pressed="true">Pause <span aria-hidden="true">Ⅱ</span></button></aside>
   </div></section>
 
   <section class="reviews page-width chapter" id="reviews"><div class="chapter-top"><p class="eyebrow">Parent reviews</p></div><div class="section-heading quiet"><h2>What parents say<br><em>about Barney.</em></h2><div class="review-source"><a href="https://www.mytutor.co.uk/tutors/9468218/">MyTutor ↗</a><strong>average rating 5</strong><span>16 reviews · 216 completed lessons</span><small>Checked 5 November 2026</small></div></div>
     <div class="quotes"><figure class="quiet"><span class="quote-mark" aria-hidden="true">“</span><blockquote>Barney has helped my daughter in her Computer Science GCSE making her much more confident within a few months. Lessons were interactive and well planned. Highly recommend!</blockquote><figcaption><strong>Rahnuma, Parent from Norwich</strong><span>21 Aug 2025</span><a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor ↗</a></figcaption></figure><figure class="quiet"><span class="quote-mark" aria-hidden="true">“</span><blockquote>Really pleased with the work Barney is doing with my son for Computer Science GCSE, he is helping build his confidence and knowledge base after an extended time out of school.</blockquote><figcaption><strong>Suzanne, Parent from Hook</strong><a href="https://www.mytutor.co.uk/tutors/9468218/">Read on MyTutor ↗</a></figcaption></figure></div>
   </section>
 
-  <section class="contact chapter" id="contact"><div class="contact-dish" aria-hidden="true"></div><div class="page-width"><p class="eyebrow">Get in touch</p><div class="contact-content quiet"><h2>Ready to<br><em>get started?</em></h2><div class="contact-links"><a href="mailto:ebarneytutoring@gmail.com" class="button">Email Barney ↗</a><a href="mailto:eugene@example.com" class="button eugene-button"><span class="ph">Email Eugene</span> ↗</a></div><p class="contact-address"><a href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a><br><a href="mailto:eugene@example.com"><span class="ph">eugene@example.com</span></a></p><a href="#contact" class="text-link"><span class="ph">Enquiry form</span> ↗</a></div></div></section>
+  <section class="contact chapter" id="contact"><div class="contact-dish" aria-hidden="true"></div><div class="page-width"><div class="lens-stage contact-lens-stage"><div class="contact-lens lens-space" aria-hidden="true"></div><button class="motion-toggle" aria-pressed="true">Pause <span aria-hidden="true">Ⅱ</span></button></div><p class="eyebrow">Get in touch</p><div class="contact-content quiet"><h2>Ready to<br><em>get started?</em></h2><div class="contact-links"><a href="mailto:ebarneytutoring@gmail.com" class="button">Email Barney ↗</a><a href="mailto:eugene@example.com" class="button eugene-button"><span class="ph">Email Eugene</span> ↗</a></div><p class="contact-address"><a href="mailto:ebarneytutoring@gmail.com">ebarneytutoring@gmail.com</a><br><a href="mailto:eugene@example.com"><span class="ph">eugene@example.com</span></a></p><a href="#contact" class="text-link"><span class="ph">Enquiry form</span> ↗</a></div></div></section>
 </main>
 <footer class="page-width"><span>© 2026 Barney & Eugene. All rights reserved.</span><a href="#top">Back to the top ↑</a></footer>
 <p class="sr-only" id="garden-status" role="status">Use the simulation area to add a pattern.</p>
-<noscript><style>.slide-inner{display:block}.slide-face{position:static;transform:none;backface-visibility:visible}.slide-back{margin-top:15px;overflow:visible}.flip,.garden-controls{display:none}</style><p class="no-js">The simulation is still. All subjects, tutor details and contact links are available.</p></noscript>
+<noscript><style>.slide-inner{display:block}.slide-face{position:static;transform:none;backface-visibility:visible}.slide-back{margin-top:15px;overflow:visible}.flip,.garden-controls,.motion-toggle{display:none}</style><p class="no-js">The simulation is still. All subjects, tutor details and contact links are available.</p></noscript>
 </body>
 </html>

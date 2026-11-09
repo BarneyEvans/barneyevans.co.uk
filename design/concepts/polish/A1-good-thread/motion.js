@@ -19,6 +19,8 @@
   const pluck = document.querySelector('.touch-art');
   let pending=0, dirty=true, ready=false, paused=false, playing=0;
   let length=0, samples=[], anchors=[], heroShape, remainder='', top=0, end;
+  let portraitLength=0, restingPath='', vertices=[];
+  const pluckDuration=3200;
   const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
   const f = n => Math.round(n*10)/10;
   function box(el) {
@@ -26,6 +28,7 @@
     return {x:r.left-m.left,y:r.top-m.top,w:r.width,h:r.height};
   }
   function measure() {
+    playing=0;
     const w=main.clientWidth,h=main.clientHeight;
     top=main.getBoundingClientRect().top+scrollY;
     svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
@@ -40,9 +43,12 @@
     const gutter=w<700?12:Math.max(24,w*.0325);
     const right=w-gutter;
     // The opening thread touches the two fine stitched portrait contours.
-    heroShape = bend => `M ${f(a.x-7)} ${f(a.y+a.h*.55)} C ${f(a.x-18)} ${f(a.y-18)} ${f(a.x+a.w*.5)} ${f(a.y-18)} ${f(a.x+a.w*.5)} ${f(a.y-18)} C ${f(a.x+a.w+18)} ${f(a.y-18)} ${f(a.x+a.w+7)} ${f(a.y+a.h*.3)} ${f(a.x+a.w+7)} ${f(a.y+a.h*.55)} C ${f(a.x+a.w+22+bend)} ${f(a.y+a.h*.55-30)} ${f(b.x-22-bend)} ${f(b.y+b.h*.55+30)} ${f(b.x-7)} ${f(b.y+b.h*.55)}`;
+    heroShape = () => `M ${f(a.x-7)} ${f(a.y+a.h*.55)} C ${f(a.x-18)} ${f(a.y-18)} ${f(a.x+a.w*.5)} ${f(a.y-18)} ${f(a.x+a.w*.5)} ${f(a.y-18)} C ${f(a.x+a.w+18)} ${f(a.y-18)} ${f(a.x+a.w+7)} ${f(a.y+a.h*.3)} ${f(a.x+a.w+7)} ${f(a.y+a.h*.55)} C ${f(a.x+a.w+8)} ${f(a.y+a.h*.55-18)} ${f(b.x-8)} ${f(b.y+b.h*.55+18)} ${f(b.x-7)} ${f(b.y+b.h*.55)}`;
     // Continue above the second portrait, then into the outside seam without crossing captions.
-    const heroRoute=` C ${f(b.x-20)} ${f(b.y+b.h*.25)} ${f(b.x-14)} ${f(b.y-18)} ${f(b.x+b.w*.5)} ${f(b.y-18)} C ${f(b.x+b.w+14)} ${f(b.y-18)} ${f(right)} ${f(b.y)} ${f(right)} ${f(b.y+70)} L ${f(right)} ${f(hero.h-22)} Q ${f(right)} ${f(hero.h-8)} ${f(right-16)} ${f(hero.h-8)} L ${f(gutter+16)} ${f(hero.h-8)} Q ${f(gutter)} ${f(hero.h-8)} ${f(gutter)} ${f(subjects.y+16)}`;
+    const portraitRoute=` C ${f(b.x-20)} ${f(b.y+b.h*.25)} ${f(b.x-14)} ${f(b.y-18)} ${f(b.x+b.w*.5)} ${f(b.y-18)} C ${f(b.x+b.w+32)} ${f(b.y-24)} ${f(right-10)} ${f(b.y+18)} ${f(right)} ${f(b.y+b.h*.62)}`;
+    track.setAttribute('d',heroShape(0)+portraitRoute);
+    portraitLength=track.getTotalLength();
+    const heroRoute=portraitRoute+` L ${f(right)} ${f(hero.h-64)} C ${f(right)} ${f(hero.h+30)} ${f(w*.58)} ${f(hero.h-32)} ${f(w*.42)} ${f(hero.h-16)} C ${f(w*.2)} ${f(hero.h+8)} ${f(gutter)} ${f(hero.h-28)} ${f(gutter)} ${f(subjects.y+48)}`;
     track.setAttribute('d',heroShape(0)+heroRoute);
     const openingLength=track.getTotalLength();
     remainder=heroRoute+` L ${f(gutter)} ${f(lessons.y+16)}`;
@@ -51,18 +57,19 @@
     // Cross below the map title, then meet each numbered marker.
     const entrance=mapTitle.y+mapTitle.h+12;
     const lane=w>700?mapTitle.x-24:gutter;
-    if(w>700) remainder+=` Q ${f(gutter)} ${f(lessons.y+24)} ${f(gutter+12)} ${f(lessons.y+24)} L ${f(lane-12)} ${f(lessons.y+24)} Q ${f(lane)} ${f(lessons.y+24)} ${f(lane)} ${f(lessons.y+36)}`;
-    remainder+=` L ${f(lane)} ${f(entrance-10)} Q ${f(lane)} ${f(entrance)} ${f(lane+12)} ${f(entrance)} L ${f(first.x-12)} ${f(entrance)} Q ${f(first.x)} ${f(entrance)} ${f(first.x)} ${f(entrance+12)} L ${f(first.x)} ${f(first.y)}`;
+    if(w>700) remainder+=` C ${f(gutter)} ${f(lessons.y+72)} ${f(lane)} ${f(lessons.y-16)} ${f(lane)} ${f(lessons.y+48)}`;
+    remainder+=` L ${f(lane)} ${f(entrance-30)} C ${f(lane)} ${f(entrance+12)} ${f(first.x)} ${f(entrance-12)} ${f(first.x)} ${f(first.y)}`;
     for(let i=1;i<anchors.length;i++) {
       const a=anchors[i-1],b=anchors[i],mid=(a.y+b.y)/2;
       remainder+=` C ${f(a.x-12)} ${f(mid-12)} ${f(b.x+12)} ${f(mid+12)} ${f(b.x)} ${f(b.y)}`;
     }
     const last=anchors.at(-1),exit=lessons.y+lessons.h-16;
-    remainder+=` L ${f(last.x)} ${f(exit-12)} Q ${f(last.x)} ${f(exit)} ${f(last.x-12)} ${f(exit)} L ${f(gutter+12)} ${f(exit)} Q ${f(gutter)} ${f(exit)} ${f(gutter)} ${f(exit+12)} L ${f(gutter)} ${f(review.y-24)} Q ${f(gutter)} ${f(review.y-12)} ${f(gutter+12)} ${f(review.y-12)} L ${f(review.x-12)} ${f(review.y-12)} Q ${f(review.x)} ${f(review.y-12)} ${f(review.x)} ${f(review.y)} L ${f(review.x)} ${f(review.y+review.h-12)} Q ${f(review.x)} ${f(review.y+review.h)} ${f(review.x-12)} ${f(review.y+review.h)} L ${f(gutter+12)} ${f(review.y+review.h)} Q ${f(gutter)} ${f(review.y+review.h)} ${f(gutter)} ${f(review.y+review.h+12)}`;
+    remainder+=` L ${f(last.x)} ${f(exit-28)} C ${f(last.x)} ${f(exit+28)} ${f(gutter)} ${f(exit-44)} ${f(gutter)} ${f(exit+24)} L ${f(gutter)} ${f(review.y-30)} C ${f(gutter)} ${f(review.y+4)} ${f(review.x-6)} ${f(review.y-32)} ${f(review.x-6)} ${f(review.y+26)} C ${f(review.x+8)} ${f(review.y+review.h*.33)} ${f(review.x-18)} ${f(review.y+review.h*.68)} ${f(review.x-6)} ${f(review.y+review.h-24)} C ${f(review.x+2)} ${f(review.y+review.h+18)} ${f(gutter)} ${f(review.y+review.h-6)} ${f(gutter)} ${f(review.y+review.h+40)}`;
     // A single small loop ties off the same seam in the space above both contact routes.
     const cy=heading.y+heading.h+38,cx=w/2;
-    remainder+=` L ${f(gutter)} ${f(cy-12)} Q ${f(gutter)} ${f(cy)} ${f(gutter+12)} ${f(cy)} L ${f(cx)} ${f(cy)} C ${f(cx+26)} ${f(cy)} ${f(cx+26)} ${f(cy-32)} ${f(cx)} ${f(cy-32)} C ${f(cx-26)} ${f(cy-32)} ${f(cx-26)} ${f(cy)} ${f(cx)} ${f(cy)} L ${f(cx+42)} ${f(cy)}`;
+    remainder+=` L ${f(gutter)} ${f(cy-76)} C ${f(gutter)} ${f(cy+28)} ${f(cx-92)} ${f(cy-18)} ${f(cx)} ${f(cy)} C ${f(cx+26)} ${f(cy)} ${f(cx+26)} ${f(cy-32)} ${f(cx)} ${f(cy-32)} C ${f(cx-26)} ${f(cy-32)} ${f(cx-26)} ${f(cy)} ${f(cx)} ${f(cy)} L ${f(cx+42)} ${f(cy)}`;
     const d=heroShape(0)+remainder;
+    restingPath=d;
     track.setAttribute('d',d);line.setAttribute('d',d);
     length=line.getTotalLength();
     // Cached geometry only; scrolling never reads layout or SVG path geometry.
@@ -77,6 +84,14 @@
       maximum=Math.max(maximum,progressY);
       samples.push({x:p.x,y:p.y,progressY:maximum,distance});
     }
+    // Cache the normal and untouched polyline once. A pluck only recalculates
+    // the small moving neighbourhood, without SVG geometry reads per frame.
+    samples.forEach((p,i)=>{
+      const before=samples[Math.max(0,i-1)],after=samples[Math.min(1000,i+1)];
+      const dx=after.x-before.x,dy=after.y-before.y,scale=Math.hypot(dx,dy)||1;
+      p.nx=-dy/scale;p.ny=dx/scale;
+    });
+    vertices=samples.map((p,i)=>`${i?'L':'M'}${f(p.x)} ${f(p.y)}`);
     end={x:cx+42,y:cy};
     finish.setAttribute('cx',end.x);finish.setAttribute('cy',end.y);
     line.style.strokeDasharray=String(length);
@@ -94,19 +109,38 @@
       point=samples[low];distance=point.distance;
       if(scrollY+innerHeight>=document.documentElement.scrollHeight-4){distance=length;point=samples.at(-1);}
     }
+    if(playing) {
+      // A queued rAF timestamp can precede a just-delivered input event.
+      const t=Math.max(0,(now-playing)/pluckDuration);
+      if(t>=1||still){stop();}
+      else {
+        // Linger over both people, then carry the same impulse along the
+        // lesson seam and review into the closing loop. No content moves.
+        const travel=t<.45?portraitLength*t/.45:
+          portraitLength+(length-portraitLength)*(1-(1-(t-.45)/.55)**1.6);
+        const radius=64,amplitude=6*(1-t*.7),changed=vertices.slice();
+        const start=Math.max(0,Math.floor((travel-radius)/length*1000));
+        const end=Math.min(1000,Math.ceil((travel+radius)/length*1000));
+        for(let i=start;i<=end;i++){
+          const p=samples[i],u=(p.distance-travel)/radius;
+          const offset=Math.abs(u)<1?Math.sin(u*Math.PI*2)*Math.cos(u*Math.PI/2)**2*amplitude:0;
+          changed[i]=`${i?'L':'M'}${f(p.x+p.nx*offset)} ${f(p.y+p.ny*offset)}`;
+        }
+        const d=changed.join('');line.setAttribute('d',d);track.setAttribute('d',d);
+        // The travelling bead also reveals the seam ahead of the scroll.
+        distance=Math.max(distance,travel);
+        point=samples[Math.min(1000,Math.round(travel/length*1000))];
+        schedule();
+      }
+    }
     line.style.strokeDashoffset=String(length-distance);
     bead.setAttribute('cx',point.x);bead.setAttribute('cy',point.y);
     bead.style.display=still?'none':'';
     finish.classList.toggle('tied',still||distance>=length-2);
     steps.forEach((el,i)=>el.classList.toggle('thread-met',still||point.y>=anchors[i].y));
-    if(playing) {
-      const t=(now-playing)/1100;
-      if(t>=1||still||scrollY>document.querySelector('.hero').offsetHeight){playing=0;line.setAttribute('d',heroShape(0)+remainder);track.setAttribute('d',heroShape(0)+remainder);}
-      else {const bend=Math.sin(t*Math.PI*7)*(1-t)**2*20;const d=heroShape(bend)+remainder;line.setAttribute('d',d);track.setAttribute('d',d);schedule();}
-    }
   }
   function schedule(){if(ready&&!pending&&!document.hidden)pending=requestAnimationFrame(draw);}
-  function stop(){playing=0;if(heroShape){line.setAttribute('d',heroShape(0)+remainder);track.setAttribute('d',heroShape(0)+remainder);}}
+  function stop(){playing=0;if(restingPath){line.setAttribute('d',restingPath);track.setAttribute('d',restingPath);}}
   pluck.addEventListener('click',()=>{if(media.matches||paused){svg.classList.toggle('alternate-ink');return;}playing=performance.now();schedule();});
   pause.addEventListener('click',()=>{paused=!paused;pause.setAttribute('aria-pressed',String(paused));pause.textContent=paused?'Resume motion':'Pause motion';stop();schedule();});
   const resize=new ResizeObserver(()=>{dirty=true;schedule();});resize.observe(main);

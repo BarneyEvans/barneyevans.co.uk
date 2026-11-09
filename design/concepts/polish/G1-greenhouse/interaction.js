@@ -6,7 +6,7 @@
   const canvas = document.querySelector('#garden');
   const ctx = canvas.getContext('2d');
   const media = matchMedia('(prefers-reduced-motion: reduce)');
-  const pause = document.querySelector('#pause');
+  const pauses = [...document.querySelectorAll('[data-pause]')];
   const speciesButton = document.querySelector('#species');
   const status = document.querySelector('#garden-status');
   const chapters = [...document.querySelectorAll('[data-chapter]')];
@@ -98,7 +98,7 @@
     const margin = width < 760 ? 11 : Math.max(16,(width-1160)/2+17);
     const archY = arch.top + scrollY + (width<761?40:52);
     const archX = arch.left+arch.width/2;
-    const archScale=width<761?.8:1;
+    const archScale=width<761?1.65:2.1;
     const archHold=Math.max(1,archY-height*.35);
     const garden=document.querySelector('.planting-bed').getBoundingClientRect();
     const gardenY=garden.top+scrollY+garden.height/2;
@@ -108,8 +108,8 @@
       {scroll:archHold+90,x:margin,y:archY-archHold-90,size:.16},
       {scroll:documentY(subject)-height*.25,x:margin,y:height*.35,size:.16},
       {scroll:gardenY-height*.7,x:margin,y:height*.7,size:.16},
-      {scroll:gardenY-height*.55,x:width/2,y:height*.55,size:1.05},
-      {scroll:gardenY-height*.35,x:width/2,y:height*.35,size:1.05},
+      {scroll:gardenY-height*.55,x:width/2,y:height*.55,size:2.25},
+      {scroll:gardenY-height*.35,x:width/2,y:height*.35,size:2.25},
       {scroll:gardenY-height*.2,x:margin,y:height*.2,size:.16}
     ];
     const first = stepEls[0].querySelector('.step-seed').getBoundingClientRect();
@@ -121,12 +121,12 @@
     lightStops.push({scroll:first.top+scrollY-height*.55-48,x:width>=761?first.left-12:margin,y:height*.55,size:.16});
     stepEls.forEach(el=>{
       const r=el.querySelector('.step-seed').getBoundingClientRect();
-      lightStops.push({scroll:r.top+scrollY-height*.55,x:r.left+r.width/2,y:height*.55+r.height/2,size:.38});
+      lightStops.push({scroll:r.top+scrollY-height*.55,x:r.left+r.width/2,y:height*.55+r.height/2,size:1.9});
     });
     lightStops.push({scroll:documentY(document.querySelector('#reviews'))-height*.3,x:margin,y:height*.35,size:.16});
     // Cross the empty crown of the contact arch, never the preceding review.
     lightStops.push({scroll:contact.top+scrollY-height*.82,x:margin,y:height*.82+70,size:.16});
-    lightStops.push({scroll:contact.top+scrollY-height*.65,x:contact.left+contact.width/2,y:height*.65+70,size:1.2});
+    lightStops.push({scroll:contact.top+scrollY-height*.65,x:contact.left+contact.width/2,y:height*.65+70,size:3.6});
     lightStops.sort((a,b)=>a.scroll-b.scroll);
   }
 
@@ -144,10 +144,15 @@
     const y=a.y+(b.y-a.y)*t-(a===b?Math.max(0,scrollY-a.scroll):0);
     const size=a.size+(b.size-a.size)*smooth;
     light.style.transform=`translate3d(${(x-48).toFixed(1)}px,${(y-48).toFixed(1)}px,0) scale(${size.toFixed(3)})`;
-    light.style.setProperty('--turn',`${(day*240).toFixed(1)}deg`);
+    light.style.opacity=clamp((size-.16)/1.2,0,1).toFixed(3);
   }
 
   function evolve() {
+    // Recheck the preference at work boundaries as well as its change event.
+    if(media.matches || paused || document.hidden) {
+      if(media.matches) paused=true;
+      schedule(); scrollStory(); return;
+    }
     const begin = performance.now();
     next.fill(0);
     for(let y=1;y<rows-1;y++) for(let x=1;x<cols-1;x++) {
@@ -208,6 +213,7 @@
 
   function scrollStory() {
     if(!cells) return;
+    if(media.matches && !paused) {paused=true;schedule();}
     day=clamp(scrollY/Math.max(1,pageHeight-height),0,1);
     // Each bed belongs to this same world. Scroll introduces increasing density.
     chapterGeometry.forEach(({el,top})=>{
@@ -219,6 +225,11 @@
     archLight.style.setProperty('--day',daylightValue);
     contactSun.style.setProperty('--day',daylightValue);
     lessonPath.style.setProperty('--path',media.matches?1:path);
+    const arrival=media.matches?1:clamp((scrollY+height*.7-stepTops[0])/140,0,1)*clamp((stepTops[3]-scrollY-height*.2)/140,0,1);
+    lessonPath.style.setProperty('--pool-y',`${(48+path*(stepTops[3]-stepTops[0])).toFixed(1)}px`);
+    lessonPath.style.setProperty('--pool-arrival',arrival.toFixed(3));
+    const contactArrival=media.matches?1:clamp((scrollY+height*.75-chapterGeometry[4].top)/180,0,1);
+    contactSun.style.setProperty('--arrival',contactArrival.toFixed(3));
     stepEls.forEach((el,i)=>el.classList.toggle('active',media.matches||stepTops[i]-scrollY<height*.55));
     moveLight();
     requestDraw();
@@ -226,17 +237,19 @@
 
   function schedule() {
     clearInterval(timer); timer=0;
+    pauses.forEach(pause=>{
     pause.textContent=media.matches?'Motion off':paused?'Grow ▷':'Pause Ⅱ';
     pause.setAttribute('aria-pressed',String(paused));
     pause.setAttribute('aria-label',media.matches?'Motion off: reduced motion preference':paused?'Resume garden growth':'Pause garden growth');
+    });
     if(!paused&&!media.matches&&!document.hidden) timer=setInterval(evolve,1050);
     if(document.hidden&&raf){cancelAnimationFrame(raf);raf=0;}
   }
-  pause.addEventListener('click',()=>{
+  pauses.forEach(pause=>pause.addEventListener('click',()=>{
     if(media.matches) { status.textContent='Motion is off. You can still choose a tutor and plant a still pattern.'; return; }
     paused=!paused; schedule(); requestDraw();
     status.textContent=paused?'Garden paused.':'Garden growing.';
-  });
+  }));
 
   function choose(species) {
     chosen=species; document.body.dataset.choice=String(species);
