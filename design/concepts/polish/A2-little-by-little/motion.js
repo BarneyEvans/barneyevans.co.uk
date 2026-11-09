@@ -27,8 +27,18 @@
     return {x:a.left-b.left+a.width*x,y:a.top-b.top+a.height*y};
   }
   const coords = p => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
-  function curve(pts) {
-    let d=`M ${coords(pts[0])}`;
+  // One folded stroke, turned to follow each chapter's direction.
+  function bend(a,b,spread,settle) {
+    const dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1;
+    const loose=[[0,0],[.25,-1],[.74,1.28],[.26,1],[.75,-.9],[1,0]];
+    const calm=[[0,0],[.2,.2],[.38,.54],[.62,.54],[.8,.2],[1,0]];
+    return loose.map(([u,v],i)=>{
+      u+=(calm[i][0]-u)*settle;v+=(calm[i][1]-v)*settle;
+      return {x:a.x+dx*u-dy/len*v*spread,y:a.y+dy*u+dx/len*v*spread};
+    });
+  }
+  function curve(pts,move=true) {
+    let d=move?`M ${coords(pts[0])}`:'';
     for(let i=0;i<pts.length-1;i++) {
       const a=pts[Math.max(0,i-1)], b=pts[i], c=pts[i+1], e=pts[Math.min(pts.length-1,i+2)];
       d+=` C ${coords({x:b.x+(c.x-a.x)/6,y:b.y+(c.y-a.y)/6})} ${coords({x:c.x-(e.x-b.x)/6,y:c.y-(e.y-b.y)/6})} ${coords(c)}`;
@@ -47,19 +57,15 @@
       s.safeBottom=Math.min(...[...host.querySelectorAll('figcaption')].map(el=>point(el,host,0,0).y))-12;
     } else if(host.id==='lessons') {
       s.points=[...host.querySelectorAll('.step-num')].map(el=>point(el,host));
-      s.stepTops=steps.map(el=>el.getBoundingClientRect().top+scrollY);
+      const copy=point(steps[0].querySelector('div'),host,0,0);
+      // A real drawing lane, bounded by the page edge and the lesson copy.
+      s.spread=Math.min(28,(s.points[0].x-10)/1.4,copy.x-s.points[0].x-12);
     } else {
       const buttons=host.querySelectorAll('.contact-pair .button');
       if(innerWidth>700) {
         s.a=point(buttons[0],host,1,.5); s.b=point(buttons[1],host,0,.5);
-        s.mid={x:(s.a.x+s.b.x)/2,y:s.a.y};
-        s.path=`M ${coords(s.a)} C ${s.mid.x-35} ${s.a.y} ${s.mid.x-35} ${s.a.y+34} ${s.mid.x} ${s.a.y+34} C ${s.mid.x+35} ${s.b.y+34} ${s.mid.x+35} ${s.b.y} ${coords(s.b)}`;
-        s.mid.y+=34;
       } else {
         s.a=point(buttons[0],host,0,.5); s.b=point(buttons[1],host,0,.5);
-        const x=20;
-        s.mid={x,y:(s.a.y+s.b.y)/2};
-        s.path=`M ${coords(s.a)} H ${x+14} Q ${x} ${s.a.y} ${x} ${s.a.y+14} V ${s.b.y-14} Q ${x} ${s.b.y} ${x+14} ${s.b.y} H ${s.b.x}`;
       }
     }
   }
@@ -69,10 +75,8 @@
     const still=reduce.matches||paused;
     const p=still?1:smooth(clamp((scrollY+innerHeight*.8-s.top)/(s.h+innerHeight*.25)));
     if(s===hero) {
-      const {a,b,mid}=s, gap=b.x-a.x;
-      const loose=[a,{x:mid.x-gap*.25,y:mid.y-50},{x:mid.x+gap*.24,y:mid.y+64},{x:mid.x-gap*.24,y:mid.y+50},{x:mid.x+gap*.25,y:mid.y-45},b];
-      const ordered=[a,{x:a.x+gap*.2,y:mid.y+10},{x:mid.x-gap*.12,y:mid.y+27},{x:mid.x+gap*.12,y:mid.y+27},{x:b.x-gap*.2,y:mid.y+10},b];
-      const pts=loose.map((v,i)=>({x:v.x+(ordered[i].x-v.x)*p,y:Math.min(s.safeBottom,v.y+(ordered[i].y-v.y)*p)}));
+      const {a,b}=s;
+      const pts=bend(a,b,50,p).map(v=>({...v,y:Math.min(s.safeBottom,v.y)}));
       setPath(s,curve(pts));
       let t=p;
       if(pulse&&!still) t=clamp((now-pulse)/1400);
@@ -84,27 +88,36 @@
       if(pulse&&t>=1) {pulse=null;play.setAttribute('aria-pressed','false');}
     } else if(s.host.id==='lessons') {
       const pts=s.points;
-      // The route goes through the actual numbered centres, never through copy.
-      const y=pts[0].y-24;
-      let d=`M ${pts[0].x} ${y}`;
-      pts.forEach((pt,i)=>{
-        const prev=i?pts[i-1]:{x:pt.x,y};
-        const bend=(1-p)*(i%2?-12:12);
-        d+=` C ${prev.x+bend} ${(prev.y+pt.y)/2} ${pt.x-bend} ${(prev.y+pt.y)/2} ${coords(pt)}`;
+      const focus=scrollY+innerHeight*.52-s.top;
+      const journey=still?1:clamp((focus-pts[0].y)/(pts.at(-1).y-pts[0].y));
+      let d=`M ${pts[0].x} ${pts[0].y-24} L ${coords(pts[0])}`;
+      // The portrait's fold returns, then opens out towards the final stop.
+      pts.slice(1).forEach((pt,i)=>{
+        const settle=clamp(.08+i*.34+journey*.24);
+        const spread=s.spread*(i===2?1-journey*.85:1);
+        d+=curve(bend(pts[i],pt,spread,settle),false);
       });
       setPath(s,d);
-      const focus=scrollY+innerHeight*.52-s.top;
-      const yy=still?pts.at(-1).y:Math.max(pts[0].y,Math.min(pts.at(-1).y,focus));
-      circle(s.dot,{x:pts[0].x,y:yy},6);
-      s.ends.forEach(el=>el.style.display='none');
-      let active=0;pts.forEach((pt,i)=>{if(yy>=pt.y-18)active=i;});
+      circle(s.dot,s.line.getPointAtLength(24+(s.line.getTotalLength()-24)*journey),6);
+      s.dot.style.display=still?'none':'';
+      s.ends[0].style.display='none';
+      s.ends[1].style.opacity=String(smooth(clamp((journey-.8)/.2)));
+      circle(s.ends[1],pts.at(-1),24+6*(1-journey));
+      let active=0;pts.forEach((pt,i)=>{if(focus>=pt.y-18)active=i;});
       steps.forEach((el,i)=>el.classList.toggle('motion-current',!still&&i===active));
     } else {
-      setPath(s,s.path);
+      let pts;
+      if(innerWidth>700) {
+        pts=bend(s.a,s.b,48,.65+.35*p);
+      } else {
+        const lane=Math.min(48,s.a.x*.42),gap=s.b.y-s.a.y;
+        pts=[s.a,...bend({x:lane,y:s.a.y+gap*.12},{x:lane,y:s.b.y-gap*.12},25,.6+.4*p).slice(1,-1),s.b];
+      }
+      setPath(s,curve(pts));
       s.line.style.strokeDasharray='1';s.line.style.strokeDashoffset=still?'0':String(1-clamp(p*1.7));
       circle(s.ends[0],s.a,7);circle(s.ends[1],s.b,7);
       // The loose mark ends as one small, complete ring joining both routes.
-      circle(s.dot,s.mid,still?9:5+4*p);
+      circle(s.dot,s.line.getPointAtLength(s.line.getTotalLength()*.5),still?9:5+4*p);
       s.dot.classList.add('ink-answer');
     }
   }

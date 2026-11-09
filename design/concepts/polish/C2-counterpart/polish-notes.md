@@ -37,3 +37,33 @@ Completed the updated pitch and committed the implementation and evidence. No un
 ## Continuation review
 
 The replacement worker inspected both before strips and all three final strips, reviewed the remaining contact-curve change, and reran `verify.cjs` successfully at 390, 320 and 1440. Page heights and opening positions match the recorded strips, with no overflow, JavaScript errors, undersized text or computed contrast failures. A fresh Orca worktree screenshot was also inspected and saved outside the repository at `film/C2/scratch/final-orca-review.jpg`. The remaining final-state correction, pitch and reproducible verification evidence are included in the completion commit.
+
+## Round 2
+
+Read the director's polished shortlist, C2 checker finding and round 1 record. Preserved `after-390.png` and `after-1440.png` as `r1-390.png` and `r1-1440.png` before editing; matching JSON copies retain the round 1 timing baseline. The checker teaching-hours correction is already present and remains 16px.
+
+### Wider duet and earlier faces
+
+The desktop lesson braid now has a reserved 160px lane rather than 64px, with wider bends, thicker strands and alternating over/under crossings. Rebalanced the two lesson columns to retain the steps' reading width. Intermediate widths have a 100px lane; the successful 58px phone braid is unchanged. Shortened the phone portrait ribbon space from 100px to 60px, preserving its arrival on both photo frames while bringing both names 40px earlier.
+
+Inspected `scratch/r2-braid-1440.png`: 4,715px / 5.2 screens, median 6.1ms / p95 6.2ms, 0% frames over 50ms, 0px overflow and 0 JavaScript errors at 4x CPU. Next: separate contact arrivals, then final strips and functional checks.
+
+### A strand for each contact route
+
+Moved the closing canvas from the heading to the paired contact routes. Each equally weighted strand now follows the same relaxed vertical bend from its tutor's name to beside the Email button. Their shapes remain parallel whether the routes sit side by side or stack on a phone. Reserved 56px gutters keep every painted pixel clear of names, subjects, emails and actions, and removing the separate phone ribbon band shortens the ending. The renderer still uses one physical canvas, stays event-driven and idle at rest, and preserves settled reduced motion and CSS strands without JavaScript.
+
+Inspected focused contact screenshots at 390 and 1440 plus the Orca worktree browser capture. Expanded `verify.cjs` to check both actual painted contact arrivals and their clearance, desktop braid width and lesson-text clearance; removed the incorrect teaching-hours body-scan exemption. All checks pass at 390, 320 and 1440, including exact original copy/placeholder comparisons, touch swap, pause/resume, disclosures, focus, reduced motion and idle rendering. No overflow, JavaScript errors, undersized body/labels or computed-colour contrast failures. Full final film runs follow.
+
+### Final Round 2 validation
+
+Overwrote and visually inspected `after-390.png`, `after-1440.png` and the single required 320px film run, `after-320.png`, in `C:/Users/evans/geo/polish-run/film/C2/`. Matching JSON files record fresh real-wheel runs at 4x CPU. Round 1 phone/desktop PNGs and timing JSON remain under the `r1-` names. Also inspected `scratch/r2-contact-390.png`, `scratch/r2-contact-1440.png` and the worktree-scoped Orca capture `scratch/r2-orca.jpg`.
+
+| Viewport | Round 1 height / screens | Round 2 height / screens | Round 1 / Round 2 p95 | Overflow / JS errors |
+|---|---|---|---|---|
+| 390 x 844 | 6,786px / 8.0 | 6,645px / 7.9 | 6.2 / 6.2ms | 0px / 0 |
+| 1440 x 900 | 4,715px / 5.2 | 4,715px / 5.2 | 6.2 / 6.2ms | 0px / 0 |
+| 320 x 568 | 7,217px / 12.7 | 7,102px / 12.5 | 6.2 / 6.2ms | 0px / 0 |
+
+All three final runs report median 6.1ms and 0% frames over 50ms. These are local headless frame intervals, not real-phone certification. The complete opening ends at y942 at 390 and y943 at 320, with separate readable rates still above both portraits. Round 2 saves another 141px at 390 and 115px at 320 without cutting copy, claims, reviews or readable type.
+
+`verification.json` records all functional checks passing, including the teaching-hours sentence in the body-size scan. No unresolved Round 2 implementation issue. The supplied Eugene details and enquiry-form placeholders still need the same content/route decisions before launch; both Barney reviews remain clearly attributed to him. All changes stay inside this concept folder and no images are committed.

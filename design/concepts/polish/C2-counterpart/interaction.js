@@ -22,7 +22,13 @@
   }
   function draw(kind, w, h, p) {
     const paths = [], vertical = kind === 1;
-    const thickness = vertical ? 16 : Math.min(29, Math.max(20,w*.055));
+    const thickness = kind === 2 ? 18 : vertical ? Math.min(24, Math.max(16,w*.15)) : Math.min(29, Math.max(20,w*.055));
+    const contact = kind === 2 ? document.querySelector('.contact-pair').getBoundingClientRect() : null;
+    const routes = kind === 2 ? [...document.querySelectorAll('.contact-route')].map(el => ({
+      route: el.getBoundingClientRect(),
+      name: el.querySelector('h3').getBoundingClientRect(),
+      action: el.querySelector('.button').getBoundingClientRect()
+    })) : [];
     for (let side = 0; side < 2; side++) {
       const sign = side ? 1 : -1, points = [];
       for (let i = 0; i <= 120; i++) {
@@ -37,12 +43,17 @@
         } else if (kind === 1) {
           // The four crossings follow the lesson sequence, not its durations.
           y = h * (.025 + .95*t);
-          x = w/2 + sign*w*.29*Math.sin(t*Math.PI*4 + (1-p)*.65 + swap*Math.PI);
+          x = w/2 + sign*w*(w>80?.34:.29)*Math.sin(t*Math.PI*4 + (1-p)*.65 + swap*Math.PI);
           x += Math.sin(t*Math.PI)*pointer*3;
         } else {
-          // The braid relaxes into two quiet parallel strokes at contact.
-          x = w * (.09+.82*t);
-          y = h*.5 + sign*h*.16 + Math.sin(t*Math.PI*2)*h*.10*(1-p);
+          // Each strand settles beside its own tutor's email action.
+          // Identical bends keep the two routes parallel, including when stacked.
+          const {route,name,action} = routes[side];
+          const from = name.top-contact.top+5;
+          const to = action.top-contact.top+action.height/2;
+          x = route.left-contact.left+22 + Math.sin(t*Math.PI*2)*9*(1-p*.45);
+          x += ease(clamp((t-.65)/.35))*10;
+          y = from+(to-from)*t;
         }
         points.push([x,y]);
       }
@@ -96,7 +107,7 @@
   const play=document.querySelector('.play'),pause=document.querySelector('.pause');
   play.addEventListener('click',()=>{target=target?0:1;origin=swap;start=performance.now();active=!reduced.matches&&!paused;if(!active)swap=target;play.setAttribute('aria-pressed',String(!!target));request();});
   pause.addEventListener('click',()=>{paused=!paused;frozen=Number(host?.dataset.progress||.8);active=false;swap=target;pointer=0;pause.setAttribute('aria-pressed',String(paused));pause.textContent=paused?'Resume ribbons':'Pause ribbons';request();});
-  document.querySelectorAll('.portrait-stage,.lesson-journey,.contact-heading').forEach(el=>{
+  document.querySelectorAll('.portrait-stage,.lesson-journey,.contact-pair').forEach(el=>{
     el.addEventListener('pointermove',e=>{if(reduced.matches||paused||e.pointerType==='touch')return;const r=el.getBoundingClientRect();pointer=(e.clientX-r.left)/r.width-.5;request();},{passive:true});
     el.addEventListener('pointerleave',()=>{pointer=0;request();},{passive:true});
   });

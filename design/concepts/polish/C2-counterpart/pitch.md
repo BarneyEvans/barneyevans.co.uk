@@ -1,6 +1,6 @@
 # Counterpart, polished
 
-Two rose and plum ribbons belong to two equally prominent tutors. They open onto the portrait frames, weave alongside the lesson sequence and settle into parallel strokes at contact.
+Two rose and plum ribbons belong to two equally prominent tutors. They open onto the portrait frames, weave alongside the lesson sequence and settle beside each tutor's contact route.
 
 Open `index.html` directly. Photos, Manrope, its licence, styles and the renderer are local; there is no build step or network dependency.
 
@@ -13,8 +13,8 @@ Body copy is at least 16px and small readable labels at least 13px. Stronger wei
 ## Three ribbon moments
 
 1. **Separate, at the portraits.** Broad independent ribbons open outward onto the two photo frames. Scrolling and pointer movement gently change their bend without crossing them.
-2. **Braided, along the journey.** The same pair returns as a substantial vertical over/under weave beside the four Computer Science lesson steps. Its four crossings follow the sequence without encoding the approximate durations. The steps and first-person explanation remain attributed to Barney.
-3. **Parallel, at contact.** The two colours remain equally weighted as the paths flatten into quiet parallel strokes above the contact choices. They stay parallel throughout the settling movement.
+2. **Braided, along the journey.** The same pair returns as a substantial vertical over/under weave beside the four Computer Science lesson steps. Round 2 widens its desktop lane from 64px to 160px and strengthens the bends and alternating crossings, with the steps' reading width preserved. Its four crossings follow the sequence without encoding the approximate durations. The steps and first-person explanation remain attributed to Barney.
+3. **Parallel, at contact.** Each equally weighted strand follows the same relaxed bend beside its own tutor's name and settles next to the Email button. Their matching curves remain parallel, side by side on desktop and translated down the stacked phone routes. Reserved gutters keep both strands clear of names, subjects, email addresses and actions.
 
 There is one canvas, moved between three reserved anchors as each chapter enters view. The pair is recognisable across those spaces; it never travels across reading text. The former price/profile and pre-review loops are removed. This is a three-moment story rather than five repeated full-width bands.
 
@@ -28,13 +28,13 @@ The renderer only schedules work for scroll, resize, pointer input or the finite
 
 Before and final filmstrips were inspected at phone and desktop widths. The final page was also checked in the Orca worktree browser. The strip tool scrolls with actual wheel events under 4x CPU throttling; these are local headless timings rather than physical-phone certification.
 
-| Viewport | Before height / screens | After height / screens | After p95 | Overflow / errors |
+| Viewport | Round 1 height / screens | Round 2 height / screens | Round 2 p95 | Overflow / errors |
 |---|---|---|---|---|
-| 390 x 844 | 7,544px / 8.9 | 6,786px / 8.0 | 6.2ms | 0px / 0 |
-| 1440 x 900 | 5,789px / 6.4 | 4,715px / 5.2 | 6.2ms | 0px / 0 |
-| 320 x 568 | Not supplied | 7,217px / 12.7 | 6.2ms | 0px / 0 |
+| 390 x 844 | 6,786px / 8.0 | 6,645px / 7.9 | 6.2ms | 0px / 0 |
+| 1440 x 900 | 4,715px / 5.2 | 4,715px / 5.2 | 6.2ms | 0px / 0 |
+| 320 x 568 | 7,217px / 12.7 | 7,102px / 12.5 | 6.2ms | 0px / 0 |
 
-The 390px page is 758px shorter and the desktop page 1,074px shorter. At both phone widths the entire opening, including portrait captions, ends at approximately 983px. The supplied copy and placeholder comparison passes, as do touch swap, pause/resume, native disclosure, visible skip-link focus, idle rendering, all three ribbon states, the 2x resolution cap, reduced-motion stillness and content without JavaScript. The computed-colour scan found no text below 4.5:1, no readable text below 13px and no body text below 16px; it does not replace visual checking of composited backgrounds.
+Round 2 shortens the 390px page by another 141px and the 320px page by 115px. The shorter portrait ribbon lead-in brings both names 40px earlier: the complete opening ends at 942px at 390 and 943px at 320. Original v3 to final savings are 899px on the 390px phone and 1,074px on desktop. The supplied copy and placeholder comparison passes, as do touch swap, pause/resume, native disclosure, visible skip-link focus, idle rendering, all three ribbon states, the 2x resolution cap, reduced-motion stillness and content without JavaScript. Checks also confirm both painted contact arrivals and their clearance from text, and the wider desktop braid's separation from the steps. The computed-colour scan found no text below 4.5:1, no readable text below 13px and no body text below 16px; it does not replace visual checking of composited backgrounds.
 
 `verification.json` records these functional checks. Reproduce them with:
 

@@ -42,3 +42,25 @@ footer{padding-block:24px}
 
 /* Checker batch 2 must-fix: the teaching-hours sentence is body copy, so 16px. */
 .taught{font-size:16px}
+
+/* Round 2: make room for the duet without narrowing the lesson text. */
+@media(min-width:1101px){
+ .lesson-layout{grid-template-columns:.85fr 1.15fr;gap:64px}
+ .lesson-journey{padding-left:184px}
+ .lesson-journey .motion-scene{width:160px}
+}
+@media(min-width:761px) and (max-width:1100px){
+ .lesson-journey{padding-left:124px}
+ .lesson-journey .motion-scene{width:100px}
+}
+@media(max-width:760px){.portrait-stage .motion-scene{height:60px}}
+
+/* One closing strand belongs beside each tutor, in a reserved gutter. */
+.contact-heading{display:block}
+.contact-pair{position:relative;isolation:isolate}
+.contact-route{position:relative;min-width:0;padding-left:56px}
+.contact-pair .motion-scene{display:block;position:absolute;inset:0;width:100%;height:100%;margin:0}
+.contact-route:before{content:'';position:absolute;left:17px;top:8px;width:12px;height:100px;border-radius:20px;background:#e7a9b4}
+.contact-route+.contact-route:before{background:#bc9ab7}
+.contact-pair .motion-scene:before,.contact-pair .motion-scene:after,.js .contact-route:before{display:none}
+@media(max-width:760px){.contact-route+.contact-route:before{top:33px}}

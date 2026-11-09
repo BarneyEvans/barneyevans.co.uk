@@ -7,8 +7,8 @@ The obvious sketchbook is a collage of bordered cards and school doodles. This i
 
 ## Scroll story
 1. A loose ink connector joins the inner portrait edges. Its visible loop settles into an open curve as the portraits pass through the viewport. “Send a little mark” sends a blue dot to the other portrait, with an answering apricot ring; faces and names stay still.
-2. In Barney's lesson section the same blue-and-apricot ink becomes an ordered route through the actual centres of the four numbered steps. A travelling dot and filled current marker follow the reader's scroll. Approximate timings remain separate text, never a proportional timeline.
-3. At contact the drawing resolves into a rounded connector that physically meets both email buttons. A small completed ring sits in its middle. On phones it runs through the spare left margin, clear of names, emails and actions.
+2. In Barney's lesson section the portrait's recognisable folded bend turns downwards through the actual centres of the four numbered steps. The fold gradually opens out; the last stretch settles beside Wrap Up into a complete ring. A travelling dot follows the curve itself and the filled current marker follows the reader's scroll. Approximate timings remain separate text, never a proportional timeline.
+3. At contact that same bend relaxes into an open curve that physically meets both email buttons. A small completed ring sits on the curve. On phones it bows through the spare left margin, clear of names, emails and actions.
 
 The signature is the loose-to-ordered transition: answer between two people, find the lesson steps, then join two contact routes. The unrelated subject, biography and review lines have been removed. Nothing must be operated to understand the offer. Separate GCSE and A-Level rate rows now sit immediately after Enquire and before the portraits; detailed phone pricing uses full-width rows.
 
