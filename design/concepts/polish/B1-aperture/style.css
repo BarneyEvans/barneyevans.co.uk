@@ -111,3 +111,6 @@ footer .brand{font-size:15px}
  .step-number{width:40px;height:40px;font-size:14px}
 }
 @media(max-width:350px){.beam-meeting{gap:22px}.meeting-photo{width:100px;height:120px}.meeting-person strong{font-size:15px}}
+
+/* Checker batch 1 must-fix: opening rate amounts at least 16px on tablets and phones, including the 350px override. */
+@media(max-width:1100px){.quick-facts strong{font-size:16px}}
