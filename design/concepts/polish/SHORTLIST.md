@@ -2,131 +2,151 @@
 
 Barney, open these three first:
 
-- **[G12 Light Greenhouse](G12-light-greenhouse/index.html): my choice to build.** It puts you both up front, makes the prices easy to find and finishes in a warm glasshouse. It brings the best parts of G1 and G2 together without the planting controls.
-- **[C1 Soft Assembly](C1-soft-assembly/index.html): the playful alternative.** The pieces now build beside useful information. The bridge and opening doorway are things someone could remember and describe.
-- **[B2 Wave Study](B2-wave-study/index.html): the quieter science alternative.** Friendly colour, clear faces and waves that become the lesson steps. It feels comfortable for sixth form as well as parents.
+- **[G12 Light Greenhouse](G12-light-greenhouse/index.html): my choice to build.** You both appear early, prices are easy to find, and the light now visibly reaches the lesson steps and warm golden ending. The extra biography text finally gets the whole phone width.
+- **[C1 Soft Assembly](C1-soft-assembly/index.html): the playful alternative.** The bridge, building steps and opening door still have personality. Overnight, the quotation pieces stopped squeezing the reviews and the doorway moved above a readable contact heading.
+- **[B2 Wave Study](B2-wave-study/index.html): the quieter science alternative.** Faces and prices fit the first phone screen. The waves now spread out before gathering into lesson dots; the wider desktop opening needs a little more grace.
 
-G2 is a close second overall; compare it with G12 if you prefer more glow and less architecture. These three first looks give you different directions, rather than three versions of the garden. Choose one for the next pass. The notes below are alternatives, not a request for ten more builds.
+The biggest overnight improvement is simply being able to read: the obstructive headers and Pause docks are gone. G1 and B1 each shed about half a phone screen; G12 and C1 grew slightly to give their visual moments room. **G2 remains second overall**, and is the one to compare with G12 if you prefer its lilac glow to the glasshouse. The three first looks above offer different directions. Choose one; these notes are not a request for ten more builds.
 
 ## The ten, in ranked order
 
 ### 1. [G12 — Light Greenhouse](G12-light-greenhouse/index.html)
 
-**Better:** The shared portrait arch, humane lesson opening and golden ending give G2's useful structure more warmth; at 6.7 phone screens it is much shorter than G1's 8.7.
+**Better:** The clearest balance of people, practical information and a memorable ending; the light now feels purposeful.
 
-**Still holds it back:** The travelling light often dwindles to a tiny margin dot, so the combination has lost some of G2's optical magic; it also inherits the obstructive header and narrow expanded biographies.
+**Still holds it back:** Between arrivals it still retreats to a margin speck; the phone journey grows from 6.7 to 6.9 screens.
 
-**Round 2:**
+**After round 2:**
 
-1. Make the phone header scroll away; put Pause in the page near the paired cells, lessons and contact.
-2. Give the same light a clearly visible arrival at the paired cells, each lesson stop and the golden arch. Reserve space for those moments so protecting text does not shrink the light almost out of sight.
-3. Open extra biography text across the full phone width beneath the pair. Keep the two faces and their main credentials side by side above it.
+1. Landed: header scrolls away, with Pause beside the pair, lessons and contact.
+2. Landed: visible light gathers at the paired cells, lesson stops and golden arch.
+3. Landed: expanded biographies span the phone beneath the paired introduction.
+
+**Remaining:** Give the light a gentler visible transition between its arrivals, without adding more page height.
 
 ### 2. [G2 — Light Garden](G2-light-garden/index.html)
 
-**Better:** Large equal desktop portraits, three separate opening subject rows, visible credentials and a stronger lesson stem make the people and offer much clearer; the lilac ending still has real character.
+**Better:** The generous glow and lilac ending retain their character; opening a biography is now comfortable.
 
-**Still holds it back:** The glow is more memorable than G12's, but the optional garden interrupts the route to detailed prices, the sticky header still covers them, and opened details become long, thin phone columns.
+**Still holds it back:** The optional planting area still delays detailed subjects, despite the early rate summary.
 
-**Round 2:**
+**After round 2:**
 
-1. Apply the same scrolling header and in-flow Pause treatment as G12.
-2. Make expanded biographies full width on phones, leaving the paired introduction intact.
-3. Reduce the optional planting area's bottom gap and put its controls beside the existing invitation; retain the visible colonies and generous contact light.
+1. Landed: scrolling header and repeated in-flow Pause remove the obstruction.
+2. Landed: full-width phone biographies preserve the paired faces above.
+3. Partly landed: controls sit by the invitation and colonies survive, but the whole phone page is only 34px shorter.
+
+**Remaining:** Trim the planting area's lower gap once more, keeping the visible garden.
 
 ### 3. [C1 — Soft Assembly](C1-soft-assembly/index.html)
 
-**Better:** The bridge, building steps, quotation pieces and opening door now belong to the content; this is the clearest improvement in the relationship between motion and reading.
+**Better:** Reviews read naturally and the doorway feels welcoming; its construction idea survives the cleanup.
 
-**Still holds it back:** The enlarged quotation pieces squeeze the first lines of reviews, and the phone doorway forces “Ready to get started?” into an awkward narrow column.
+**Still holds it back:** At 8.5 phone screens it is now the longest of the ten, up from 8.2 last round.
 
-**Round 2:**
+**After round 2:**
 
-1. Put the quotation pieces above the first line or in a smaller side space, keeping the full review comfortably wide.
-2. Place the phone doorway above the contact heading, keeping its opening movement and allowing the heading two natural lines.
-3. Shorten the gap from the price section to the bridge on desktop; keep the bridge itself large enough to read as a construction.
+1. Landed: quotation pieces sit above the reviews, freeing their first lines.
+2. Landed: the phone door opens above a natural two-line contact heading.
+3. Landed locally: desktop prices lead into the large bridge sooner, although the total page is slightly longer.
+
+**Remaining:** Recover some phone space around the quotation pieces and doorway without putting either beside narrow text again.
 
 ### 4. [B2 — Wave Study](B2-wave-study/index.html)
 
-**Better:** Prices and faces fit into the opening phone screen, biographies are tighter, and the wave becoming dots through the lesson steps is much more convincing than the old repeated dividers.
+**Better:** The broad wave returns before the lesson dots; the restrained colours still suit older students.
 
-**Still holds it back:** The original broad desktop wave has become a small decoration behind the portraits; the thin line down the page's edge is orderly but less expressive.
+**Still holds it back:** The new desktop opening wave bends around the portraits like a thick border.
 
-**Round 2:**
+**After round 2:**
 
-1. Extend the opening wave across more of the desktop composition without moving the headline, prices or portraits.
-2. Give its passage into the lesson samples one visible widening and gathering, so the change is noticeable without hunting in the margin.
-3. Let the two contact waves briefly regain the opening shape before settling; preserve the clear, still email actions.
+1. Partly landed: the opening spans more of the composition, but its U-turn feels engineered.
+2. Landed: a visible broad wave gathers into the lesson sequence.
+3. Landed: contact waves regain a crest during arrival, then settle above still email actions.
+
+**Remaining:** Make the desktop opening turn feel like a passing wave rather than a frame.
 
 ### 5. [G1 — Greenhouse](G1-greenhouse/index.html)
 
-**Better:** Early rate rows and open subject sections improve the practical welcome without losing the sage glasshouse or the warmth of Barney's lesson quotation.
+**Better:** Smaller secondary portraits remove repetition and save 468px on phones; the sage glasshouse remains warm.
 
-**Still holds it back:** The phone journey is almost as long as before, with another large set of portraits, while the travelling sunlight often looks like a tiny decorative badge.
+**Still holds it back:** At 8.1 screens it still takes longer than either light-garden direction; the new sunlight is quite diffuse.
 
-**Round 2:**
+**After round 2:**
 
-1. Remove the sticky phone Pause dock and repeat an in-flow Pause beside the motion chapters.
-2. Reduce the second portrait set to small, equal profile images and tighten the planting-to-profile gap; retain the visible qualifications and full experience disclosures.
-3. Make the moving sunlight a soft pool that grows at the lesson stem and contact arch, rather than relying on the little petal-like symbol to carry the journey.
+1. Landed: Pause scrolls away and returns beside the motion chapters.
+2. Landed: small equal profile images, a tighter approach and intact experience disclosures.
+3. Partly landed: a soft pool grows at lessons and contact, but removing the petal symbol loses a recognisable travelling character.
 
-### 6. [A1 — Good Thread](A1-good-thread/index.html)
+**Remaining:** Give the pool a recognisable centre at its arrivals, without restoring the tiny badge as the whole effect.
 
-**Better:** Cleaner portrait frames, readable early rates and a thread that actually meets the lesson markers make this more grown-up and easier to follow.
+### 6. [C2 — Counterpart](C2-counterpart/index.html)
 
-**Still holds it back:** The straighter type and long right-angled thread have polished away some of its handmade warmth; parts of the seam now resemble a pipe around rectangular sections.
+**Better:** The wider desktop braid finally reads as two strands crossing; the phone introduction arrives sooner.
 
-**Round 2:**
+**Still holds it back:** The closing strands now belong to the tutors, but look like separate decorative brackets.
 
-1. Keep the useful route, but give its turns around the portraits, lessons and review one relaxed curve each; avoid long rectangular outlines.
-2. Let the pluck visibly travel along that same seam into the other portrait, then settle into the simple closing loop. Keep faces and text stationary.
+**After round 2:**
 
-### 7. [C2 — Counterpart](C2-counterpart/index.html)
+1. Landed: the desktop braid uses the spare width and keeps the steps clear.
+2. Landed spatially: each strand reaches its own contact route; their shared relationship is weaker at rest.
+3. Landed: the shorter phone lead-in helps remove 141px overall.
 
-**Better:** Stronger text, earlier prices and three distinct ribbon states replace the old parade of almost identical loops; the phone lesson braid is a clear improvement.
+**Remaining:** Let the two contact strokes share one recognisable bend before resting beside their respective actions.
 
-**Still holds it back:** The broad desktop duet has shrunk to a thin braid beside the lesson list, and the two closing strokes read more like an equals sign than two people reconnecting.
+### 7. [A1 — Good Thread](A1-good-thread/index.html)
 
-**Round 2:**
+**Better:** Softer turns and a travelling pluck bring back some handmade warmth without moving the people or copy.
 
-1. Widen the desktop braid into the spare space beside the steps, keeping all text clear and making each crossing visible.
-2. Let each closing strand arrive beside its own tutor's contact route, preserving their parallel relationship.
-3. Shorten the empty ribbon lead-in above the phone portraits so the names arrive sooner.
+**Still holds it back:** Long stretches still trace the edges of rectangular colour panels.
+
+**After round 2:**
+
+1. Partly landed: portrait, lesson and review turns relax, but the overall route still reads as a border.
+2. Landed: the pluck moves through both portraits and along the seam; the closing loop remains simple, though most of the trip is offscreen on a phone.
+
+**Remaining:** Shorten one long perimeter detour so the thread feels drawn between people and ideas, rather than around containers.
 
 ### 8. [G3 — Lab Notebook / A closer look](G3-lab-notebook/index.html)
 
-**Better:** Upright people, readable prices and the removal of graph paper and handwritten clutter produce the biggest rescue in the set; the shared microscope world survives.
+**Better:** One recognisable cluster makes the changes of scale understandable without reading simulation rules.
 
-**Still holds it back:** Removing the notebook costume was right, but the remaining dishes feel like separate scientific exhibits, and the simulation rules still ask a parent to study the mechanism.
+**Still holds it back:** The separate lenses still feel like exhibits; the smaller final specimen loses some of the previous immersive contact scene.
 
-**Round 2:**
+**After round 2:**
 
-1. Let the phone masthead scroll away and keep Pause in flow beside the lenses.
-2. Move the cell-rule explanation and pattern choices into an optional experiment disclosure; keep the still microscope scenes visible.
-3. Follow one recognisable cluster through the three scales, enlarging its nucleus near the lessons so the change is understood without magnification labels.
+1. Landed: masthead scrolls away; Pause stays beside each lens.
+2. Landed: rules and pattern choices are optional, while the specimen remains visible.
+3. Landed: the same mixed cluster and enlarged nucleus connect the three scales, with touch inspection working.
+
+**Remaining:** Let that same specimen occupy more of the contact enclosure, preserving the clear email actions.
 
 ### 9. [A2 — Little by Little](A2-little-by-little/index.html)
 
-**Better:** The price rows are comfortable to read and the paired drawing, lesson path and contact connection now form a simple sequence.
+**Better:** The lesson scribble and curved contact connection recover some looseness without costing space.
 
-**Still holds it back:** It remains reassuring but easy to forget; the tidy vertical lesson line and rectangular phone contact connector have weakened the original loose drawing.
+**Still holds it back:** Its tidy blue sections remain more familiar than memorable.
 
-**Round 2:**
+**After round 2:**
 
-1. Carry one recognisable bend from the portrait scribble into the lesson path, then let it visibly settle at the final step.
-2. Replace the rectangular contact connector with a relaxed curve between the two actions, keeping the blue/apricot identity and current legibility.
+1. Landed: the portrait bend returns beside the lesson numbers and settles at the final step.
+2. Landed: a relaxed phone curve replaces the rectangular connector; blue/apricot and legibility survive.
+
+**Remaining:** No further small polish request; choose it for its reassurance, not because it has caught up with the strongest visual ideas.
 
 ### 10. [B1 — Aperture](B1-aperture/index.html)
 
-**Better:** Cream and apricot, the student-paced quotation and stacked phone rates soften a clear, credible offer; the beam now reaches the actual lesson markers.
+**Better:** Compact profile headings and softer ray branches make it appreciably quicker and less mechanical.
 
-**Still holds it back:** The phone page has grown from 8.1 to 8.7 screens, and the long bent beam resembles wiring more than optics; it remains the least welcoming of the developed directions.
+**Still holds it back:** The optical idea is strongest in the opening; later rays remain small ornaments, and the overall tone is still the coolest of the set.
 
-**Round 2:**
+**After round 2:**
 
-1. Fold the second paired portrait scene into the profile headings, removing the repeated names and surrounding space while preserving the beam's meeting point.
-2. Replace the long right-angled perimeter route with a few soft ray branches that gather at subjects, lessons and contact; keep the original responsive aperture as their source.
-3. Tighten the lesson rows and the gap before reviews, preserving all copy and readable type. Recover at least the extra half-screen added on phones.
+1. Landed: the repeated paired portrait scene becomes small profile images with their beam meeting points.
+2. Landed: soft branches replace the perimeter wiring; the responsive aperture remains the source.
+3. Landed: tighter lessons and spacing recover roughly 500px, returning phones from 8.7 to 8.1 screens.
+
+**Remaining:** Give one later ray convergence the presence of the opening aperture; more spacing polish alone will not distinguish it.
 
 ## Ranking
 
@@ -135,20 +155,18 @@ G2 is a close second overall; compare it with G12 if you prefer more glow and le
 3. C1 Soft Assembly
 4. B2 Wave Study
 5. G1 Greenhouse
-6. A1 Good Thread
-7. C2 Counterpart
+6. C2 Counterpart
+7. A1 Good Thread
 8. G3 Lab Notebook / A closer look
 9. A2 Little by Little
 10. B1 Aperture
 
-C1 rises because its changing pieces finally do something useful. G1 drops because its most obvious pacing problem barely changed. G3 earns a second look after a substantial cleanup. B1 falls because the warmer surface has not made its longer journey more memorable. These are judgments about the direction worth developing, not measured parent preferences.
+C2 passes A1 because its wider braid and tutor-specific ending now make a clearer visual sequence than A1's softened panel outlines; the other improvements do not change my order. These are creative judgments, not measured parent preferences.
 
 ## What I checked, and what remains
 
-I compared all nine original/polished filmstrip pairs at 390 and 1440px, and G12 against its two polished parents. I read all ten polish notes, both [polish checker reports](reviews/checker-1.md), [batch 2](reviews/checker-2.md), the earlier shortlist, panel, checker and harvest. I then opened every current page in headless Edge at **390 × 844 and 1440 × 900**, scrolled each to its actual end with wheel input at 4× CPU, inspected fresh captures and tried its available drawing, garden, profile, Pause and enquiry interactions.
+I compared all ten round-one/round-two strip pairs at both widths and read [checker 3a](reviews/checker-3a.md) and [checker 3b](reviews/checker-3b.md). I opened every current page in headless Edge at **390 × 844 and 1440 × 900**, scrolled to the actual end with wheel input at 4× CPU, inspected fresh captures and tried the available motion controls, profile/experience disclosures and Enquire links, with focused touch follow-ups.
 
-All 20 runs reached contact with no JavaScript errors or document-width overflow. Targeted follow-ups confirmed both G3 profile reverses and their return controls work after the transition. G12's paired cells answered a touch, Pause stopped growth, and reduced motion stayed still. The supplied films/checkers report frame intervals below the 20ms target; that is local browser evidence, not a real-phone guarantee. Screenshots and review records remain outside Git at `C:/Users/evans/geo/polish-run/film/_director/`.
+All 20 runs reached contact with no JavaScript errors or document-width overflow; no header or Pause control remained fixed/sticky. Targeted checks confirmed both G3 profile reverses, return controls and the extra experience disclosure work after the transition settles. The checkers found no remaining must-fix after darkening B1's timing label, and report passing sampled contrast, keyboard, reduced-motion and 320px checks. Their frame results are local browser evidence, not a real-phone guarantee. Fresh screenshots and interaction records remain outside Git at `C:/Users/evans/geo/polish-run/film/_director2/`.
 
-**Some checker findings are already fixed:** A1's Pause row now scrolls away, B1's opening prices are 16px, C2's teaching-hours sentence is 16px, and G1's contact heading colour has been darkened. **One shared fault remains:** I reproduced Pause covering a rate on G1, G2, G3 and the new G12. A sticky header row is not protected reading space. G12 was not in either checker batch; its focused interaction review here does not replace the full launch checks.
-
-Before launch, supply the final name and Eugene's four rates, exam boards, lesson format, biography and real email; choose and complete the enquiry route. Keep all reviews explicitly Barney's. Once one direction is chosen, check its final motion and reading order on a real phone and with real parents and students. The next visual pass should protect its three memorable moments, rather than making every page quieter again.
+Before launch, supply the final name and Eugene's four rates, boards, lesson format, biography and real email; complete the enquiry route and keep reviews explicitly Barney's. Test the chosen direction on a real phone and with parents and students. Protect its memorable moments as well as its readability.
