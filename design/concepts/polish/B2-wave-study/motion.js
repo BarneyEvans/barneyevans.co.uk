@@ -25,11 +25,13 @@
   const traveller = make('circle', {r:5, class:'traveller', opacity:0}, art);
   const welcome = path('welcome-wave');
   const welcomeEdge = path('welcome-edge');
+  const gathering = path('gathering-wave');
+  const gatheringEdge = path('gathering-edge');
   const lesson = path('lesson-wave');
   const lessonBody = path('lesson-body');
   const samples = Array.from({length:49}, () => make('circle', {r:3.8, class:'wave-sample', opacity:0}, art));
   const endings = contacts.map(() => ({body:path('contact-body'), line:path('contact-wave'), dot:make('circle',{r:6,class:'contact-dot', opacity:0},art)}));
-  let box, marks, ends, top, height, gutter, exitY, queued=0, dirty=true, paused=false;
+  let box, opening, gatheringBox, marks, ends, top, height, gutter, exitY, queued=0, dirty=true, paused=false;
   let pointer = {x:0,y:0,active:false};
   const curve = points => points.map((p,i) => `${i?'L':'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
   function measure() {
@@ -37,8 +39,12 @@
     const relative = el => { const b=el.getBoundingClientRect();return {x:b.left,y:b.top+scrollY-top,w:b.width,h:b.height}; };
     const v = relative(visual); const pair=relative(document.querySelector('.portrait-pair'));
     box={x:v.x-10,y:pair.y+pair.h*.31,w:v.w+20,h:pair.h};
+    const copy=relative(document.querySelector('.hero-copy'));
+    opening={x:copy.x-24,y:Math.max(copy.y+copy.h+44,v.y+v.h+34),w:box.x+box.w-copy.x+24};
     marks=steps.map(el=>{const b=relative(el);return {x:b.x+b.w/2,y:b.y+b.h/2};});
-    ends=contacts.map(el=>{const b=relative(el);return {x:b.x,y:b.y+2,w:b.w,h:b.h};});
+    const lessonBox=relative(document.querySelector('.lessons'));
+    gatheringBox={x:lessonBox.x+8,y:marks[0].y-77,w:lessonBox.w-16};
+    ends=contacts.map(el=>{const b=relative(el);return {x:b.x,y:b.y+22,w:b.w,h:b.h};});
     gutter=Math.max(8,(document.querySelector('.subjects').getBoundingClientRect().left)*.45);
     art.setAttribute('width',innerWidth);art.setAttribute('height',height);
     gradient.setAttribute('x2',innerWidth);
@@ -46,24 +52,51 @@
     const exit=relative(document.querySelector('.hero'));
     exitY=exit.y+exit.h-16;
     const right=innerWidth-gutter/2;
-    rail.setAttribute('d',`M${box.x+box.w} ${box.y} Q${right} ${box.y} ${right} ${box.y+35} L${right} ${exitY-20} Q${right} ${exitY} ${right-20} ${exitY} L${gutter+20} ${exitY} Q${gutter} ${exitY} ${gutter} ${exitY+20} L${gutter} ${first.y-40} Q${gutter} ${first.y} ${first.x} ${first.y} M${gutter} ${first.y-40} L${gutter} ${last.y-30} Q${gutter} ${last.y} ${last.x} ${last.y}`);
+    const lead=innerWidth>760?`M${opening.x} ${opening.y} Q${gutter} ${opening.y} ${gutter} ${opening.y+30}`:`M${box.x+box.w} ${box.y} Q${right} ${box.y} ${right} ${box.y+35} L${right} ${exitY-20} Q${right} ${exitY} ${right-20} ${exitY} L${gutter+20} ${exitY} Q${gutter} ${exitY} ${gutter} ${exitY+20}`;
+    rail.setAttribute('d',`${lead} L${gutter} ${first.y-40} Q${gutter} ${first.y} ${first.x} ${first.y} M${gutter} ${first.y-40} L${gutter} ${last.y-30} Q${gutter} ${last.y} ${last.x} ${last.y}`);
     dirty=false;
   }
   const visible = (y,h=0) => y+top+h>scrollY-80 && y+top<scrollY+innerHeight+80;
   const progress = (y,h) => clamp((scrollY+innerHeight-top-y)/(innerHeight+h));
+  const ease = n => {const p=clamp(n);return p*p*(3-2*p);};
+  // The same tapered crest and trough recur at the welcome, gathering and contact.
+  const wave = (t,phase=0) => Math.sin(t*Math.PI*2+phase)*Math.sin(t*Math.PI);
   function render() {
     queued=0;if(document.hidden)return;if(dirty)measure();
     const still=media.matches||paused;
     if(still||visible(box.y-box.h/2,box.h)) {
       const phase=still?0:progress(box.y,box.h)*1.6;
+      const desktop=innerWidth>760;
       const pts=Array.from({length:81},(_,i)=>{
         const t=i/80,x=box.x+t*box.w;
         const pull=pointer.active&&!still?pointer.y*Math.exp(-Math.pow((x-pointer.x)/95,2)):0;
-        return {x,y:box.y+Math.sin(t*Math.PI*2+phase)*Math.sin(t*Math.PI)*box.h*.24+pull};
+        return {x,y:box.y+wave(t,phase)*box.h*.24+pull};
       });
-      welcome.setAttribute('d',curve(pts));welcomeEdge.setAttribute('d',curve(pts));
+      let d=curve(pts);
+      if(desktop){
+        // A broad sweep beneath the facts turns through spare space outside the
+        // portraits. Its curve never needs to pass between prices and faces.
+        const sweep=Array.from({length:81},(_,i)=>{const t=i/80;return{x:opening.x+t*opening.w,y:opening.y+wave(t,phase)*18};});
+        const end=pts[80],outer=Math.min(innerWidth-34,end.x+94);
+        d=curve(sweep)+` C${outer} ${opening.y} ${outer} ${end.y} ${end.x} ${end.y} `+pts.slice(0,-1).reverse().map(p=>`L${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+      }
+      welcome.setAttribute('d',d);welcomeEdge.setAttribute('d',d);
     }
     const first=marks[0],last=marks[3],vertical=innerWidth<=760;
+    if(still||visible(gatheringBox.y-45,150)) {
+      // A full-width wave first widens, then gathers into the first lesson sample.
+      // The movement uses the reserved gap below the timetable heading.
+      const arrival=still?1:clamp((scrollY+innerHeight*.86-top-gatheringBox.y)/(innerHeight*.42));
+      const gather=ease((arrival-.28)/.72);
+      const width=gatheringBox.w*(1-gather)+34*gather;
+      const start=gatheringBox.x*(1-gather)+(first.x-17)*gather;
+      const y=gatheringBox.y+(first.y-gatheringBox.y)*gather;
+      const amplitude=(20+Math.sin(arrival*Math.PI)*18)*(1-gather);
+      const pts=Array.from({length:81},(_,i)=>{const t=i/80;return{x:start+t*width,y:y+wave(t)*amplitude};});
+      gathering.setAttribute('d',curve(pts));gatheringEdge.setAttribute('d',curve(pts));
+      gathering.style.opacity=((1-gather)*.34).toFixed(2);
+      gatheringEdge.style.opacity=((1-gather)*.9).toFixed(2);
+    }
     // A visible packet of this same wave accompanies the reading position.
     // Its entire width is reserved in the gutter; it never crosses the copy.
     const focus=scrollY+innerHeight*.43-top;
@@ -92,8 +125,10 @@
     }
     ends.forEach((b,i)=>{
       if(!still&&!visible(b.y,b.h))return;
-      const settle=still?1:clamp(progress(b.y,b.h)*2.1);
-      const pts=Array.from({length:65},(_,j)=>{const t=j/64;return{x:b.x+t*b.w,y:b.y+Math.sin(t*Math.PI*2)*(1-settle)*25};});
+      // Regain the opening profile, hold it briefly, then settle before the actions.
+      const arrival=clamp((scrollY+innerHeight-top-b.y)/Math.min(innerHeight*.45,b.h));
+      const settle=still?1:ease((arrival-.32)/.68);
+      const pts=Array.from({length:65},(_,j)=>{const t=j/64;return{x:b.x+t*b.w,y:b.y+wave(t)*(1-settle)*49};});
       endings[i].line.setAttribute('d',curve(pts));
       endings[i].body.setAttribute('d',curve(pts));
       endings[i].dot.setAttribute('cx',b.x+b.w/2);endings[i].dot.setAttribute('cy',b.y);

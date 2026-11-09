@@ -43,3 +43,25 @@ No implementation blocker remains. Eugene's rates, boards, format, biography, em
 ## Coordinator review: signature strength
 
 The coordinator asked that phone strips retain a clearly present, delightful travelling journey rather than reducing it to small icons and faint background. In response, the same beam now has a restrained luminous sheath and a clearer moving focus; it visibly divides into two generous arched windows around the real paired tutor portraits, continues to larger illuminated lesson markers, and gathers into a warm 66px contact focus with a 102px optical ring. These are branches of the existing page-length beam, not repeated divider scenes. Spare space is reserved around the portraits and above contact; the opening and all reading/action areas retain their hierarchy. A second responsive audit at 320/390/1440 found no overflow, low-contrast text, labels below 13px, broken anchors, unloaded images or JavaScript errors; touch, reduced motion, biography disclosure and Enquire still pass. All three refreshed strips have been visually inspected and their final numbers are recorded above. The final desktop is 6.8% shorter than before; the phone is 7.2% longer with readable type, stacked subject rates and the larger signature moment requested in review. No implementation blocker remains.
+
+## Round 2
+
+### Milestone 1: remove the repeated introduction
+
+Preserved the Round 1 after strips as `r1-390.png` and `r1-1440.png` before editing. Moved the equal optical portrait windows into the profile headings, removing the extra paired scene and duplicated names/subject labels. Credentials and all approved copy remain; phone lesson rows now place time beside the heading and use less vertical padding, and the gap into reviews is shorter. The opening, including its readable 16px rates, is unchanged. Optical branch replacement and new measured verification follow in milestone 2.
+
+### Milestone 2: soft optical fans and final verification
+
+Replaced the long right-angled perimeter with a few curved ray fans. They spread into the subject symbols, fold around the portraits in their actual profile headings, meet all four lesson numbers and reconverge into the warm contact focus. The original responsive aperture remains their source and the same warm moving focus follows each arrival. There is no line through the reviews or around the page perimeter. Phone lesson times share the title line, the markers remain in their reserved left gutter, and chapter gaps are tighter without reducing readable type or removing approved copy. Updated `pitch.md` to describe the final arrangement.
+
+Round 1 PNG headers record 7359px at 390 (the earlier notes recorded 7355px) and 5098px at 1440. Round 2 recovers **498px / 0.59 phone screens** against that supplied Round 1 film, returning to **8.1 screens**, effectively the original v3 length. Desktop recovers 309px. Final filmstrips were overwritten at the required paths and visually inspected, including 320px once.
+
+| Viewport | Page | Screens | p95 at 4x | Frames over 50ms | Overflow | JS errors |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 390 x 844 | 6861px | 8.1 | 6.2ms | 0% | 0px | 0 |
+| 1440 x 900 | 4789px | 5.3 | 6.2ms | 0.1% | 0px | 0 |
+| 320 x 568 | 7298px | 12.8 | 6.2ms | 0% | 0px | 0 |
+
+The opening completes at y778 at 390 and y780 at 320, preserving the early faces, full names, subjects, separate readable rate lines and Enquire. Automated checks at 320/390/1440 found no small body/rate text below 16px, no readable text below 13px, no computed solid-background contrast below 4.5:1, broken anchors, unloaded images or JavaScript errors. Touch changes the original aperture, the biography disclosure opens and Enquire reaches contact. Reduced-motion screenshots at opening, lessons and contact remain identical across a settled observation; pointer and scroll leave the aperture still. No autoplay or floating controls were introduced. `node --check motion.js` and `git diff --check` pass. The final composition also ran in Orca's embedded browser; final films, scene captures, QA script/results and browser capture stay outside Git in the strips folder and `scratch/r2-*`.
+
+All required credentials, experience claims, Barney's attributed lesson copy and complete reviews remain. No implementation issue remains; the existing dotted launch-content placeholders still require the supplied final content described above. Performance numbers are local 4x-throttled browser evidence, not physical-phone measurements.

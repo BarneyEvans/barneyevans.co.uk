@@ -81,3 +81,31 @@ The larger phone rate summary and restored garden space add 332px to round 1 at 
 qa.cjs passed at 390px and 1440px, plus its 320px, reduced-motion and JavaScript-disabled checks. It verified pause, planting, species choice, paired response, disclosures, preserved portraits/DBS, noindex, contact links and zero uncaught errors. The three foreground colors against the conservative darkest optical tint measured 4.75:1 to 4.89:1. Reduced motion remains planted and still, with no visible travelling light. Phone diagnostics at 4x CPU measured generation p95 2.9ms and drawing p95 2.2ms; these are function durations, separate from film frame spacing.
 
 Final artifacts: after-390.png, after-1440.png and after-320.png with matching JSON; interaction screenshots and results.json are under the OS temporary g2-light-garden-qa directory. No images were committed. All round-2 notes are complete, with no unresolved implementation blocker; the supplied-content placeholders and real-device/screen-reader launch follow-ups listed above remain unchanged.
+
+## Director Round 2 - shortlist pass, 9 November 2026
+
+This is the new director-shortlist pass after the earlier character-restoration pass that was also called Round 2. Copied the supplied after-390.png and after-1440.png to r1-390.png and r1-1440.png before editing, with JSON copies to preserve the numerical baseline: 5749px / 6.8 phone screens and 3957px / 4.4 desktop screens, p95 6.2ms, no overflow or errors.
+
+- Header now scrolls away at every width. Three synchronized in-flow Pause/Resume controls sit beside the tutor introduction, lesson steps and contact light. Reduced motion disables all three with a Still garden label.
+- Phone biography panels span both introduction columns below the paired faces and main credentials. Each panel has its tutor's name, full-size copy and working close/enquiry links; the equal front introductions remain intact. Desktop keeps its existing paired columns.
+- Garden controls now sit beside the invitation on wide layouts and immediately below it on phones. Reduced bottom planting space from 85px to 44px on phones (52px desktop), with a visible colony bed; Plant now seeds into that bed. The colonies, larger portraits, early separate subject/rate rows, lesson stem, optical traveller and generous lilac contact bloom are preserved.
+
+Initial interaction QA passed at 390/1440 plus 320, reduced motion and JavaScript disabled. Initial phone film: 5723px / 6.8 screens, p95 6.2ms, 0px overflow, zero errors. Visual review confirmed the full-width Eugene panel and revealed a lesson-heading wrap, now corrected; final verification follows.
+
+### Director Round 2 final verification
+
+Generated and visually inspected the required final 4x-CPU wheel-scroll films, overwriting after-390.png and after-1440.png and running after-320.png once. The r1 copies remain available beside them.
+
+| Viewport | Round 1 height / screens | Final height / screens | Median | p95 | Frames over 50ms | Overflow | JS errors |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 5749px / 6.8 | 5715px / 6.8 | 6.1ms | 6.2ms | 0% | 0px | 0 |
+| 1440 x 900 | 3957px / 4.4 | 3928px / 4.4 | 6.1ms | 6.2ms | 0.3% | 0px | 0 |
+| 320 x 568 | 6065px / 10.7 | 6032px / 10.6 | 6.1ms | 6.2ms | 0.2% | 0px | 0 |
+
+The phone is 34px shorter and desktop 29px shorter after adding the three local Pause controls. The optional planting gap is reduced without losing the visible colonies. Film review confirms clear prices, equal portraits, the travelling light and four lesson stops, and a generous contact bloom with no sticky controls obscuring content.
+
+Updated qa.cjs passed at 390/1440 plus 320, reduced-motion and no-JavaScript cases. It verifies three synchronized controls, a non-sticky header, full-width panels (350px at 390; 288px at 320), aligned paired introductions, preserved portraits/DBS, early 18px rates, planting, paired-cell response, contact links and zero uncaught errors. Text against the conservative darkest optical tint remains 4.75:1 to 4.89:1. Local phone diagnostic p95 function durations were 6.5ms for generation and 3.1ms for drawing, separate from the film frame intervals.
+
+Opened the working page in this worktree's Orca browser and reviewed desktop capture plus headless phone/desktop films and the expanded Eugene screenshot. External evidence: C:/Users/evans/geo/polish-run/film/G2/after-{390,1440,320}.png and matching JSON, director-r2-qa.json, and director-r2-biography-390.png. No images entered Git; git diff --check passed.
+
+No unresolved implementation blocker. Eugene's rates, boards, format, bio/email, the final site name and enquiry route remain visibly marked supplied-content placeholders; real-phone and human screen-reader checks remain launch follow-ups. Both full reviews remain Barney's, and no factual copy was changed.

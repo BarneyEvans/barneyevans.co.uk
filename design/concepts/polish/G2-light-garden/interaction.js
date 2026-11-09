@@ -3,7 +3,7 @@
   document.documentElement.classList.add('js');
   const canvas = document.querySelector('#garden'), ctx = canvas.getContext('2d');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const root = document.documentElement, pause = document.querySelector('#pause');
+  const root = document.documentElement, pauseButtons = [...document.querySelectorAll('.motion-pause')];
   const status = document.querySelector('#garden-status'), speciesButton = document.querySelector('#species');
   const glider = [[1,0],[2,1],[0,2],[1,2],[2,2]];
   const pulsar = [];
@@ -60,7 +60,7 @@
       const range=document.createRange();range.selectNodeContents(node);
       for(const r of range.getClientRects())if(r.width&&r.height)quiet.push({x:r.left,y:r.top+scrollY,right:r.right,bottom:r.bottom+scrollY});
     }
-    document.querySelectorAll('img,a.button,.garden-tools,footer').forEach(el=>{const r=el.getBoundingClientRect();quiet.push({x:r.left,y:r.top+scrollY,right:r.right,bottom:r.bottom+scrollY});});
+    document.querySelectorAll('img,a.button,.garden-tools,.motion-pause,footer').forEach(el=>{const r=el.getBoundingClientRect();quiet.push({x:r.left,y:r.top+scrollY,right:r.right,bottom:r.bottom+scrollY});});
     quietMask=new Uint8Array(cols*rows);
     const pad=cell*1.05+5;
     for(const r of quiet){
@@ -166,11 +166,19 @@
   }
   function tick(now){raf=0;if(document.hidden)return;if(now-lastDraw>=32){if(!paused&&!reduced.matches&&now-lastStep>950){evolve();lastStep=now;}draw(now);lastDraw=now;}if(!paused&&!reduced.matches)raf=requestAnimationFrame(tick);}
   function requestDraw(){if(document.hidden)return;if(!raf)raf=requestAnimationFrame(now=>{raf=0;draw(now);if(!paused&&!reduced.matches)raf=requestAnimationFrame(tick);});}
-  function updatePause(){pause.innerHTML=paused?'▶ <span>Resume</span>':'Ⅱ <span>Pause</span>';pause.setAttribute('aria-pressed',String(paused));if(reduced.matches){pause.innerHTML='✓ <span>Still garden</span>';pause.disabled=true;}else pause.disabled=false;cancelAnimationFrame(raf);raf=0;requestDraw();}
-  pause.addEventListener('click',()=>{paused=!paused;updatePause();status.textContent=paused?'Garden paused.':'Garden growing.';});
+  function updatePause(){
+    pauseButtons.forEach(button=>{
+      button.innerHTML=reduced.matches?'<span>Still garden</span>':paused?'<span>Resume</span>':'<span>Pause</span>';
+      button.setAttribute('aria-pressed',String(paused));
+      button.setAttribute('aria-label',reduced.matches?'Still garden':paused?'Resume garden':'Pause garden');
+      button.disabled=reduced.matches;
+    });
+    cancelAnimationFrame(raf);raf=0;requestDraw();
+  }
+  pauseButtons.forEach(button=>button.addEventListener('click',()=>{paused=!paused;updatePause();status.textContent=paused?'Garden paused.':'Garden growing.';}));
   speciesButton.addEventListener('click',()=>{plantSpecies=plantSpecies===1?2:1;const name=plantSpecies===1?'Barney':'Eugene';speciesButton.querySelector('strong').textContent=name;speciesButton.setAttribute('aria-label',`Plant species: ${name}. Select ${plantSpecies===1?'Eugene':'Barney'}.`);document.querySelector('.garden-tools').classList.toggle('eugene',plantSpecies===2);});
   function plant(x,y){const half=plantSpecies===1?1:6;put(Math.max(1,Math.min(cols-(plantSpecies===1?4:14),Math.floor(x/cell)-half)),Math.min(rows-14,Math.floor(y/cell)-half),plantSpecies);metrics.planted++;status.textContent=`Planted ${plantSpecies===1?'Barney’s glider':'Eugene’s pulsar'}.`;requestDraw();}
-  document.querySelector('#plant').addEventListener('click',()=>{const r=document.querySelector('.garden-play').getBoundingClientRect();plant(innerWidth*.77,r.top+scrollY+20);});
+  document.querySelector('#plant').addEventListener('click',()=>{const r=document.querySelector('.plant-bed').getBoundingClientRect();plant(r.left+r.width*.72,r.top+scrollY+r.height*.5);});
   document.addEventListener('pointerdown',e=>{if(!e.target.closest('.garden-play')||e.target.closest('button'))return;pointer={x:e.clientX,y:e.clientY,scroll:scrollY,id:e.pointerId};},{passive:true});
   document.addEventListener('pointerup',e=>{if(!pointer||pointer.id!==e.pointerId)return;const p=pointer;pointer=null;if(Math.hypot(p.x-e.clientX,p.y-e.clientY)<9&&Math.abs(scrollY-p.scroll)<9)plant(e.clientX,e.clientY+scrollY);},{passive:true});
   document.addEventListener('pointercancel',()=>pointer=null);

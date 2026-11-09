@@ -37,3 +37,28 @@ The 390px page is 742px shorter despite substantially larger text; desktop is 13
 ## Remaining
 
 No implementation blocker in this concept. The original owner-supplied placeholders remain deliberately visible: working name; Eugene's exam boards, rates, assumed format, biography and real email; and the enquiry form. No push or edits outside the assigned concept folder were made to the repository.
+
+## Round 2
+
+The director asked for more expressive motion at the opening, the lesson sampling transition and contact. Before editing, preserved the round-one `after-390.png` and `after-1440.png` as `r1-390.png` and `r1-1440.png` in the external B2 film folder, alongside copies of their measurement JSON.
+
+- Extended the desktop welcome into a broad sweep beneath the opening facts, curving through the outer spare space and back around the paired portraits. The headline, rate summary, portraits and controls retain their round-one positions. The desktop wave now spans approximately 1257px at 1440px.
+- Added a reserved transition above the lesson markers. The recognisable crest and trough visibly widen, then gather from the full section width into the first sample as the reader scrolls. The existing four-step sampled wave continues the same journey.
+- Reused that tapered opening waveform at both contact routes. Each briefly holds its crest and trough, then settles as its card comes into view; both finish completely straight at the page end. Added clearance keeps the crest below the heading and above the names; emails and buttons remain still.
+- Preserved all approved copy, both reviews, early separate rate lines, equal portraits, the in-flow Pause control and the gutter packet. No HTML or original type styling changed. Reduced motion keeps settled paths and removes the spare gathering space.
+
+Verification: pointer, Pause, reduced motion, keyboard disclosure/focus, images, local anchors, prices and full review text pass. Computed solid-background text contrast remains at least 5.15:1 at 320/390/1440. A scroll-transition probe confirms the gathering narrows from 330px on phone / 1136px on desktop to 34px; every SVG path stays identical across scrolling in reduced motion. Both contact wave paths have exactly zero vertical extent at the end of the page at 390 and 1440px. At 390px, the opening rates end at y469 and both named portrait groups end at y768, unchanged from round one.
+
+### Round 2 final filmstrip measurements
+
+| Viewport | Round 1 height / screens | Round 2 height / screens | Round 1 p95 | Round 2 p95 | Overflow / JS errors |
+| --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 6494px / 7.7 | 6645px / 7.9 | 6.2ms | 6.2ms | 0px / 0 |
+| 1440 x 900 | 4669px / 5.2 | 4783px / 5.3 | 6.2ms | 6.2ms | 0px / 0 |
+| 320 x 568 | 6885px / 12.1 | 7036px / 12.4 | 6.2ms | 6.2ms | 0px / 0 |
+
+All final films used the supplied real-wheel tool at 4x CPU, sequentially; median frame interval was 6.1ms and no sampled frame exceeded 50ms. Opened and visually reviewed all three films, plus full-size captures of the opening, gathering and contact states. The 320px strip was run once. These are local emulation measurements, not a physical-device guarantee.
+
+The extra 151px on phone / 114px on desktop reserves space for the gathering and the taller contact crests. This is a deliberate small increase to restore the director's three motion moments while keeping text clear; the page remains 591px shorter on phone and 1214px shorter on desktop than v3. The headline, early prices and portrait placement did not move.
+
+Artifacts outside Git: `r1-390.png`, `r1-1440.png` and measurement JSON preserve round one; `after-390.png`, `after-1440.png`, `after-320.png` and JSON contain the final round-two runs. Additional captures and executable checks are in `scratch/r2-*`, including `r2-verification.json` and `r2-motion.json`. `node --check` and `git diff --check` pass. No unresolved implementation issue; the owner-supplied placeholders listed above remain unchanged.

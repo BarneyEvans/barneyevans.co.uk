@@ -8,9 +8,9 @@ Open index.html directly. This folder contains all code and the two supplied rea
 
 The abstract lens has given its place in the desktop opening to two equal, named arched portraits, now 320px tall with a larger share of the opening width. The opening rate summary gives Computer Science, Physics and Maths separate full-width rows, each with clear GCSE and A-Level lines, including visible Eugene placeholders. The mobile opening keeps those facts and Enquire above the portraits, which appear side by side within the first two screens.
 
-Main qualifications and Enhanced DBS checked stay visible. The More buttons expand secondary information beneath each tutor without replacing or animating faces, names or text. This deliberately replaces the old full-card dissolve: the paired decorative cells now carry the interaction, so motion never hides a credential.
+Main qualifications and Enhanced DBS checked stay visible. The More buttons expand secondary information beneath the paired introduction across the full phone width, or beneath each tutor on desktop, without replacing or animating faces, names or text. This deliberately replaces the old full-card dissolve: the paired decorative cells now carry the interaction, so motion never hides a credential.
 
-Planting and species selection live in an optional in-flow garden area. Pause remains in a small reserved sticky header, rather than a toolbar floating over prices or contacts. Supporting labels are at least 13px and body copy at least 16px. Open subject rows and the cream-to-lilac ground retain the original character.
+Planting and species selection live in an optional in-flow garden area. The header scrolls away, with synchronized in-flow Pause controls beside the paired tutors, lesson steps and contact light. The planting controls sit beside the invitation on desktop and immediately below it on phones, above a compact visible colony bed. Supporting labels are at least 13px and body copy at least 16px. Open subject rows and the cream-to-lilac ground retain the original character.
 
 ## One journey
 

@@ -17,13 +17,15 @@
   const gradient = make('linearGradient', { id: 'beam-colour', x1: '0', x2: '0', y1: '0', y2: '1' }, defs);
   [['0%', '#b58056'], ['30%', '#8a79bb'], ['65%', '#c08d63'], ['100%', '#7870b4']].forEach(([offset, color]) => make('stop', { offset, 'stop-color': color }, gradient));
   const path = (cls, parent = art) => make('path', { class: cls, fill: 'none', 'vector-effect': 'non-scaling-stroke' }, parent);
-  const track = path('beam-track'), glow = path('beam-glow'), beam = path('beam-line');
   const headHalo = make('circle', { r: '16', class: 'beam-head-halo' }, art);
   const head = make('circle', { r: '6', class: 'beam-head' }, art);
   const halo = make('circle', { r: '33', class: 'beam-halo' }, art);
   const contactLens = make('ellipse', { rx: '51', ry: '20', class: 'contact-lens' }, art);
   const settled = make('circle', { r: '7', class: 'beam-settled' }, art);
-  const branches = [...document.querySelectorAll('.subject-symbol, .meeting-photo, .step-number')].map(anchor => ({anchor, track: path('beam-track beam-branch'), glow: path('beam-glow beam-branch'), line: path('beam-line beam-branch'), y: 0}));
+  const branches = [...document.querySelectorAll('.subject-symbol, .meeting-photo, .step-number')].map(anchor => ({
+    anchor, track: path('beam-track beam-branch'), glow: path('beam-glow beam-branch'), line: path('beam-line beam-branch'), y: 0
+  }));
+  const closing = Array.from({length: 3}, () => ({track: path('beam-track'), glow: path('beam-glow'), line: path('beam-line')}));
   const hero = make('svg', { viewBox: '0 0 600 510', preserveAspectRatio: 'none', class: 'aperture-art', 'aria-hidden': 'true' }, document.querySelector('.optics-stage'));
   const rays = Array.from({ length: 7 }, (_, i) => path(i % 2 ? 'ray ray-warm' : 'ray', hero));
   const lens = make('ellipse', { cx: '270', cy: '75', rx: '24', ry: '70', class: 'lens-plane' }, hero);
@@ -38,37 +40,47 @@
     const base = rect(main), v = rect(visual), contact = rect(document.querySelector('#contact'));
     const wrap = rect(document.querySelector('.hero'));
     const narrow = innerWidth <= 760;
-    const rail = Math.max(8, wrap.x - (narrow ? 15 : 32));
-    const start = { x: v.x + v.w * .78, y: v.y - base.y + v.h * (narrow ? 34 : 45) / 510 };
-    const end = { x: innerWidth - wrap.x - 42, y: contact.y - base.y + 46 };
-    const turn = narrow ? Math.max(14, v.y - base.y - 8) : 14;
-    const d = `M${start.x} ${start.y} Q${start.x} ${turn} ${start.x - 30} ${turn} H${rail + 24} Q${rail} ${turn} ${rail} ${turn + 24} V${end.y - 28} Q${rail} ${end.y} ${rail + 30} ${end.y} H${end.x}`;
+    const end = { x: innerWidth - wrap.x - 58, y: contact.y - base.y + 48 };
     art.setAttribute('viewBox', `0 0 ${innerWidth} ${base.h}`);
     art.style.height = `${base.h}px`;
-    track.setAttribute('d', d); glow.setAttribute('d', d); beam.setAttribute('d', d);
-    const length = beam.getTotalLength();
-    beam.style.strokeDasharray = glow.style.strokeDasharray = length;
+    const subjects = [...document.querySelectorAll('.subject-symbol')].map(rect);
+    const steps = [...document.querySelectorAll('.step-number')].map(rect);
     branches.forEach(b => {
       const a = rect(b.anchor), isStep = b.anchor.classList.contains('step-number');
       const isPerson = b.anchor.classList.contains('meeting-photo');
-      const x = a.x + a.w * .5, y = a.y - base.y + a.h * .5;
-      const lead = narrow ? y : a.y - base.y - (isStep ? 17 : 24);
-      let branch = narrow
-        ? `M${rail} ${y - 18} Q${rail} ${y} ${rail + 18} ${y} H${a.x - 3}`
-        : `M${rail} ${lead - 16} Q${rail} ${lead} ${rail + 20} ${lead} H${x - 16} Q${x} ${lead} ${x} ${lead + 16} V${a.y - base.y - 3}`;
+      const x = a.x + a.w / 2, y = a.y - base.y + a.h / 2;
+      let d;
       if (isPerson) {
-        const scene = rect(document.querySelector('.beam-meeting'));
-        const splitX = innerWidth / 2, splitY = scene.y - base.y + 9;
-        const top = a.y - base.y - 7, left = a.x - 7, right = a.x + a.w + 7, bottom = a.y - base.y + a.h + 7;
-        branch = `M${rail} ${splitY - 18} Q${rail} ${splitY} ${rail + 20} ${splitY} H${splitX} C${splitX} ${top - 20} ${x} ${top - 20} ${x} ${top} C${left} ${top} ${left} ${top + 18} ${left} ${top + 55} V${bottom - 14} Q${left} ${bottom} ${left + 14} ${bottom} H${right - 14} Q${right} ${bottom} ${right} ${bottom - 14} V${top + 55} C${right} ${top + 18} ${right} ${top} ${x} ${top}`;
+        // A soft ray folds around each small portrait within its heading's spare space.
+        const left = a.x - 5, right = a.x + a.w + 5, top = a.y - base.y - 6;
+        d = `M${left - 28} ${top - 10} C${left - 2} ${top - 10} ${x - 28} ${top - 10} ${x} ${top} C${right} ${top} ${right} ${top + 24} ${right} ${y} C${right} ${y + a.h / 2 + 9} ${left} ${y + a.h / 2 + 9} ${left} ${y} C${left} ${top + 24} ${left} ${top} ${x} ${top}`;
+      } else if (narrow) {
+        const group = isStep ? steps : subjects;
+        const origin = group[0].y - base.y + group[0].h / 2 - 48;
+        // Rays spread and reconverge through the reserved gutter, never around the page.
+        const edge = Math.max(7, wrap.x - 13), tip = a.x - 4;
+        d = `M${edge + 12} ${origin} C${edge - 8} ${origin + 46} ${edge - 5} ${y - 40} ${edge + 5} ${y - 22} C${edge + 15} ${y - 3} ${tip - 14} ${y} ${tip} ${y}`;
+      } else {
+        const group = isStep ? steps : subjects;
+        const first = group[0], originX = first.x + first.w / 2;
+        const originY = first.y - base.y - 22;
+        d = `M${originX} ${originY} C${originX + (x-originX)*.35} ${originY - 14} ${x} ${originY - 14} ${x} ${a.y - base.y - 4}`;
       }
-      b.track.setAttribute('d', branch); b.glow.setAttribute('d', branch); b.line.setAttribute('d', branch);
-      b.line.setAttribute('pathLength', '1'); b.glow.setAttribute('pathLength', '1'); b.y = y + base.y;
+      b.track.setAttribute('d', d); b.glow.setAttribute('d', d); b.line.setAttribute('d', d);
+      b.line.setAttribute('pathLength', '1'); b.glow.setAttribute('pathLength', '1');
+      b.y = a.y; b.length = b.line.getTotalLength();
+    });
+    closing.forEach((b, i) => {
+      const spread = narrow ? 90 : 190;
+      const x = end.x - spread, y = end.y + (i - 1) * 23;
+      const d = `M${x} ${y} C${x + spread * .5} ${y} ${end.x - 38} ${end.y} ${end.x} ${end.y}`;
+      for (const node of [b.track, b.glow, b.line]) node.setAttribute('d', d);
+      b.line.setAttribute('pathLength', '1'); b.glow.setAttribute('pathLength', '1');
     });
     halo.setAttribute('cx', end.x); halo.setAttribute('cy', end.y);
     settled.setAttribute('cx', end.x); settled.setAttribute('cy', end.y);
     contactLens.setAttribute('cx', end.x); contactLens.setAttribute('cy', end.y);
-    geometry = { base, v, rail, length, end };
+    geometry = { base, v, end };
     dirty = false;
   }
   function drawHero() {
@@ -90,26 +102,26 @@
     raf = 0;
     if (document.hidden) return;
     if (dirty) measure();
-    const { base, length, end } = geometry;
-    const targetY = scrollY + innerHeight * .76 - base.y;
-    let lo = 0, hi = length;
-    for (let n = 0; n < 13; n++) {
-      const mid = (lo + hi) / 2;
-      if (beam.getPointAtLength(mid).y < targetY) lo = mid; else hi = mid;
-    }
-    const completed = targetY >= end.y;
-    const distance = reduced.matches || completed ? length : (lo + hi) / 2;
-    beam.style.strokeDashoffset = glow.style.strokeDashoffset = length - distance;
-    const point = beam.getPointAtLength(distance);
-    head.setAttribute('cx', point.x); head.setAttribute('cy', point.y);
-    headHalo.setAttribute('cx', point.x); headHalo.setAttribute('cy', point.y);
-    head.style.opacity = headHalo.style.opacity = reduced.matches || completed ? '0' : '1';
-    halo.style.opacity = contactLens.style.opacity = settled.style.opacity = reduced.matches || completed ? '1' : '.3';
+    const { base, end } = geometry;
+    let active = null;
     branches.forEach(b => {
-      const p = reduced.matches ? 1 : clamp((scrollY + innerHeight * .86 - b.y) / (innerHeight * .35));
-      b.line.style.strokeDasharray = b.glow.style.strokeDasharray = '1'; b.line.style.strokeDashoffset = b.glow.style.strokeDashoffset = 1 - p;
+      const p = reduced.matches ? 1 : clamp((scrollY + innerHeight * .84 - b.y) / (innerHeight * .42));
+      b.line.style.strokeDasharray = b.glow.style.strokeDasharray = '1';
+      b.line.style.strokeDashoffset = b.glow.style.strokeDashoffset = 1 - p;
       b.anchor.style.setProperty('--beam-light', p);
+      if (p > 0 && p < 1 && b.y > scrollY && b.y < scrollY + innerHeight) active = { b, p };
     });
+    if (active) {
+      const point = active.b.line.getPointAtLength(active.b.length * active.p);
+      for (const node of [head, headHalo]) { node.setAttribute('cx', point.x); node.setAttribute('cy', point.y); }
+    }
+    head.style.opacity = headHalo.style.opacity = !reduced.matches && active ? '1' : '0';
+    const arrival = reduced.matches ? 1 : clamp((scrollY + innerHeight * .85 - (end.y + base.y)) / (innerHeight * .35));
+    closing.forEach(b => {
+      b.line.style.strokeDasharray = b.glow.style.strokeDasharray = '1';
+      b.line.style.strokeDashoffset = b.glow.style.strokeDashoffset = 1 - arrival;
+    });
+    halo.style.opacity = contactLens.style.opacity = settled.style.opacity = .3 + arrival * .7;
     drawHero();
   }
   function request() { if (!raf && !document.hidden) raf = requestAnimationFrame(render); }

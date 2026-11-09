@@ -24,3 +24,10 @@ main{position:relative}
 .contact-wave{stroke-width:2.7}
 .contact-pair>div{padding-top:42px}
 @media(max-width:760px){.welcome-wave{stroke-width:46}.travelling-wave{stroke-width:3.5}.journey-rail{opacity:.46}}
+/* Round 2: give the signal room to open before it becomes lesson samples. */
+.lesson-heading{margin-bottom:112px}
+.gathering-wave{stroke:url(#wave-colour);stroke-width:30;stroke-linecap:round}
+.gathering-edge{stroke:url(#wave-colour);stroke-width:2.7;stroke-linecap:round}
+.contact-pair>div{padding-top:72px}
+@media(min-width:761px){.welcome-wave{stroke-width:48;stroke-linejoin:round}.welcome-edge{stroke-width:2.5}}
+@media(prefers-reduced-motion:reduce){.lesson-heading{margin-bottom:40px}}
