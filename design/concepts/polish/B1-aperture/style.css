@@ -17,3 +17,97 @@
 .price-item{white-space:nowrap}
 @media(max-width:760px){.quick-facts strong{display:flex;flex-direction:column;line-height:1.8;font-size:12px}.quick-facts strong i{display:none}.quick-facts p>span{font-size:10px}.quick-facts small{font-size:10px}}
 @media(max-width:760px){.visual-note{display:none}}
+
+/* Polish: warmer porcelain, useful type sizes, and less repeated portrait space. */
+:root{--paper:#fbf8f2;--line:#d9d4df;--lilac:#eae5f6;--peach:#f5d4b9}
+.section{padding-block:76px}
+.hero{min-height:640px;padding-bottom:65px}
+.optics-stage{background:radial-gradient(ellipse at 50% 30%,#f1d6bd88,transparent 65%)}
+.eyebrow,.hero-copy .eyebrow,.site-header nav,.section-index,.visual-note,
+.person-subject,.person-level,.quick-facts p>span,.quick-facts small,
+.subject-title small,.profile-number,.dbs,.experience h4,.lesson-intro cite,
+.byline,.lesson-heading>span,.step-number,.time,.review-pair figcaption,
+.review-source,.review-source small,.email,.form-link,footer,footer p,footer>a:last-child{font-size:13px}
+.quick-facts{max-width:560px;gap:24px;margin-top:28px}
+.quick-facts strong{display:flex;flex-direction:column;font-size:16px;line-height:1.8}
+.quick-facts i{display:none}.quick-facts small{margin-left:4px}
+.quick-facts .price-item{white-space:normal}
+.quick-facts p>span{line-height:1.5;min-height:39px}
+.portrait-person strong{font-size:18px;letter-spacing:-.04em}
+.person-subject{letter-spacing:0;text-transform:none;margin-top:12px}
+.button,.button.small,.text-link,.scroll-note{font-size:14px}
+.section-heading{margin-bottom:40px}
+.subject-title p,.rate h4,.role,.profile-body,.experience strong,
+.experience details p,summary,.lesson-copy,.lesson-steps p,.contact-pair p{font-size:16px}
+.rate p{font-size:13px}.rate{padding-block:16px}.rates{margin-top:22px}
+.tutors{background:#eeebf5}.tutor-profiles{gap:64px}
+.tutor-profile{display:grid;grid-template-columns:1fr 100px;column-gap:20px;align-content:start}
+.profile-top{min-height:0;margin-bottom:26px}.profile-top h3{font-size:30px;margin-top:9px}
+.profile-portrait,.tutor-profile:nth-child(2) .profile-portrait{width:100px;height:116px;border-radius:30px 8px 8px 8px;margin:0}
+.profile-body{grid-column:1/-1}.profile-body .degree{font-size:19px}
+.dbs{position:static;display:block;width:max-content;background:transparent;padding:0;margin-bottom:17px;backdrop-filter:none}
+.profile-portrait .dbs{display:none}
+
+.experience{padding-top:20px;margin-block:22px}
+.lesson-intro{gap:65px;grid-template-columns:1fr 1.15fr}
+.lesson-intro blockquote{font-size:34px;line-height:1.35;padding:24px 28px 28px;background:#f5e4d4;border-radius:4px 38px 4px 4px;align-self:start}
+.lesson-intro cite{margin-top:20px}.lesson-copy{padding-top:0}
+.lesson-heading{margin-top:42px}.lesson-steps p{max-width:230px}
+.step-number{width:36px;height:36px}.step-top{margin-bottom:18px}
+.reviews{background:#f4edf2}.review-pair{gap:65px}.review-source{margin-top:32px}
+.contact{background:#ece6f4;padding-block:80px}.contact-pair{margin-top:38px}
+.contact-pair>div{border-color:#c9bed5}.email{font-size:16px}.form-link{font-size:14px}
+footer .brand{font-size:15px}
+@media(max-width:1100px){.tutor-profiles{gap:35px}.tutor-profile{grid-template-columns:1fr 80px;gap:15px}.profile-portrait,.tutor-profile:nth-child(2) .profile-portrait{width:80px;height:100px}.quick-facts strong{font-size:15px}.quick-facts small{font-size:13px}}
+@media(max-width:760px){
+  body{font-size:16px}.wrap{width:calc(100% - 48px)}
+  .site-header{min-height:74px}.brand{font-size:14px}.brand-mark{font-size:24px}
+  .button.small{font-size:13px;padding:11px 13px;gap:12px}
+  .hero{padding:25px 0 43px;min-height:0}.hero h1{font-size:35px;line-height:1.15;margin:15px 0 22px}
+  .hero-copy .eyebrow{font-size:13px}.hero-actions{gap:20px}.button{font-size:14px;padding:13px 17px;gap:18px}.text-link{font-size:13px;gap:10px}
+  .quick-facts{gap:16px;margin-top:22px;padding-top:15px}.quick-facts p>span{font-size:13px;min-height:40px}.quick-facts strong{font-size:15px;line-height:1.75}.quick-facts small{font-size:13px}
+  .hero-visual{height:320px;margin-top:12px}.portrait-pair{gap:16px;bottom:19px}.portrait-photo{height:175px}
+  .person-subject,.person-level{font-size:13px}.portrait-person strong{font-size:16px;line-height:1.3;min-height:42px}
+  .scroll-note{font-size:13px;bottom:0}.section{padding-block:48px}.section-heading{margin-bottom:28px}
+  .section-heading .eyebrow,.section-index{font-size:13px}.section-heading .eyebrow{margin-bottom:12px}h2{font-size:32px}
+  .subject,.subject:first-child,.subject:last-child{display:block;padding:25px 0 24px 14px;border-left:0;border-top:1px solid var(--line)}
+  .subject-title{position:relative;padding-left:46px}.subject-symbol{position:absolute;left:0;top:0;margin:0;width:32px;height:32px}
+  .subject-title h3{font-size:24px}.subject-title p{margin-top:4px;font-size:16px}.subject-title small{font-size:13px;margin-top:6px}
+  .rates{margin-top:19px}.rate,.rate+.rate{display:flex;align-items:start;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+  .rate h4{font-size:16px;line-height:1.45}.rate p{font-size:13px}.rate strong{font-size:20px;margin:0;white-space:nowrap}
+  .tutor-profiles{grid-template-columns:1fr;gap:38px}.tutor-profile{grid-template-columns:1fr 76px;gap:16px}.profile-top{margin:0 0 8px}
+  .profile-top h3{font-size:27px;margin-top:8px}.profile-number{font-size:13px}.role{font-size:16px;margin-top:8px}.profile-body{font-size:16px}
+  .profile-portrait,.tutor-profile:nth-child(2) .profile-portrait{width:76px;height:95px;border-radius:25px 6px 6px 6px}
+  .profile-body .degree{font-size:18px}.experience{margin-block:20px;padding-top:17px}.experience h4{font-size:13px}.experience strong,.experience details p,summary{font-size:16px}
+  .lesson-intro{grid-template-columns:1fr;gap:24px}.lesson-intro blockquote{font-size:27px;padding:23px 24px}.lesson-intro cite,.byline{font-size:13px}.lesson-copy{font-size:16px}
+  .lesson-heading{margin-top:32px}.lesson-heading>span{font-size:13px}.lesson-steps{display:block;padding-left:14px}
+  .lesson-steps li{padding:19px 0 22px 48px;min-height:105px}.step-top{margin-bottom:8px;justify-content:flex-end}.step-number{position:absolute;top:19px;left:0;font-size:13px}
+  .time{font-size:13px}.lesson-steps h4{font-size:19px}.lesson-steps p{font-size:16px;max-width:none;margin-top:6px}
+  .review-pair{gap:35px}.review-pair blockquote{font-size:20px}.review-pair figcaption,.review-source,.review-source small{font-size:13px}.review-source{gap:10px 18px;margin-top:28px}
+  .contact{padding-block:66px 48px}.contact .eyebrow{font-size:13px}.contact h2{font-size:39px}.contact-pair{gap:28px;margin-top:30px}.contact-pair p,.email{font-size:16px}.form-link{font-size:14px}
+  footer{padding-block:25px;gap:14px}footer .brand{font-size:14px}footer p,footer>a:last-child{font-size:13px}
+}
+@media(max-width:350px){
+  .wrap{width:calc(100% - 40px)}.site-header{gap:9px}.brand{font-size:13px;gap:6px}.brand-mark{font-size:22px}.site-header .button{font-size:13px;padding:10px;gap:8px}
+  .hero h1{font-size:31px}.hero-actions{gap:15px}.hero-actions .text-link{font-size:13px}.quick-facts{gap:12px}.quick-facts p>span,.quick-facts small{font-size:13px}.quick-facts strong{font-size:14px}
+  .hero-visual{height:300px}.portrait-photo{height:151px}.portrait-person strong{font-size:15px}.person-subject,.person-level{font-size:13px}
+  .rate{gap:9px}.rate h4{font-size:16px}.rate strong{font-size:18px}.profile-top h3{font-size:24px}.contact h2{font-size:35px}
+}
+
+/* The shared light meets real people in two generous optical windows. */
+.beam-meeting{display:grid;grid-template-columns:1fr 1fr;gap:64px;padding-top:43px;margin-bottom:35px}
+.meeting-person{display:flex;align-items:center;flex-direction:column;min-width:0;text-align:center}
+.meeting-photo{width:150px;height:170px;border-radius:70px 70px 8px 8px;overflow:hidden;margin-bottom:20px}
+.meeting-photo img{width:100%;height:100%;object-position:center 26%}
+.meeting-person:nth-child(2) img{object-position:58% center}
+.meeting-person strong{font-size:18px;line-height:1.35}.meeting-person>span{font-size:13px;color:var(--muted);margin-top:4px}
+.tutor-profile{display:block}.contact{padding-top:105px}
+@media(max-width:760px){
+ .beam-meeting{gap:30px;padding-top:43px;margin-bottom:30px}
+ .meeting-photo{width:112px;height:132px;border-radius:55px 55px 8px 8px}
+ .meeting-person strong{font-size:16px;min-height:43px}
+ .meeting-person>span{font-size:13px}.contact{padding-top:108px}
+ .lesson-steps{padding-left:20px}.lesson-steps li{padding-left:54px}
+ .step-number{width:40px;height:40px;font-size:14px}
+}
+@media(max-width:350px){.beam-meeting{gap:22px}.meeting-photo{width:100px;height:120px}.meeting-person strong{font-size:15px}}

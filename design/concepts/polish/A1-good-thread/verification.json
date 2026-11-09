@@ -1,0 +1,214 @@
+{
+  "method": "Headless Edge; layout, text contrast, continuous-path intersection and interaction checks; frame timings are recorded separately by strip.cjs.",
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "overflow": 0,
+      "smallText": [],
+      "minimumContrast": 4.81,
+      "minimumContrastText": "Say hello",
+      "threadTextCollisions": [],
+      "markerDistancePx": [
+        0.17,
+        0.44,
+        0.32,
+        0.28
+      ],
+      "portraits": [
+        {
+          "text": "Barney Evans Computer Science",
+          "top": 604.546875,
+          "bottom": 839.484375,
+          "width": 123,
+          "height": 234.9375
+        },
+        {
+          "text": "Eugene Bevilacqua Physics & Maths",
+          "top": 604.546875,
+          "bottom": 839.484375,
+          "width": 123,
+          "height": 234.9375
+        }
+      ],
+      "prices": [
+        {
+          "text": "Computer Science · Barney GCSE £34/hour A-Level £45/hour Physics & Maths · Eugene GCSE £XX/hour A-Level £XX/hour",
+          "top": 396.890625,
+          "bottom": 574.546875,
+          "width": 272,
+          "height": 177.65625
+        }
+      ],
+      "noindex": "noindex",
+      "brokenImages": 0,
+      "openingWithinTwoScreens": true,
+      "touchChangesThread": true,
+      "pluckSettled": true,
+      "keyboardChangesThread": true,
+      "paused": true,
+      "reducedMotionStill": true,
+      "reducedMotionComplete": true,
+      "disclosureOpen": true,
+      "openDisclosureThreadTextCollisions": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": 0,
+      "smallText": [],
+      "minimumContrast": 4.81,
+      "minimumContrastText": "Say hello",
+      "threadTextCollisions": [],
+      "markerDistancePx": [
+        0.34,
+        0.2,
+        0.05,
+        0.1
+      ],
+      "portraits": [
+        {
+          "text": "Barney Evans Computer Science",
+          "top": 582.578125,
+          "bottom": 835.015625,
+          "width": 152,
+          "height": 252.4375
+        },
+        {
+          "text": "Eugene Bevilacqua Physics & Maths",
+          "top": 582.578125,
+          "bottom": 835.015625,
+          "width": 152,
+          "height": 252.4375
+        }
+      ],
+      "prices": [
+        {
+          "text": "Computer Science · Barney GCSE £34/hour A-Level £45/hour Physics & Maths · Eugene GCSE £XX/hour A-Level £XX/hour",
+          "top": 374.921875,
+          "bottom": 552.578125,
+          "width": 334,
+          "height": 177.65625
+        }
+      ],
+      "noindex": "noindex",
+      "brokenImages": 0,
+      "openingWithinTwoScreens": true,
+      "touchChangesThread": true,
+      "pluckSettled": true,
+      "keyboardChangesThread": true,
+      "paused": true,
+      "reducedMotionStill": true,
+      "reducedMotionComplete": true,
+      "disclosureOpen": true,
+      "openDisclosureThreadTextCollisions": [],
+      "errors": []
+    },
+    {
+      "width": 768,
+      "height": 844,
+      "overflow": 0,
+      "smallText": [],
+      "minimumContrast": 4.81,
+      "minimumContrastText": "Say hello",
+      "threadTextCollisions": [],
+      "markerDistancePx": [
+        0.15,
+        0.5,
+        0.39,
+        0.04
+      ],
+      "portraits": [
+        {
+          "text": "Barney Evans Computer Science",
+          "top": 242.328125,
+          "bottom": 492.890625,
+          "width": 129.09375,
+          "height": 250.5625
+        },
+        {
+          "text": "Eugene Bevilacqua Physics & Maths",
+          "top": 242.328125,
+          "bottom": 492.890625,
+          "width": 129.109375,
+          "height": 250.5625
+        }
+      ],
+      "prices": [
+        {
+          "text": "Computer Science · Barney GCSE £34/hour A-Level £45/hour Physics & Maths · Eugene GCSE £XX/hour A-Level £XX/hour",
+          "top": 417.5625,
+          "bottom": 603.21875,
+          "width": 333.984375,
+          "height": 185.65625
+        }
+      ],
+      "noindex": "noindex",
+      "brokenImages": 0,
+      "openingWithinTwoScreens": true,
+      "touchChangesThread": true,
+      "pluckSettled": true,
+      "keyboardChangesThread": true,
+      "paused": true,
+      "reducedMotionStill": true,
+      "reducedMotionComplete": true,
+      "disclosureOpen": true,
+      "openDisclosureThreadTextCollisions": [],
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "height": 844,
+      "overflow": 0,
+      "smallText": [],
+      "minimumContrast": 4.81,
+      "minimumContrastText": "Say hello",
+      "threadTextCollisions": [],
+      "markerDistancePx": [
+        0.13,
+        0.2,
+        0.26,
+        0.32
+      ],
+      "portraits": [
+        {
+          "text": "Barney Evans Computer Science",
+          "top": 184,
+          "bottom": 576.515625,
+          "width": 258.65625,
+          "height": 392.515625
+        },
+        {
+          "text": "Eugene Bevilacqua Physics & Maths",
+          "top": 184,
+          "bottom": 576.515625,
+          "width": 258.671875,
+          "height": 392.515625
+        }
+      ],
+      "prices": [
+        {
+          "text": "Computer Science · Barney GCSE £34/hour A-Level £45/hour Physics & Maths · Eugene GCSE £XX/hour A-Level £XX/hour",
+          "top": 512.203125,
+          "bottom": 612.53125,
+          "width": 628.671875,
+          "height": 100.328125
+        }
+      ],
+      "noindex": "noindex",
+      "brokenImages": 0,
+      "openingWithinTwoScreens": true,
+      "touchChangesThread": true,
+      "pluckSettled": true,
+      "keyboardChangesThread": true,
+      "paused": true,
+      "reducedMotionStill": true,
+      "reducedMotionComplete": true,
+      "disclosureOpen": true,
+      "openDisclosureThreadTextCollisions": [],
+      "errors": []
+    }
+  ],
+  "originalContentPreserved": true
+}

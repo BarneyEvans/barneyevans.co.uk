@@ -22,3 +22,96 @@ body{font-family:Outfit,Arial,sans-serif;font-size:17px;line-height:1.6}.wrap{wi
 @media(max-width:350px){.wrap{width:calc(100% - 36px)}.brand{font-size:13px}.brand-mark{font-size:26px}.site-header .button{font-size:10px;padding:9px 13px;gap:11px}.hero h1{font-size:32px}.hero-actions{gap:20px}.hero-actions .text-link{font-size:10px}.portrait-pair{gap:14px}.portrait-person{width:calc(50% - 7px)}.portrait-photo{width:125px;height:154px}.hero-visual{height:260px}.portrait-person strong{font-size:14px}.person-subject{font-size:7px}.person-level{font-size:9px}.quick-facts{gap:12px}.quick-facts p{padding-left:8px}.quick-facts p>span{font-size:8px}.quick-facts strong{font-size:10px}.quick-facts small{font-size:8px}.section-heading h2{font-size:32px}.rate h4{font-size:12px}.profile-top h3{font-size:28px}.profile-portrait,.tutor-profile:nth-child(2) .profile-portrait{height:320px}.contact h2{font-size:39px}}.hero h1 .headline-subjects{display:block}.price-item{white-space:nowrap}
 @media(max-width:760px){.hero-visual{width:calc(100% - 44px);align-self:stretch}.quick-facts strong{display:flex;flex-direction:column;line-height:1.8;font-size:12px}.quick-facts strong i{display:none}.quick-facts p>span{font-size:10px}.quick-facts small{font-size:10px}}
 @media(max-width:350px){.hero-visual{width:calc(100% - 36px)}.quick-facts p>span{font-size:9px}}
+/* B2 polish: retain the original palette and type; tighten the information rhythm. */
+:root{--muted:#6d586e}
+html{scroll-padding-top:24px}
+body{font-size:17px}
+.section{padding-block:64px}
+.section-heading{margin-bottom:30px}
+.section-index{font-size:13px;color:var(--muted)}
+.eyebrow,.section-heading .eyebrow{font-size:13px}
+.site-header{min-height:86px}
+.site-header nav{font-size:14px;gap:25px}
+.button,.hero-actions .button,.contact-pair .button{font-size:16px;min-height:46px}
+.text-link,.hero-actions .text-link{font-size:15px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;width:min(1152px,calc(100% - 112px));margin:auto;padding:36px 0 50px;text-align:left;overflow:visible}
+.hero-copy.wrap,.hero-visual.wrap{width:100%;margin:0}
+.hero h1{font-size:clamp(38px,4vw,55px);margin:16px 0 24px}
+.desktop-break{display:none}
+.hero-actions{justify-content:start;gap:22px}
+.quick-facts{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:25px;padding:18px 0 0;border-top:1px solid var(--line);border-bottom:0}
+.quick-facts h2{font-size:17px;font-weight:400;line-height:1.3;letter-spacing:-.02em;margin-bottom:11px}
+.quick-facts h2 span{display:block;font-size:14px;color:var(--muted);margin-top:3px}
+.quick-facts p{display:flex;flex-direction:row;justify-content:space-between;gap:7px;padding:0;border:0;font-size:16px}
+.quick-facts p+p{margin-top:5px}
+.quick-facts p>span,.quick-facts strong{font-size:16px;font-weight:400;line-height:1.55;color:var(--ink)}
+.hero-visual{height:auto;align-self:center;position:relative;padding-top:25px}
+.portrait-pair{gap:20px;height:auto;align-items:start}
+.portrait-person{width:calc(50% - 10px)}
+.portrait-photo{width:182px;height:215px}
+.person-subject{font-size:13px;letter-spacing:0;margin-top:13px}
+.portrait-person strong{font-size:21px;line-height:1.2;min-height:50px;display:flex;align-items:center}
+.person-level{font-size:13px;margin-top:4px}
+.wave-stage{inset:0 -25px 90px;overflow:hidden}
+.wave-controls{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:20px;color:var(--muted);font-size:13px}
+.wave-controls button{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:30px;font-size:13px;padding:8px 14px;min-height:40px;cursor:pointer}
+.wave-controls button:hover{background:#eddde9}
+.subject,.subject:first-child,.subject:last-child{padding:23px 0;gap:35px}
+.subject:last-child{padding-bottom:0}
+.subject-title p{font-size:16px}
+.subject-title small,.rate p{font-size:13px}
+.rate h4{font-size:18px}
+.tutor-profile{grid-template-columns:250px 1fr;column-gap:45px;padding:0 0 32px;max-width:990px}
+.tutor-profile+.tutor-profile{padding-top:32px}
+.tutor-profile:nth-child(2){grid-template-columns:250px 1fr}
+.profile-top,.tutor-profile:nth-child(2) .profile-top{grid-column:2}
+.profile-portrait,.tutor-profile:nth-child(2) .profile-portrait{grid-column:1;grid-row:1 / span 2;height:300px;border-radius:120px 120px 16px 16px}
+.tutor-profile:nth-child(2) .profile-portrait{border-radius:16px 16px 120px 120px}
+.profile-number{font-size:13px}
+.profile-top h3{margin-top:8px;font-size:32px}
+.role{font-size:16px;max-width:520px}
+.profile-body,.tutor-profile:nth-child(2) .profile-body{grid-column:2;grid-row:2 / span 2;font-size:16px;margin-top:18px}
+.profile-body .degree{font-size:20px}
+.dbs{position:static;grid-column:1;grid-row:3;transform:none;white-space:normal;background:transparent;border-radius:0;padding:0;margin-top:10px;text-align:center;font-size:13px;backdrop-filter:none}
+.experience{margin:18px 0;padding-top:14px}
+.experience h4{font-size:13px;margin-bottom:12px}
+.experience strong,.experience details p,summary{font-size:16px}
+summary{min-height:44px}
+.lesson-intro{gap:50px}
+.lesson-intro blockquote{font-size:28px}
+.lesson-intro cite,.byline{font-size:14px}
+.lesson-copy{font-size:17px}
+.lesson-heading{margin-top:36px}
+.lesson-heading>span,.time{font-size:13px}
+.lesson-steps{position:relative}
+.lesson-steps li{border:0;padding:0 0 12px}
+.step-top{position:relative;margin-bottom:15px}
+.step-number{font-size:14px;background:var(--paper);border:1px solid #b598b4;width:38px;height:38px}
+.time{background:var(--paper);padding:2px 6px}
+.lesson-steps p{font-size:16px;max-width:none}
+.review-pair{gap:60px}
+.review-pair figcaption,.review-source{font-size:14px}
+.review-source{margin-top:30px}
+.review-source small{font-size:13px}
+.contact{padding-block:64px 44px}
+.contact-pair{position:relative;margin-top:34px;gap:65px}
+.contact-pair>div{position:relative;border:0;padding-top:20px}
+.contact-pair p,.email{font-size:16px}
+.form-link{font-size:14px;margin-top:26px}
+footer{min-height:105px}
+footer p,footer>a:last-child{font-size:13px}
+@media(max-width:1100px){.hero{width:calc(100% - 72px);gap:25px}.hero h1{font-size:44px}.portrait-photo{width:154px;height:190px}.portrait-person strong{font-size:19px}.quick-facts{gap:18px}.quick-facts p>span,.quick-facts strong{font-size:16px}}
+@media(max-width:760px){
+ .site-header{min-height:76px}.brand{font-size:16px}.site-header .button{font-size:14px;padding:9px 15px;gap:14px}
+ .hero{display:block;width:calc(100% - 44px);padding:18px 0 32px}.hero h1{font-size:36px;margin:13px 0 21px}.hero-copy .eyebrow{font-size:13px}
+ .hero-actions{gap:22px}.hero-actions .text-link{font-size:14px}.quick-facts{gap:22px;margin-top:22px;padding-top:16px}.quick-facts h2{font-size:17px}.quick-facts h2 span{font-size:13px}.quick-facts p>span,.quick-facts strong{font-size:16px;display:block}
+ .hero-visual.wrap{margin-top:18px;padding-top:5px;height:auto}.portrait-pair{gap:18px}.portrait-person{width:calc(50% - 9px)}.portrait-photo{width:140px;height:168px}.portrait-person strong{font-size:19px;min-height:46px;max-width:150px}.person-subject,.person-level{font-size:13px}.person-subject{letter-spacing:0}.wave-stage{inset:0 -15px 90px}.wave-controls{margin-top:14px}
+ .section{padding-block:42px}.section-heading{margin-bottom:25px}.section-heading h2{font-size:33px}.section-heading .eyebrow,.section-index{font-size:13px}
+ .subject,.subject:first-child,.subject:last-child{gap:17px;padding:22px 0}.subject:last-child{padding-bottom:0}.subject-title p{font-size:16px}.subject-title small{font-size:13px}.rates{grid-template-columns:1fr;gap:14px}.rate,.rate+.rate{display:flex;justify-content:space-between;align-items:center;gap:14px}.rate h4{font-size:17px;max-width:none}.rate p{font-size:13px}.rate strong{font-size:24px;margin:0;white-space:nowrap}
+ .tutor-profile,.tutor-profile:nth-child(2){display:grid;grid-template-columns:104px 1fr;column-gap:18px;padding-bottom:28px}.tutor-profile+.tutor-profile{padding-top:28px;padding-bottom:0}.profile-top,.tutor-profile:nth-child(2) .profile-top{grid-column:2;grid-row:1;margin:0;padding:2px 0 0}.profile-top h3{font-size:26px;margin-top:7px}.profile-number{font-size:13px}.role{font-size:16px;line-height:1.4}
+ .profile-portrait,.tutor-profile:nth-child(2) .profile-portrait{grid-column:1;grid-row:1;width:104px;height:144px;border-radius:55px 55px 13px 13px;margin:0}.tutor-profile:nth-child(2) .profile-portrait{border-radius:13px 13px 55px 55px}.dbs{grid-column:1 / -1;grid-row:2;text-align:left;font-size:13px;margin-top:14px}.profile-body,.tutor-profile:nth-child(2) .profile-body{grid-column:1 / -1;grid-row:3;margin-top:14px;font-size:16px}.profile-body .degree{font-size:20px}.experience strong,.experience details p{font-size:16px}
+ .lesson-intro{gap:23px}.lesson-intro blockquote{font-size:26px}.lesson-intro cite,.byline{font-size:14px}.lesson-copy{font-size:16px}.lesson-heading{margin-top:30px}.lesson-heading>span{font-size:13px}.lesson-steps{grid-template-columns:1fr;gap:23px;padding-left:49px}.lesson-steps li{padding:0;min-height:102px}.step-top{position:static;margin-bottom:6px;justify-content:flex-end}.step-number{position:absolute;left:-49px;top:0;width:34px;height:34px;font-size:14px}.time{font-size:13px;background:transparent;padding:0}.lesson-steps h4{font-size:21px}.lesson-steps p{font-size:16px;margin-top:7px}
+ .review-pair{gap:34px}.review-pair blockquote{font-size:22px}.review-pair figcaption,.review-source{font-size:14px}.review-source small{font-size:13px}.review-source{margin-top:28px}
+ .contact{padding-block:53px 39px}.contact .eyebrow{font-size:13px}.contact h2{font-size:40px}.contact-pair{gap:27px;margin-top:28px}.contact-pair p,.email{font-size:16px}.contact-pair h3{font-size:28px}.contact-pair .button{font-size:16px}.form-link{font-size:14px}footer p,footer>a:last-child{font-size:13px}footer p{max-width:215px}
+}
+@media(max-width:350px){.hero{width:calc(100% - 36px)}.brand{font-size:14px}.site-header .button{padding-inline:12px;gap:10px}.hero h1{font-size:32px}.hero-actions{gap:17px}.hero-actions .text-link{font-size:13px}.quick-facts{gap:16px}.quick-facts h2{font-size:16px}.quick-facts p>span,.quick-facts strong{font-size:16px}.portrait-pair{gap:12px}.portrait-person{width:calc(50% - 6px)}.portrait-photo{width:124px;height:154px}.portrait-person strong{font-size:18px}.person-subject{font-size:13px;letter-spacing:-.03em}.section-heading h2{font-size:30px}.rate h4{font-size:16px}.rate strong{font-size:22px}.profile-top h3{font-size:24px}.tutor-profile,.tutor-profile:nth-child(2){column-gap:15px;grid-template-columns:90px 1fr}.profile-portrait,.tutor-profile:nth-child(2) .profile-portrait{width:90px;height:132px}.contact h2{font-size:36px}}

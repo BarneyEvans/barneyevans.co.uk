@@ -1,132 +1,118 @@
-/* Wave Study: two continuous signals become samples, then find a quiet phase. */
+/* One signal: a broad human welcome, four sampled lesson markers, a settled contact. */
 (() => {
   'use strict';
   const ns = 'http://www.w3.org/2000/svg';
+  const main = document.querySelector('main');
   const media = matchMedia('(prefers-reduced-motion: reduce)');
-  const clamp = (n, a = 0, b = 1) => Math.max(a, Math.min(b, n));
-  const smooth = n => n * n * (3 - 2 * n);
+  const toggle = document.querySelector('#motion-toggle');
+  const visual = document.querySelector('.hero-visual');
+  const steps = [...document.querySelectorAll('.step-number')];
+  const contacts = [...document.querySelectorAll('.contact-pair>div')];
+  const clamp = n => Math.max(0, Math.min(1, n));
   const make = (tag, attrs, parent) => {
-    const node = document.createElementNS(ns, tag);
-    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
-    parent?.append(node);
-    return node;
+    const el = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+    parent.append(el); return el;
   };
-  const svg = (parent, box, cls) => make('svg', { viewBox: box, class: cls, 'aria-hidden': 'true', focusable: 'false', preserveAspectRatio: 'none' }, parent);
-  const line = (parent, cls) => make('path', { class: cls, fill: 'none', 'vector-effect': 'non-scaling-stroke' }, parent);
-  const scenes = [];
-  const stage = document.querySelector('.wave-stage');
-  let pointer = { x: 500, y: 0, strength: 0 };
-  function wave(x, phase, amplitude, frequency = 1.5) {
-    return Math.sin(x / 1000 * Math.PI * 2 * frequency + phase) * amplitude;
+  const art = make('svg', {class:'wave-journey', 'aria-hidden':'true', focusable:'false'}, main);
+  const defs = make('defs', {}, art);
+  const gradient = make('linearGradient', {id:'wave-colour', gradientUnits:'userSpaceOnUse', x1:0,y1:0,x2:1440,y2:0}, defs);
+  make('stop', {offset:'0%', 'stop-color':'#bd789f'}, gradient);
+  make('stop', {offset:'100%', 'stop-color':'#74a7c8'}, gradient);
+  const path = cls => make('path', {class:cls, fill:'none'}, art);
+  const rail = path('journey-rail');
+  const travelling = path('travelling-wave');
+  const traveller = make('circle', {r:5, class:'traveller', opacity:0}, art);
+  const welcome = path('welcome-wave');
+  const welcomeEdge = path('welcome-edge');
+  const lesson = path('lesson-wave');
+  const lessonBody = path('lesson-body');
+  const samples = Array.from({length:49}, () => make('circle', {r:3.8, class:'wave-sample', opacity:0}, art));
+  const endings = contacts.map(() => ({body:path('contact-body'), line:path('contact-wave'), dot:make('circle',{r:6,class:'contact-dot', opacity:0},art)}));
+  let box, marks, ends, top, height, gutter, exitY, queued=0, dirty=true, paused=false;
+  let pointer = {x:0,y:0,active:false};
+  const curve = points => points.map((p,i) => `${i?'L':'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+  function measure() {
+    const r = main.getBoundingClientRect(); top = r.top + scrollY; height = r.height;
+    const relative = el => { const b=el.getBoundingClientRect();return {x:b.left,y:b.top+scrollY-top,w:b.width,h:b.height}; };
+    const v = relative(visual); const pair=relative(document.querySelector('.portrait-pair'));
+    box={x:v.x-10,y:pair.y+pair.h*.31,w:v.w+20,h:pair.h};
+    marks=steps.map(el=>{const b=relative(el);return {x:b.x+b.w/2,y:b.y+b.h/2};});
+    ends=contacts.map(el=>{const b=relative(el);return {x:b.x,y:b.y+2,w:b.w,h:b.h};});
+    gutter=Math.max(8,(document.querySelector('.subjects').getBoundingClientRect().left)*.45);
+    art.setAttribute('width',innerWidth);art.setAttribute('height',height);
+    gradient.setAttribute('x2',innerWidth);
+    const first=marks[0], last=ends[ends.length-1];
+    const exit=relative(document.querySelector('.hero'));
+    exitY=exit.y+exit.h-16;
+    const right=innerWidth-gutter/2;
+    rail.setAttribute('d',`M${box.x+box.w} ${box.y} Q${right} ${box.y} ${right} ${box.y+35} L${right} ${exitY-20} Q${right} ${exitY} ${right-20} ${exitY} L${gutter+20} ${exitY} Q${gutter} ${exitY} ${gutter} ${exitY+20} L${gutter} ${first.y-40} Q${gutter} ${first.y} ${first.x} ${first.y} M${gutter} ${first.y-40} L${gutter} ${last.y-30} Q${gutter} ${last.y} ${last.x} ${last.y}`);
+    dirty=false;
   }
-  function curve(fn, step = 12) {
-    let d = '';
-    for (let x = -24; x <= 1032; x += step) d += `${x === -24 ? 'M' : 'L'}${x.toFixed(1)} ${fn(x).toFixed(2)} `;
-    return d;
-  }
-  if (stage) {
-    const art = svg(stage, '0 0 1000 340', 'wave-art');
-    const ribbonA = line(art, 'wave-ribbon ribbon-blue');
-    const ribbonB = line(art, 'wave-ribbon ribbon-rose');
-    const threads = Array.from({ length: 8 }, (_, i) => line(art, i % 2 ? 'wave-thread thread-rose' : 'wave-thread'));
-    scenes.push({ el: stage.closest('.hero-visual') || stage, draw(p) {
-      const phase = p * Math.PI * 2.4;
-      const distort = x => pointer.strength * pointer.y * Math.exp(-Math.pow((x - pointer.x) / 170, 2));
-      const baseA = x => 170 + wave(x, phase, 90, 1.05) + distort(x);
-      const baseB = x => 170 + wave(x, -phase * .8 + 2, 100, 1.05) + distort(x) * .7;
-      ribbonA.setAttribute('d', curve(baseA)); ribbonB.setAttribute('d', curve(baseB));
-      threads.forEach((thread, i) => thread.setAttribute('d', curve(x => (i % 2 ? baseB(x) : baseA(x)) + (i - 3.5) * 11)));
-    }});
-  }
-  ['subjects', 'tutors', 'lessons', 'reviews', 'contact'].forEach((id, index) => {
-    const section = document.getElementById(id);
-    if (!section) return;
-    section.classList.add('has-wave-score');
-    const art = svg(section, '0 0 1000 110', 'wave-score');
-    const signals = [line(art, 'score-line'), line(art, 'score-line score-rose')];
-    if (id === 'contact') {
-      const rings = Array.from({ length: 8 }, (_, i) => make('ellipse', { class: i % 2 ? 'interference-ring ring-rose' : 'interference-ring', cy: 55, 'vector-effect': 'non-scaling-stroke' }, art));
-      scenes.push({ el: art, draw(p) {
-        const t = smooth(clamp(p / .7));
-        rings.forEach((ring, i) => {
-          const bank = i % 2 ? 1 : -1;
-          ring.setAttribute('cx', 500 + bank * (210 - t * 190));
-          ring.setAttribute('rx', 50 + Math.floor(i / 2) * 54 + t * 30);
-          ring.setAttribute('ry', 12 + Math.floor(i / 2) * 9 - t * 5);
-        });
-        signals.forEach((signal, i) => signal.setAttribute('d', curve(x => 55 + wave(x, i * Math.PI + t * 4, 22 * (1 - t), 2))));
-      }});
-    } else {
-      const samples = Array.from({ length: 44 }, (_, i) => make('rect', { width: 4, height: 4, rx: 2, class: i % 2 ? 'signal-sample sample-rose' : 'signal-sample' }, art));
-      scenes.push({ el: art, draw(p) {
-        const t = smooth(clamp((p - .1) / .7));
-        const sampling = id === 'subjects' || id === 'lessons';
-        const order = sampling ? t : 1 - t;
-        const phase = p * 5 + index * .6;
-        signals.forEach((signal, i) => {
-          signal.setAttribute('d', curve(x => 55 + wave(x, phase + i * Math.PI, 31 * (1 - order * .6), 2)));
-          signal.style.opacity = (1 - order * .85).toFixed(3);
-        });
-        samples.forEach((sample, i) => {
-          const bank = i % 2;
-          const x = 25 + Math.floor(i / 2) * 45;
-          const analogue = 55 + wave(x, phase + bank * Math.PI, 31, 2);
-          const digital = 36 + bank * 36;
-          const height = 4 + order * (8 + (Math.floor(i / 2) % 4) * 3);
-          sample.setAttribute('x', x);
-          sample.setAttribute('y', analogue * (1 - order) + digital * order - height / 2);
-          sample.setAttribute('height', height);
-          sample.style.opacity = (.2 + order * .6).toFixed(3);
-        });
-      }});
-    }
-  });
-  const steps = [...document.querySelectorAll('.lesson-steps li')];
-  // A sampled line beside the lesson sequence is decorative, not a time chart.
-  steps.forEach(step => {
-    const signal = document.createElement('span');
-    signal.className = 'step-signal'; signal.setAttribute('aria-hidden', 'true');
-    signal.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i><i></i>';
-    step.append(signal);
-  });
-  let queued = 0;
+  const visible = (y,h=0) => y+top+h>scrollY-80 && y+top<scrollY+innerHeight+80;
+  const progress = (y,h) => clamp((scrollY+innerHeight-top-y)/(innerHeight+h));
   function render() {
-    queued = 0;
-    if (document.hidden) return;
-    const h = innerHeight;
-    const rects = scenes.map(({ el }) => el.getBoundingClientRect());
-    const stepRects = steps.map(el => el.getBoundingClientRect());
-    scenes.forEach((scene, i) => {
-      const r = rects[i];
-      if (r.bottom < -60 || r.top > h + 60) return;
-      scene.draw(media.matches ? .58 : clamp((h - r.top) / (h + r.height)));
-    });
-    steps.forEach((step, i) => {
-      if (stepRects[i].bottom >= 0 && stepRects[i].top <= h) step.style.setProperty('--step-phase', media.matches ? '.65' : clamp((h * .9 - stepRects[i].top) / (h * .7)));
+    queued=0;if(document.hidden)return;if(dirty)measure();
+    const still=media.matches||paused;
+    if(still||visible(box.y-box.h/2,box.h)) {
+      const phase=still?0:progress(box.y,box.h)*1.6;
+      const pts=Array.from({length:81},(_,i)=>{
+        const t=i/80,x=box.x+t*box.w;
+        const pull=pointer.active&&!still?pointer.y*Math.exp(-Math.pow((x-pointer.x)/95,2)):0;
+        return {x,y:box.y+Math.sin(t*Math.PI*2+phase)*Math.sin(t*Math.PI)*box.h*.24+pull};
+      });
+      welcome.setAttribute('d',curve(pts));welcomeEdge.setAttribute('d',curve(pts));
+    }
+    const first=marks[0],last=marks[3],vertical=innerWidth<=760;
+    // A visible packet of this same wave accompanies the reading position.
+    // Its entire width is reserved in the gutter; it never crosses the copy.
+    const focus=scrollY+innerHeight*.43-top;
+    const packetVisible=!still && focus>exitY+100 && focus<ends[0].y-100 &&
+      (focus<first.y-100 || focus>last.y+130);
+    travelling.style.opacity=packetVisible?'1':'0';
+    traveller.style.opacity=packetVisible?'1':'0';
+    if(packetVisible){
+      const amplitude=Math.min(24,gutter*.48);
+      const packet=Array.from({length:49},(_,i)=>{const t=i/48;return{x:gutter+Math.sin(t*Math.PI*4)*Math.sin(t*Math.PI)*amplitude,y:focus-90+t*180};});
+      travelling.setAttribute('d',curve(packet));
+      traveller.setAttribute('cx',gutter);traveller.setAttribute('cy',focus);
+    }
+    if(still||visible(first.y-30,last.y-first.y+180)) {
+      const p=still?1:clamp(progress(first.y,last.y-first.y+120)*1.7);
+      const sampled=clamp((p-.12)/.65);
+      const pts=Array.from({length:97},(_,i)=>{
+        const t=i/96,segment=Math.min(2,Math.floor(t*3)),q=t*3-segment;
+        const a=marks[segment],b=marks[segment+1];
+        const wave=Math.sin(t*Math.PI*6)*(vertical?19:22);
+        return {x:a.x+(b.x-a.x)*q+(vertical?wave:0),y:a.y+(b.y-a.y)*q+(vertical?0:wave)};
+      });
+      lesson.setAttribute('d',curve(pts));lesson.style.opacity=(1-sampled*.9).toFixed(2);
+      lessonBody.setAttribute('d',curve(pts));lessonBody.style.opacity=((1-sampled)*.28).toFixed(2);
+      samples.forEach((dot,i)=>{const point=pts[i*2];dot.setAttribute('cx',point.x);dot.setAttribute('cy',point.y);dot.style.opacity=(.12+sampled*.88).toFixed(2);});
+    }
+    ends.forEach((b,i)=>{
+      if(!still&&!visible(b.y,b.h))return;
+      const settle=still?1:clamp(progress(b.y,b.h)*2.1);
+      const pts=Array.from({length:65},(_,j)=>{const t=j/64;return{x:b.x+t*b.w,y:b.y+Math.sin(t*Math.PI*2)*(1-settle)*25};});
+      endings[i].line.setAttribute('d',curve(pts));
+      endings[i].body.setAttribute('d',curve(pts));
+      endings[i].dot.setAttribute('cx',b.x+b.w/2);endings[i].dot.setAttribute('cy',b.y);
+      endings[i].dot.style.opacity=(.35+settle*.65).toFixed(2);
     });
   }
-  function request() { if (!queued && !document.hidden) queued = requestAnimationFrame(render); }
-  const visual = stage?.closest('.hero-visual');
-  const respond = e => {
-    if (media.matches) return;
-    const r = visual.getBoundingClientRect();
-    pointer = { x: clamp((e.clientX - r.left) / r.width) * 1000, y: clamp((e.clientY - r.top) / r.height * 2 - 1, -1, 1) * 65, strength: 1 };
-    request();
-  };
-  visual?.addEventListener('pointermove', respond, { passive: true });
-  visual?.addEventListener('pointerdown', respond, { passive: true });
-  const release = () => { pointer.strength = 0; request(); };
-  visual?.addEventListener('pointerleave', release);
-  visual?.addEventListener('pointerup', release);
-  visual?.addEventListener('pointercancel', release);
-  addEventListener('scroll', request, { passive: true });
-  addEventListener('resize', request, { passive: true });
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { cancelAnimationFrame(queued); queued = 0; } else request();
-  });
-  media.addEventListener('change', release);
-  new ResizeObserver(request).observe(document.body);
-  scenes.forEach(scene => scene.draw(.58));
-  document.fonts?.ready.then(request);
-  request();
+  function request(){if(!queued&&!document.hidden)queued=requestAnimationFrame(render);}
+  function layout(){dirty=true;request();}
+  function release(){pointer.active=false;request();}
+  function respond(e){if(media.matches||paused)return;const r=visual.getBoundingClientRect();pointer={x:e.clientX,y:((e.clientY-r.top)/r.height-.5)*50,active:true};request();}
+  visual.addEventListener('pointermove',respond,{passive:true});
+  visual.addEventListener('pointerdown',respond,{passive:true});
+  ['pointerleave','pointerup','pointercancel'].forEach(type=>visual.addEventListener(type,release));
+  function sync(){toggle.disabled=media.matches;toggle.textContent=media.matches?'Wave motion off':paused?'Resume wave':'Pause wave';toggle.setAttribute('aria-pressed',String(paused||media.matches));release();}
+  toggle.addEventListener('click',()=>{paused=!paused;sync();});
+  media.addEventListener('change',sync);
+  addEventListener('scroll',request,{passive:true});addEventListener('resize',layout,{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(queued);queued=0;}else request();});
+  new ResizeObserver(layout).observe(main);
+  document.fonts.ready.then(layout);
+  sync();
 })();

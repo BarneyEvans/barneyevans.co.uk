@@ -1,45 +1,31 @@
-# B1 — Aperture
+﻿# B1 - Aperture, polished
 
-Porcelain, lilac and ink blue: a calm optical instrument with two real people at its centre.
+Porcelain, lilac and ink blue, warmed with a little apricot: a clear optical journey with two real people at its centre.
 
-Open `index.html` directly. There is no build step, CDN, API or external font request.
+Open `index.html` directly. No build step, CDN, API or external font request is needed.
 
-## The look
+## What stayed
 
-Manrope gives this a precise contemporary voice. The asymmetrical opening sets a readable headline against two equally sized portrait windows. Fine lens planes and apricot rays refer to Eugene’s optics work without turning the page into a science demonstration. Prices are visible in the opening, followed by three open subject columns, a paired tutor chapter, lesson steps, full parent reviews and direct email contact.
+The asymmetrical opening, Manrope type, blue actions, equal portrait windows and immediately available subjects, rates and Enquire. All factual wording comes from `company/copy-v3.md`; the reviews and first-person lesson text remain explicitly Barney's. His 300+ hours / 5.0 rating stays separate from the MyTutor figures.
 
-This deliberately takes a different direction from the garden studios: sans serif, porcelain and lilac, blue actions, and architectural planes rather than green, oat, serif or a glass sphere. ZEISS informed the practical clarity; the harvest’s travelling-light and shared-path ideas became a connected optical journey.
+## What changed
 
-## Scroll story
+The single beam now physically connects the hero's focal point to the rest of the page. It runs through a reserved margin, divides into the three subject symbols, feeds the four Computer Science lesson markers, then gathers into a small warm halo beside contact. Repeated standalone lens dividers and the fixed progress rail are gone. Touching or moving over the opening bends its ray bundle through the lens while the shared focus remains connected.
 
-1. **Focus.** The hero lens planes narrow and shift as the page moves. Parallel rays meet at a focal point above the portraits and split again. Moving a pointer or touching the visual bends the ray bundle within a bounded range.
-2. **Branches.** The subjects chapter opens the beam into separate paths. Fine scroll-drawn branches physically meet the three subject symbols; on a phone they form a quiet vertical optical spine beside the rows.
-3. **Understanding.** The same line construction joins the four Computer Science lesson steps. Light reaches each numbered step with its position in the viewport. The approximate timings remain plain text, never a duration chart.
-4. **Gather.** The lower optical scores tighten as the visitor approaches contact, where the ray bundle converges. A fine margin rail keeps the chapters connected throughout the native scroll.
+Barney's approved quote, "We move at the speed the student needs to fully understand.", now opens his lesson chapter with clear attribution. Warm porcelain and restrained apricot balance the existing lilac and blue. Body text is at least 16px and small labels at least 13px. Phone subject titles sit above separate GCSE/A-Level rate rows. The shared beam splits into two generous optical portrait windows in the tutor chapter, then illuminates the lesson stem and settles in a larger contact focus. Credentials and DBS status remain visible in normal text.
 
-**Signature moment:** the beam becomes three actual paths into the subject choices, then a four-step lesson path. The artwork touches the content instead of living in a separate widget.
+## Motion and verification
 
-## Motion off and performance
+Native scroll drives the beam and branch illumination. There is no autoplay, timer, canvas, third-party animation library, fixed control or content overlay. Geometry is cached until layout changes; hidden tabs cancel scheduled work. Reduced motion shows a complete beam, fully drawn branches and still optics. Pointer/touch input leaves that still composition unchanged.
 
-Reduced motion fixes every scene at a composed still position, draws the branch paths fully, removes the travelling margin indicator and disables animated scrolling/transitions. All copy, prices, portraits and controls are present immediately. Scroll and touch are the only clocks: there is no autoplay or perpetual animation, so no pause control is needed.
+See `polish-notes.md` for final filmstrip timing, page height, overflow and interaction checks. The strips and supporting captures are outside the repository in `C:/Users/evans/geo/polish-run/film/B1/`.
 
-SVG only, approximately 10 KB of motion JavaScript, no animation library, no canvas or pixel-ratio cost. Geometry reads are grouped before writes; visible scenes update through one coalesced animation frame; hidden tabs cancel scheduled work and offscreen scenes stop drawing. The whole standalone folder is about 0.53 MB, including the two real photographs, two local font weights and their licence.
+## Visible dotted placeholders
 
-Reviewed running in Orca’s worktree browser and headless Chrome at desktop and multiple scroll positions. Phone QA covered 390px and 320px at 4× CPU throttling: no horizontal overflow, missing images, failed requests or JavaScript errors. A 180-frame programmatic scroll at 390px/4× had no frame interval above 50ms, with a measured 95th percentile of 18.3ms on this machine; this is a local emulation result, not a device guarantee. Touch altered the hero path, reduced motion stayed still under pointer movement, and keyboard focus and the native biography disclosure worked.
+- Working name, Barney & Eugene.
+- Eugene's Physics/Maths exam boards and all four rates; both GCSE and A-Level placeholder rates appear in the opening.
+- Eugene's assumed online Zoom format and teaching biography.
+- Eugene's example email and associated email action.
+- Enquiry form, linking to `#contact` until the real form exists.
 
-After the partner’s final optimisation, a separate 390px / DPR 2 / 4× run measured motion render callbacks at mean 1.33ms, p95 2.50ms and maximum 3.00ms over 180 callbacks. These are JavaScript durations, not whole-frame paint measurements. Final computed text-contrast checks found no failures below 4.5:1; native anchor targets all resolve.
-
-## Content status
-
-All factual wording comes from `company/copy-v3.md`. Reviews and first-person lesson descriptions are explicitly Barney’s. The 300+ hours / 5.0 score remains separate from the MyTutor figures.
-
-Visible dotted-underline placeholders:
-
-- Working name: Barney & Eugene.
-- Eugene’s Physics and Maths exam boards and all four rates (`£XX/hour`), also summarised in the hero.
-- Eugene’s assumed `1-to-1, online via Zoom` format.
-- Eugene’s placeholder teaching biography.
-- Eugene’s example email address and associated email action.
-- Enquiry form, which links to `#contact` until a real form exists.
-
-No availability, response time, consultation, grade outcome or review for Eugene is assumed. No unresolved implementation blocker remains.
+These need supplied content before launch. No availability, response time, grade result, consultation or review for Eugene is assumed.

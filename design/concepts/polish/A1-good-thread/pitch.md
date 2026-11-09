@@ -1,38 +1,39 @@
-﻿# A1 — A good thread
+# A1 - Good Thread, polished
 
-A lilac, raspberry and apricot homepage that feels gently stitched together, with rounded human typography and real portrait medallions.
+A warm lilac, raspberry and apricot page, organised by one thread that connects people, lesson steps, a parent's words and contact.
 
-## The idea
-The obvious warm-tutor direction is an elegant serif, oat background and green button. This takes a different route: locally bundled Nunito and DM Sans, plum ink, lilac cloth, raspberry actions and irregular stitched portrait surrounds. The wide split composition puts both people beside the headline, with subject/price shortcuts immediately below. The remaining page alternates open lists, portrait introductions, a stitched lesson map and full parent quotations, without a stack of outlined cards.
+## What changed
 
-## Scroll story
-1. In the opening, a raspberry thread joins both portrait medallions. A moving bead follows the thread as the native scroll advances; the faces and names are present immediately.
-2. At subjects, the thread becomes a shared branch across the three subjects on desktop, and travels the outside margin beside them on a phone.
-3. At the introductions it links the real people, staying in the outer gutter on narrow screens. The text never moves or waits to be revealed.
-4. In Barney's lesson section it becomes a loose seam through Recap, Live Teaching, Practice and Wrap Up. Each numbered point receives emphasis in turn; the timings remain ordinary approximate text, not a proportional chart.
-5. A small drawn underline introduces Barney's reviews, then the thread resolves into a centred knot above the two contact routes.
+The quick rates now sit directly under Enquire and above the portraits on phones, with separate GCSE and A-Level lines. Both names, equal faces, subjects and rates fit within the first two phone screens at 320px and 390px. Eugene's unknown rates remain explicit placeholders.
 
-The signature moment is the ordinary list becoming a stitched lesson path, connected visually to the two faces at the start. The optional “Pluck the thread” button gives the line a brief spring response through pointer, touch or keyboard.
+The existing local DM Sans now carries both headings and body text. It keeps the friendly voice while removing the very rounded heading treatment. Equal upright portraits retain one fine stitched contour; yellow inner borders, thick surrounds and the background blob are gone. Supporting labels are at least 13px, and body copy is at least 16px.
 
-## Motion off and weight
-Reduced motion draws every complete path in its resting composition and removes travelling beads and step emphasis. The optional button switches ink colour without movement. There is no ambient loop, no scroll-jacking and no content hidden behind animation; active play lasts 1.25 seconds. Frames are requested only for scrolling, resizing or that short response, with off-screen and hidden-tab work suspended.
+## One travelling journey
 
-The standalone folder is approximately 0.52 MB including two real photos, two local fonts and their licences. It uses SVG and CSS with no libraries, CDN, canvas, build step or runtime network dependency. The motion engine is shared in implementation with A2 but uses progressive stitching rather than A2's curve morph.
+1. The raspberry thread physically meets the two portrait contours. Plucking it gives the small connecting curve a brief spring response, without moving either person or their labels.
+2. The same uninterrupted path descends through the outer margin beside subjects and credentials. Its faint stitched track shows the route ahead; one bead follows the filled thread as the reader scrolls.
+3. At Barney's lesson map it moves into the space below the title and passes through the centre of all four actual numbered markers. They fill as the thread reaches them. Approximate timings stay ordinary text.
+4. It returns to the margin, folds onto the left edge of the first full review, and accompanies the parent's words. Both reviews and all MyTutor figures remain explicitly Barney's.
+5. The thread enters the spare space beneath the closing heading and finishes in one small loop above the two contact routes.
+
+Geometry is measured from the real elements and updates when a disclosure or viewport changes. Cached samples drive the scroll drawing; no scrolling is intercepted and content never waits for motion.
+
+## Controls and motion off
+
+Pluck the thread stays in page flow. A 44px sticky header row gives Pause its own opaque space, without a floating toolbar over the reading area. Plucking ends after 1.1 seconds, with no ambient loop. Hidden tabs stop animation work. Reduced motion or Pause shows a complete, still seam with settled lesson markers; the pluck button then changes ink without movement.
 
 ## Verification
-Viewed in the worktree-scoped Orca browser and headless Chrome at desktop and phone widths, at the hero, subjects, tutors, lessons, reviews and contact. Layout checks pass at 320, 390 and 1440 px with no horizontal overflow, missing images or JavaScript errors. The 390px run used 4x CPU throttling. Exact headline, review count, placeholder markers, internal links, disclosure controls, contact anchors and keyboard skip link were checked. Tested text/background combinations have a minimum contrast of 4.81:1; white button text is 7.69:1. See ../verification.json, ../content-audit.json and ../DUO-NOTES.md for recorded checks and motion measurements. Emulated throttling is a proxy, not a physical-device measurement.
 
-## Placeholders and assumptions
-- The working site name, Barney & Eugene, is marked with .ph.
-- Eugene's GCSE and A-Level Physics and Maths prices remain £XX/hour, and their exam boards remain [exam boards to confirm].
-- Eugene's 1-to-1, online via Zoom format remains an explicitly marked assumption.
-- Eugene's supplied placeholder bio is visible and marked.
-- Eugene's email address and Email Eugene action are marked placeholders using the supplied example mailto address.
-- Enquiry form is a marked placeholder linking to #contact; no form is implied to exist.
-- All reviews, MyTutor figures and lesson descriptions are explicitly Barney's. The 300+ hours figure remains separate from the MyTutor figures.
+See [polish-notes.md](polish-notes.md) for before/after strip measurements and [verification.json](verification.json) for viewport checks. The repeatable [verify.cjs](verify.cjs) audit covers 320, 390, 768 and 1440px: no sideways overflow, missing images, JavaScript errors, readable text below 13px or sampled thread/text intersections, including with the first experience disclosure open. Minimum sampled text contrast is 4.81:1. The line passes within 0.50px of each lesson-marker centre in a 5,001-point sample. Touch and Enter both pluck the thread, Pause settles it, and reduced motion stays unchanged during scrolling. The original content of subjects, tutors, lessons, full reviews, sources, contact and footer is preserved.
 
-## References used
-The Swash London textile case study suggested a material journey rather than a generic decorative background; Storyboat suggested readable illustrated spreads. Gucha Gucha and Form Play supported the restraint of a small recurring hand-drawn vocabulary. Links and verification limits are in ../scout-report.md.
+Final visual evidence lives outside the repo in C:/Users/evans/geo/polish-run/film/A1/. Viewed phone and desktop strips and the worktree-scoped Orca preview. Chromium CPU throttling is a repeatable proxy, not a physical-handset measurement.
 
-### Final throttled motion measurement
-The motion partner's final Chromium 156 run used 390px width, CDP 4x CPU throttling and a 120-frame native-scroll sweep. A1's scheduled JavaScript callback cost was 0.7ms at p95 and 1.2ms maximum; its single setup callback after fonts were ready took 22.3ms. Tap and Enter responses settled after 1.25 seconds, with no continuing idle callbacks; reduced-motion geometry remained unchanged during scroll. These measurements support the light implementation but do not claim physical-handset frame rates.
+## Placeholders retained
+
+- Working site name and footer name: Barney & Eugene.
+- Eugene's GCSE and A-Level Physics and Maths prices and exam boards.
+- Eugene's assumed online Zoom format and supplied placeholder biography.
+- Eugene's supplied example email address and Email Eugene action.
+- Enquiry form, still linking to #contact.
+
+All remain marked with the quiet dotted .ph underline. No claim, review or confirmed offer was invented.
