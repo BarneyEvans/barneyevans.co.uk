@@ -11,6 +11,13 @@
   const status = document.querySelector('#garden-status');
   const chapters = [...document.querySelectorAll('[data-chapter]')];
   const stepEls = [...document.querySelectorAll('.lesson-path li')];
+  const light = document.querySelector('.journey-light');
+  const daylight = document.querySelector('.daylight');
+  const archLight = document.querySelector('.glass-arch span');
+  const contactSun = document.querySelector('.contact-sun');
+  const lessonPath = document.querySelector('.lesson-path');
+  let lightStops = [];
+  let chapterGeometry = [], stepTops = [], pageHeight = 0;
   let cells, next, previous, cell, cols, rows, width, height;
   let chosen = 0, planting = 1, paused = media.matches, raf = 0, timer = 0;
   let changedAt = 0, generation = 0, pointer = null, seeded = new Set();
@@ -36,12 +43,10 @@
     seeded.add(chapter.id);
     const y = Math.floor(documentY(chapter)/cell);
     const h = Math.floor(chapter.offsetHeight/cell);
-    const spread = chapter.id === 'subjects' ? 2 : 3;
+    const spread = 1;
     for (let k=0;k<spread;k++) {
       const bedY=y+3+k*Math.max(19,Math.floor(h/spread));
       put(1,bedY,1);
-      put(4,bedY+6,1);
-      put(1,bedY+12,1);
       put(cols-15,y+8+k*Math.max(16,Math.floor(h/spread)),2);
     }
     if (chapter.id === 'tutors') {
@@ -78,7 +83,68 @@
     const dpr = Math.min(devicePixelRatio||1,2);
     canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    scrollStory(); requestDraw();
+    measureJourney(); scrollStory(); requestDraw();
+  }
+
+  // One sun greets the two portraits, traces the lesson stem, then rests at contact.
+  // Cache geometry at layout changes; the scroll frame only interpolates transforms.
+  function measureJourney() {
+    pageHeight=document.documentElement.scrollHeight;
+    chapterGeometry=chapters.map(el=>({el,top:documentY(el)}));
+    stepTops=stepEls.map(el=>documentY(el));
+    const arch = document.querySelector('.glass-arch').getBoundingClientRect();
+    const subject = document.querySelector('#subjects');
+    const contact = document.querySelector('#contact').getBoundingClientRect();
+    const margin = width < 760 ? 11 : Math.max(16,(width-1160)/2+17);
+    const archY = arch.top + scrollY + (width<761?40:52);
+    const archX = arch.left+arch.width/2;
+    const archScale=width<761?.8:1;
+    const archHold=Math.max(1,archY-height*.35);
+    const garden=document.querySelector('.planting-bed').getBoundingClientRect();
+    const gardenY=garden.top+scrollY+garden.height/2;
+    lightStops = [
+      {scroll:0,x:archX,y:archY,size:archScale},
+      {scroll:archHold,x:archX,y:archY-archHold,size:archScale},
+      {scroll:archHold+90,x:margin,y:archY-archHold-90,size:.16},
+      {scroll:documentY(subject)-height*.25,x:margin,y:height*.35,size:.16},
+      {scroll:gardenY-height*.7,x:margin,y:height*.7,size:.16},
+      {scroll:gardenY-height*.55,x:width/2,y:height*.55,size:1.05},
+      {scroll:gardenY-height*.35,x:width/2,y:height*.35,size:1.05},
+      {scroll:gardenY-height*.2,x:margin,y:height*.2,size:.16}
+    ];
+    const first = stepEls[0].querySelector('.step-seed').getBoundingClientRect();
+    if(width>=761) {
+      const lessonTop=documentY(document.querySelector('#lessons'));
+      lightStops.push({scroll:lessonTop-height*.8,x:margin,y:height*.8-24,size:.16});
+      lightStops.push({scroll:lessonTop-height*.7,x:first.left-12,y:height*.7-24,size:.16});
+    }
+    lightStops.push({scroll:first.top+scrollY-height*.55-48,x:width>=761?first.left-12:margin,y:height*.55,size:.16});
+    stepEls.forEach(el=>{
+      const r=el.querySelector('.step-seed').getBoundingClientRect();
+      lightStops.push({scroll:r.top+scrollY-height*.55,x:r.left+r.width/2,y:height*.55+r.height/2,size:.38});
+    });
+    lightStops.push({scroll:documentY(document.querySelector('#reviews'))-height*.3,x:margin,y:height*.35,size:.16});
+    // Cross the empty crown of the contact arch, never the preceding review.
+    lightStops.push({scroll:contact.top+scrollY-height*.82,x:margin,y:height*.82+70,size:.16});
+    lightStops.push({scroll:contact.top+scrollY-height*.65,x:contact.left+contact.width/2,y:height*.65+70,size:1.2});
+    lightStops.sort((a,b)=>a.scroll-b.scroll);
+  }
+
+  function moveLight() {
+    if(media.matches || !lightStops.length) return;
+    let a=lightStops[0],b=a;
+    for(let i=1;i<lightStops.length;i++) {
+      b=lightStops[i];
+      if(scrollY<=b.scroll) break;
+      a=b;
+    }
+    const t=clamp((scrollY-a.scroll)/Math.max(1,b.scroll-a.scroll),0,1);
+    const smooth=t*t*(3-2*t);
+    const x=a.x+(b.x-a.x)*smooth;
+    const y=a.y+(b.y-a.y)*t-(a===b?Math.max(0,scrollY-a.scroll):0);
+    const size=a.size+(b.size-a.size)*smooth;
+    light.style.transform=`translate3d(${(x-48).toFixed(1)}px,${(y-48).toFixed(1)}px,0) scale(${size.toFixed(3)})`;
+    light.style.setProperty('--turn',`${(day*240).toFixed(1)}deg`);
   }
 
   function evolve() {
@@ -142,16 +208,19 @@
 
   function scrollStory() {
     if(!cells) return;
-    day=clamp(scrollY/Math.max(1,document.documentElement.scrollHeight-height),0,1);
-    document.documentElement.style.setProperty('--day',media.matches?'.55':day.toFixed(4));
+    day=clamp(scrollY/Math.max(1,pageHeight-height),0,1);
     // Each bed belongs to this same world. Scroll introduces increasing density.
-    chapters.forEach(chapter=>{
-      if(chapter.getBoundingClientRect().top<height*.94) seedChapter(chapter);
+    chapterGeometry.forEach(({el,top})=>{
+      if(top-scrollY<height*.94) seedChapter(el);
     });
-    const lessons=document.querySelector('#lessons').getBoundingClientRect();
-    const path=clamp((height*.7-lessons.top)/lessons.height,0,1);
-    document.documentElement.style.setProperty('--path',media.matches?1:path);
-    stepEls.forEach((el,i)=>el.classList.toggle('active',media.matches||path>(i+.5)/4));
+    const path=clamp((height*.55+scrollY-stepTops[0])/Math.max(1,stepTops[3]-stepTops[0]),0,1);
+    const daylightValue=media.matches?'.55':day.toFixed(4);
+    daylight.style.setProperty('--day',daylightValue);
+    archLight.style.setProperty('--day',daylightValue);
+    contactSun.style.setProperty('--day',daylightValue);
+    lessonPath.style.setProperty('--path',media.matches?1:path);
+    stepEls.forEach((el,i)=>el.classList.toggle('active',media.matches||stepTops[i]-scrollY<height*.55));
+    moveLight();
     requestDraw();
   }
 
@@ -228,9 +297,8 @@
   }
   document.querySelector('#plant').addEventListener('click',()=>{
     // Put the keyboard-accessible seed into the nearest open garden bed.
-    const beds=[document.querySelector('.hero-people'),document.querySelector('.garden-crossing')];
-    const visible=beds.find(el=>{const r=el.getBoundingClientRect();return r.bottom>70&&r.top<height-100;});
-    plant(width*.55,visible?documentY(visible)+Math.min(visible.offsetHeight/2,90):scrollY+height*.5);
+    const bed=document.querySelector('.planting-bed');
+    plant(width*.55,documentY(bed)+bed.offsetHeight/2);
   });
   document.addEventListener('pointerdown',event=>{
     if(event.target.closest('a,button,summary,header,footer,.quiet,.subject-column,.tutor-card,.lesson-path,.review-pair,.review-source,.contact-inner,.garden-controls')) return;
@@ -246,6 +314,7 @@
   addEventListener('scroll',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(()=>{scrollFrame=0;scrollStory();});},{passive:true});
   let resizeTimer;
   addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(setup,140);});
+  document.querySelectorAll('.tutor-back details').forEach(el=>el.addEventListener('toggle',setup));
   document.addEventListener('visibilitychange',()=>{schedule();if(!document.hidden){scrollStory();requestDraw();}});
   media.addEventListener('change',()=>{if(media.matches){paused=true;chapters.forEach(seedChapter);}schedule();scrollStory();requestDraw();});
   // Small read-only diagnostics for reproducible local performance checks.

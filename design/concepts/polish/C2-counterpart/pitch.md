@@ -1,63 +1,57 @@
-# Counterpart
+# Counterpart, polished
 
-**Two generous ribbons, two real people: a spacious Manrope composition in plum, rose and blush that gradually weaves itself together.**
+Two rose and plum ribbons belong to two equally prominent tutors. They open onto the portrait frames, weave alongside the lesson sequence and settle into parallel strokes at contact.
 
-Open `index.html` directly. All photographs, the font, its licence, CSS and JavaScript are local to this folder. No build or network connection is needed.
+Open `index.html` directly. Photos, Manrope, its licence, styles and the renderer are local; there is no build step or network dependency.
 
-## The visit
+## What changed
 
-On desktop the headline sits centrally, with the tutors on opposite sides of a broad paired ribbon. The lighter, continuous sans-serif headline and pill-shaped portraits give this concept a different rhythm from Soft Assembly. On a phone the headline leads into equally sized portraits, a price summary and the full subject list. Enquire is a normal solid plum button in the header and hero.
+GCSE and A-Level rates now precede the portraits. The two tutors have equal price summaries, with bold amounts on separate level rows and Eugene's unconfirmed rates visibly marked. Both names, faces, subjects, rates and Enquire fit within the first two phone screens, including at 320 x 568.
 
-Pricing uses two simple, ruled columns. The first open ribbon crossing introduces the tutor profiles. There are equal portraits, names, credential lists and experience disclosures; Eugene's unconfirmed details remain visible. The lesson section becomes a rose-tinted field with four coordinated bends above Barney's explanation. Before the reviews, the strands weave alternately over and under one another. At the final contact section, the complex paths settle into two quiet parallel lines above the two email choices.
+Body copy is at least 16px and small readable labels at least 13px. Stronger weight, darker supporting text and clearer price figures retain the soft palette while making the phone view easier to read. Section spacing is tighter, and the two full-width loop interludes are gone. All supplied claims, qualifications, experience, lesson wording and both full Barney reviews remain.
 
-## Scroll choreography and interaction
+## Three ribbon moments
 
-1. **The introduction:** the two broad bands between the portraits change phase as the hero moves through the viewport.
-2. **The exchange:** a shallow pair of paths expands into a crossing as the reader moves from prices toward the people.
-3. **Back and forth:** four bends pass through the lesson interlude; four small fixed points provide a visual rhythm without encoding lesson duration.
-4. **The weave:** open curves become a closer braid above the parent reviews. Drawing order alternates at crossings, so the bands genuinely pass over and under each other.
-5. **The resolution:** at contact the oscillations flatten into two aligned strokes, retaining both colours and equal weight.
+1. **Separate, at the portraits.** Broad independent ribbons open outward onto the two photo frames. Scrolling and pointer movement gently change their bend without crossing them.
+2. **Braided, along the journey.** The same pair returns as a substantial vertical over/under weave beside the four Computer Science lesson steps. Its four crossings follow the sequence without encoding the approximate durations. The steps and first-person explanation remain attributed to Barney.
+3. **Parallel, at contact.** The two colours remain equally weighted as the paths flatten into quiet parallel strokes above the contact choices. They stay parallel throughout the settling movement.
 
-The signature moment is the braid forming and then relaxing into the parallel contact lines. The changing topology and recurring material make the motion the page's organising idea. These are separate canvases at each chapter, linked by repeated form and choreography; they do not pretend to be a single continuous path behind every section. Text is always stable and readable.
+There is one canvas, moved between three reserved anchors as each chapter enters view. The pair is recognisable across those spaces; it never travels across reading text. The former price/profile and pre-review loops are removed. This is a three-moment story rather than five repeated full-width bands.
 
-The **Swap the ribbons** button gives a touch and keyboard-accessible exchange of colours and phase. Pointer movement bends the nearby decorative paths slightly. The interaction runs for 700 ms, changes no content and never prevents reading. The button has a visible focus style and an `aria-pressed` state.
+Swap the ribbons exchanges the over/under relationship and colours in a finite 650ms interaction. Its button and Pause ribbons sit below the lesson steps, in normal page flow. Native buttons work with keyboard and touch. No fixed interactive element covers names, prices, emails or actions.
 
-## Design decisions
+## Motion and fallback
 
-| Obvious route | Chosen route |
-|---|---|
-| Serif editorial warmth | Locally bundled Manrope with a light, open, continuous rhythm |
-| Green buttons and oat | Plum buttons, rose ribbons, pink-white space and deep mulberry text |
-| A science diagram with labels | Two solid, tactile colour bands whose relationship is understood through movement |
-| A symmetry that repeats everywhere | Centred introduction, offset section headings, open columns and a quieter contact ending |
-| An animated waveform decoration | A five-part story: separate, cross, coordinate, weave, settle |
-
-The harvest's paired-response idea informed the interaction. There is no optical simulation, glowing ellipse, particle field, garden, hand-drawn texture or fake scientific claim.
-
-## Motion off and implementation
-
-Reduced motion renders composed still curves at every scene. Scroll and pointer changes are suppressed; the swap becomes instantaneous. All content, native experience disclosures and links work without JavaScript, with blank decorative bands in that fallback.
-
-The renderer uses short sampled polylines and Canvas 2D. There are no animation libraries, CDNs, WebGL shaders or continuous background loops. Off-screen canvases are skipped, hidden tabs stop drawing, pixel ratio is capped at 2, and rAF work is event-driven except for the finite 700 ms button response. No autonomous animation requires a pause control.
-
-The standalone folder is approximately **508 KB before its pitch**, including both real JPEGs, Manrope and its OFL licence. Runtime JavaScript is approximately 9 KB. Both concepts share the tested scheduling code, but every runtime file is copied into each concept so the folder can be moved on its own.
+The renderer only schedules work for scroll, resize, pointer input or the finite swap response. It is idle at rest, skips off-screen drawing, stops in a hidden tab and caps canvas backing resolution at 2x. Reduced motion shows a settled composition at each anchor, with no scroll or pointer deformation; swapping is instantaneous. CSS supplies still strands without JavaScript, while all content and native experience disclosures remain available.
 
 ## Verification
 
-Viewed in the Orca worktree browser and headless Chrome at 1440, 390 and 320 CSS pixels, including multiple later scroll positions. At phone widths the run used 4× CPU throttling and a simulated 3× device scale factor; canvas backing stores stayed at 2×. There was no sideways scrolling or JavaScript error. Touch swap, keyboard-compatible native disclosures, the enquiry anchor, all four later scroll transformations, reduced motion, idle stillness and content access without JavaScript passed.
+Before and final filmstrips were inspected at phone and desktop widths. The final page was also checked in the Orca worktree browser. The strip tool scrolls with actual wheel events under 4x CPU throttling; these are local headless timings rather than physical-phone certification.
 
-The final 390px 4× run measured approximately **0.7 ms p95 drawing time** and **6.3 ms p95 frame intervals**; the 320px run had a 6.2 ms p95 interval. These are local headless measurements, not physical-device certification. `../verification.json` contains the final measurements after the weave refinement, and `../verify.cjs` reproduces the checks. Screenshots are kept outside the repository in OS temporary storage.
+| Viewport | Before height / screens | After height / screens | After p95 | Overflow / errors |
+|---|---|---|---|---|
+| 390 x 844 | 7,544px / 8.9 | 6,786px / 8.0 | 6.2ms | 0px / 0 |
+| 1440 x 900 | 5,789px / 6.4 | 4,715px / 5.2 | 6.2ms | 0px / 0 |
+| 320 x 568 | Not supplied | 7,217px / 12.7 | 6.2ms | 0px / 0 |
+
+The 390px page is 758px shorter and the desktop page 1,074px shorter. At both phone widths the entire opening, including portrait captions, ends at approximately 983px. The supplied copy and placeholder comparison passes, as do touch swap, pause/resume, native disclosure, visible skip-link focus, idle rendering, all three ribbon states, the 2x resolution cap, reduced-motion stillness and content without JavaScript. The computed-colour scan found no text below 4.5:1, no readable text below 13px and no body text below 16px; it does not replace visual checking of composited backgrounds.
+
+`verification.json` records these functional checks. Reproduce them with:
+
+    node verify.cjs <path-to-playwright-core>
+
+External filmstrips are in `C:/Users/evans/geo/polish-run/film/C2/`; images are not committed. See `polish-notes.md` for the review decisions and final metrics.
 
 ## Placeholders and boundaries
 
-All unconfirmed content has the required dotted `.ph` span:
+All unconfirmed content retains its dotted `span.ph` marker:
 
-- `Barney & Eugene`, the working name used in header/footer branding.
-- Eugene's assumed `1-to-1, online via Zoom` format.
-- `[exam boards to confirm]` on his four subject rows.
-- `£XX/hour` on those rows and in his quick-price summary.
-- The supplied Eugene placeholder bio, in full.
-- His `Email Eugene` button and `eugene@example.com` address; the mailto is the supplied placeholder.
-- `Enquiry form`, linking to the current contact anchor without pretending to be a working form.
+- The working site name, Barney & Eugene.
+- Eugene's assumed 1-to-1, online via Zoom format.
+- Exam boards to confirm and the four full subject-table rates.
+- GCSE and A-Level rates in Eugene's opening summary.
+- Eugene's supplied placeholder biography.
+- Email Eugene and eugene@example.com, including the supplied placeholder mailto.
+- Enquiry form, linking to the current contact anchor.
 
-The exact supplied copyright line is retained. Barney owns the first-person lesson wording, all four approximate lesson steps and both full parent reviews. His overall tutoring-hours claim is separated from the dated MyTutor statistics. Eugene's Imperial, Durham, Kyoto and Ritz Education credentials appear only with him. No invented prices, reviews, results, promises or availability claims are present. Every page is noindex.
+Eugene's missing details still require his input. All reviews and MyTutor figures are clearly Barney's; Eugene's credentials and Ritz Education experience remain his own. No claim, price, result, availability statement or contact route has been invented. The page remains noindex, and the v3 original is untouched.
