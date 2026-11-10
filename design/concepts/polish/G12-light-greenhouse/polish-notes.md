@@ -145,3 +145,46 @@ Final regression, exact Round 3 copy/geometry comparison and full-glow reading-c
 Evidence is outside Git in `C:/Users/evans/geo/polish-run/film/G12/round4/`: `frames-390.json`, `frames-1440.json`, `summary-*.json`, `motion-chart-*.svg`, regression/geometry/safety/stress JSON, and the reproducible scripts. `lesson-01.png` through `lesson-20.png` are consecutive captures spanning 13.82 seconds through all four lesson steps; `lesson-sequence.json` preserves timestamps and state, `lesson-contact-sheet.png` shows them together, and `lesson-playback.mp4` plays those captured frames at their measured pace. The MP4 is sampled playback of the 20 captures, not a 60fps recording. `README.md` indexes the evidence and `source-sha256.json` identifies the measured source. Final `after-*.png` and matching JSON remain in the parent G12 folder, alongside the preserved `r3-390.png` and `r3-1440.png`.
 
 No remaining Round 4 implementation blocker. Changes are confined to motion code/styles and this record; no page copy, prices or layout changed, no screenshots or diagnostic scripts are committed, and nothing was pushed.
+
+## Round 5 — scroll-linked light
+
+Replaced Round 4's queued 90px/s traveller and timed opening/holding/closing phases with an invertible scroll-to-route map and exact 100ms exponential position smoothing. The same route coordinate scrubs each oval open and closed; it reverses on upward scroll and remains part-open when stopped. The document-anchored, faded tiled background is unchanged, and the travelling core remains a round 16px light.
+
+The coordinator approved two measured geometry tradeoffs: physically reaching all stops takes priority over the original 30–65% viewport band and half-viewport horizontal intervals; a brief desktop vertical-rail catch-up around 2.7 route pixels per scroll pixel is allowed. All horizontal segments are allocated at no more than 1.19px per scroll pixel. Desktop visits Eugene then Barney before entering the left rail, traverses lesson 01–04 across roughly 749px of scroll, and uses the clear review-column gutter toward contact. Phone visits both portraits and all four stacked markers. No text, price or layout changes.
+
+Round 4 after strips have been preserved as r4-390.png and r4-1440.png. Final Edge measurements, equal-scroll lesson captures, regression checks and required strips are in progress in the external round5 evidence folder.
+
+### Round 5 — settling and frame budget
+
+The first unbounded 165Hz style-update trace was rejected at 30.2ms p95; plain exponential smoothing also took 691ms to reach 1px after the final large flick. Kept the established 60Hz animation budget, with elapsed-time integration and the unchanged 64ms texture cadence. The initial response is a 100ms exponential; after the last native scroll event, a smooth finite tail removes its remaining error by 300ms, without a speed limit, arrival queue or independent opening timeline.
+
+The revised desktop Edge trace passes at 6.2ms p95, zero document/tile background error, 59.5px maximum horizontal movement per 50px scroll, and exactly 16px transit diameter. Maximum route ratio is 2.6429 on the approved vertical rail catch-up (1.6770 in viewport coordinates); all light footprints retain at least 6px clearance from reading matter. The final fast flick settles to within 1px in 290.9ms. Phone and final strip measurements follow.
+
+### Round 5 - final measured evidence
+
+Final-source Edge measurements use the supplied playwright-core, real mouse.wheel input, 4x CPU and one probe per browser RAF. Reading input is 24px every 120ms; the separate interior stop/reversal and 720/960px flick probes prevent a stationary contact light from giving misleading zero-lag results.
+
+| Viewport | Samples | Background / tile max error | Reading lag median / max | Fast-flick lag median / max | Settle to 1px: reading / flick | Trace p95 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 5536 | 0 / 0px | 13.97 / 38.56px | 71.14 / 928.61px | 200 / 290.9ms | 6.2ms |
+| 1440 x 900 | 3555 | 0 / 0px | 20.39 / 83.21px | 53.21 / 1327.30px | 254.5 / 297ms | 12.2ms |
+
+The high peak flick lag is the instantaneous distance after a large scroll impulse, before smoothing catches up; there is no speed cap or queued stop delaying it. Fast-flick error falls by 95% in 218.2ms phone / 224.3ms desktop. Reversing-wheel lag is 10.53 / 54.68px median/max on phone and 33.68 / 124.41px on desktop, settling to 1px in 260.6 / 284.8ms.
+
+Maximum route length per scroll pixel is 1.1900 on phone and 2.6429 on desktop. The approved desktop catch-up occupies scrollY 886.35-1326.51 (440.16px of scroll), through the clear approach/left rail at x70-126.97; maximum viewport movement is 1.6770px per scroll pixel. Outside that catch-up, every desktop segment stays below 2. Desktop lesson 01-04 uses 748.74px of scroll and the available viewport height: centres range about 90% to 7%, leaving each full oval visible. This is the documented physical-visit tradeoff approved by the coordinator, rather than accelerating the horizontal crossing.
+
+Every 50px-scroll horizontal window, checked at 1px starting increments, stays at or below 59.5px; zero jumps exceed 60px. Transit radius remains exactly 8px / diameter 16px, including the margin, with no stretching. Actual DOM transit diameter is within 0.00004px of 16px. Opening is a reversible function of route distance: at 85px or farther from a stop every measured diameter is 16px; nearer stops the same oval grows to 122px at portraits, 110px phone / 112px desktop at lessons, and 171.844px at contact. The external README includes diameter-versus-distance bins. Full-footprint clearance remains at least 2px on phone and 6px desktop, with text, images and actions protected.
+
+The required strips were overwritten only after preserving Round 4 as r4-390.png and r4-1440.png, then all three final strips were opened and visually inspected:
+
+| Viewport | Height / screens (unchanged) | Median / p95 | Over 50ms | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 x 844 | 5827px / 6.9 | 6.1 / 12.1ms | 0.2% | 0px / 0 |
+| 1440 x 900 | 3942px / 4.4 | 6.1 / 18.2ms | 0.2% | 0px / 0 |
+| 320 x 568 | 6091px / 10.7 | 6.1 / 12.1ms | 0.1% | 0px / 0 |
+
+Exact rendered-copy and text/price/image/control geometry comparisons against the preserved Round 4 source pass at all three widths. Updated qa.cjs passes physical arrivals, part-open stillness and reverse opening, synchronized in-flow Pause, keyboard pairing, both full-width biographies and focus, credentials, contrast (minimum 4.748:1), no-JavaScript content, reduced motion and 320px overflow. Additional stress checks freeze position, opening and generation under Pause; runtime reduced motion settles and stays static; resume and large bidirectional flicks reach the current target without a queue. Biography closure restores the original page height. The Orca worktree preview was opened and its screenshot inspected.
+
+Evidence is outside Git in C:/Users/evans/geo/polish-run/film/G12/round5/: README.md, frames-390/1440.json, summary-390/1440.json, exact source hashes, geometry/regression/safety/stress JSON and reproducible scripts. Each lesson-contact-sheet-390/1440.png contains 20 captures at evenly spaced scroll positions (31.37px phone / 46.79px desktop), with individual PNGs and exact scroll/state JSON. They were visually inspected and show each scrubbed opening and small round transit light. These are scroll-step sheets, not time-step playback.
+
+No Round 5 implementation blocker remains. Background anchoring/texture, all wording, prices and layout are preserved; changes are confined to this folder's light motion, QA and notes. Nothing was pushed and no evidence artifacts were committed. Source milestones are 7323286 and 682504f, followed by this final evidence record; supplied-content and real-device launch follow-ups remain as recorded in earlier rounds.

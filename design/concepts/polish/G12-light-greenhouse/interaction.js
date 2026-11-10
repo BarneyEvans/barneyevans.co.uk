@@ -18,7 +18,7 @@
   const lens = document.createElement('canvas'), lensContext = lens.getContext('2d');
   const coreCanvas = document.createElement('canvas'), coreContext = coreCanvas.getContext('2d');
   coreCanvas.className='light-core';light.append(lens,coreCanvas);
-  const lensSize = 480, smallRadius = 8, travelSpeed = 90, acceleration = 240;
+  const lensSize = 480, smallRadius = 8, smoothingSeconds = .1;
   const pairElements = [...document.querySelectorAll('.paired-cell')];
   const markerElements = [...document.querySelectorAll('.step-orb')];
   const restElement = document.querySelector('.light-rest');
@@ -29,7 +29,8 @@
     if(values[name]===value)return;values[name]=value;el.style.setProperty(name,String(value));
   }
   let route = [], distance = 0, velocity = 0, targetDistance = 0, phase = 'settled';
-  let phaseTime = 0, opening = 1, settledStop = 0, lightRadius = smallRadius, paintedStop = -1;
+  let lastScrollPosition = scrollY, lastScrollTime = performance.now();
+  let opening = 1, settledStop = 0, lightRadius = smallRadius, paintedStop = -1;
   let generation = 0, quiet = [], height = 0, resizeTimer;
   const sprites = [null,makeSprite('#a2afa4',false),makeSprite('#b2a9bb',true)];
   const field = document.createElement('canvas');field.width=field.height=512;
@@ -129,56 +130,80 @@
     pairPoints=pairElements.map(point);markerPoints=markerElements.map(point);restPoint=point(restElement);
     const subject=document.querySelector('#subjects').getBoundingClientRect();
     const rail=subject.left/2, mobile=innerWidth<=700, first=markerPoints[0], last=markerPoints.at(-1);
-    const meeting=Math.max(0,pairPoints[0].y-innerHeight*.65);
-    const lessonAt=first.y-innerHeight*(mobile?.48:.65);
-    const nodes=[
-      {...pairPoints[0],at:meeting,stop:0},
-      {...pairPoints[1],at:meeting+170,stop:1},
-      {x:rail,y:pairPoints[1].y,at:meeting+300},
-      {x:rail,y:first.y,at:lessonAt-70},
-      ...markerPoints.map((p,i)=>({...p,at:mobile?p.y-innerHeight*.48:lessonAt+i*115,stop:i+2})),
-      {x:rail,y:last.y,at:mobile?last.y-innerHeight*.48+100:lessonAt+445},
-      {x:rail,y:restPoint.y,at:restPoint.y-innerHeight*.65},
-      {...restPoint,at:restPoint.y-innerHeight*.45,stop:6}
-    ];
-    const maxScroll=height-innerHeight;
-    nodes.forEach((p,i)=>{p.at=Math.min(maxScroll,p.at);if(i)p.at=Math.max(p.at,nodes[i-1].at+35);});
-    // Arc-length samples make the travel speed independent of the length of a
-    // scroll interval. Round margin corners; stops themselves remain exact.
+    const maxScroll=height-innerHeight, horizontal=1.19;
+    let nodes;
+    if(mobile){
+      const meeting=Math.max(0,pairPoints[0].y-innerHeight*.82);
+      const second=meeting+Math.abs(pairPoints[1].x-pairPoints[0].x)/horizontal;
+      const firstAt=first.y-innerHeight*.6, restAt=restPoint.y-innerHeight*.42;
+      nodes=[
+        {...pairPoints[0],at:meeting,stop:0},
+        {...pairPoints[1],at:second,stop:1},
+        {x:rail,y:pairPoints[1].y,at:second+Math.abs(pairPoints[1].x-rail)/horizontal},
+        {x:rail,y:first.y,at:firstAt-120},
+        ...markerPoints.map((p,i)=>({...p,at:p.y-innerHeight*.6,stop:i+2})),
+        {x:rail,y:last.y,at:last.y-innerHeight*.6+100},
+        {x:rail,y:restPoint.y,at:restAt-Math.max(180,Math.abs(restPoint.x-rail)/horizontal)},
+        {...restPoint,at:restAt,stop:6}
+      ];
+    }else{
+      // A serpentine passage saves a redundant whole-width crossing. Each
+      // horizontal interval is budgeted in scroll pixels, never elapsed time.
+      const pairLeft=document.querySelector('.tutor-pair').getBoundingClientRect().left;
+      const corner=pairLeft-24, inside=subject.left-10;
+      const second=Math.abs(pairPoints[1].x-pairPoints[0].x)/horizontal;
+      const cornerAt=second+Math.abs(pairPoints[0].x-corner)/horizontal;
+      const insideAt=cornerAt+Math.abs(corner-inside)/horizontal;
+      const railAt=insideAt+Math.abs(inside-rail)/horizontal;
+      const firstAt=first.y-innerHeight*.901, rowScroll=(last.x-first.x)/horizontal;
+      const lastAt=firstAt+rowScroll;
+      const reviews=document.querySelector('#reviews').getBoundingClientRect();
+      const reviewTop=reviews.top+scrollY, pair=document.querySelector('.review-pair').getBoundingClientRect();
+      const gutter=last.x-40, leaveAt=lastAt+40/horizontal;
+      const belowAt=leaveAt+140, centreAt=belowAt+Math.abs(gutter-restPoint.x)/horizontal;
+      nodes=[
+        {...pairPoints[1],at:0,stop:1},
+        {...pairPoints[0],at:second,stop:0},
+        {x:corner,y:pairPoints[0].y,at:cornerAt},
+        {x:inside,y:subject.top+scrollY+5,at:insideAt},
+        {x:rail,y:subject.top+scrollY+115,at:railAt},
+        {x:rail,y:first.y-56,at:firstAt-Math.abs(first.x-rail)/horizontal},
+        ...markerPoints.map((p,i)=>({...p,at:firstAt+(p.x-first.x)/horizontal,stop:i+2})),
+        {x:gutter,y:last.y,at:leaveAt},
+        {x:gutter,y:reviewTop-18,at:belowAt},
+        {x:restPoint.x,y:pair.top+scrollY-22,at:centreAt},
+        {...restPoint,at:Math.min(maxScroll,restPoint.y-innerHeight*.23),stop:6}
+      ];
+    }
+    // Small, rounded margin corners retain their allocated scroll intervals.
     route=[];stops=[];
     const append=p=>{const prev=route.at(-1);route.push({...p,s:prev?prev.s+Math.hypot(p.x-prev.x,p.y-prev.y):0});};
     const line=p=>{
       const a=route.at(-1),length=Math.hypot(p.x-a.x,p.y-a.y),n=Math.max(1,Math.ceil(length/3));
-      for(let j=1;j<=n;j++){const t=j/n;append({x:a.x+(p.x-a.x)*t,y:a.y+(p.y-a.y)*t});}
+      for(let j=1;j<=n;j++){const t=j/n;append({x:a.x+(p.x-a.x)*t,y:a.y+(p.y-a.y)*t,at:a.at+(p.at-a.at)*t});}
     };
     append(nodes[0]);nodes[0].s=0;stops.push(nodes[0]);
     for(let i=1;i<nodes.length;i++){
       const a=nodes[i-1],b=nodes[i],c=nodes[i+1];
       if(b.stop===undefined&&c){
         const before=Math.hypot(b.x-a.x,b.y-a.y),after=Math.hypot(c.x-b.x,c.y-b.y);
-        const r=Math.min(26,before/3,after/3);
-        const entry={x:b.x+(a.x-b.x)*r/before,y:b.y+(a.y-b.y)*r/before};
-        const leave={x:b.x+(c.x-b.x)*r/after,y:b.y+(c.y-b.y)*r/after};
+        const r=Math.min(14,before/4,after/4);
+        const entry={x:b.x+(a.x-b.x)*r/before,y:b.y+(a.y-b.y)*r/before,at:b.at-(b.at-a.at)*r/before};
+        const leave={x:b.x+(c.x-b.x)*r/after,y:b.y+(c.y-b.y)*r/after,at:b.at+(c.at-b.at)*r/after};
         line(entry);
-        for(let j=1;j<=24;j++){const t=j/24,u=1-t;append({x:u*u*entry.x+2*u*t*b.x+t*t*leave.x,y:u*u*entry.y+2*u*t*b.y+t*t*leave.y});if(j===12)b.s=route.at(-1).s;}
-      }else{
-        // Tutor-to-tutor movement has a shallow, visible hop in its clear pool.
-        // It is sampled by length, so the curved portion cannot accelerate.
-        const start=route.at(-1),hop=i===1?12:0,n=Math.max(1,Math.ceil(Math.hypot(b.x-start.x,b.y-start.y)/3));
-        for(let j=1;j<=n;j++){const t=j/n;append({x:start.x+(b.x-start.x)*t,y:start.y+(b.y-start.y)*t-hop*Math.sin(Math.PI*t)**2});}
-        b.s=route.at(-1).s;
-      }
+        for(let j=1;j<=20;j++){const t=j/20,u=1-t;append({x:u*u*entry.x+2*u*t*b.x+t*t*leave.x,y:u*u*entry.y+2*u*t*b.y+t*t*leave.y,at:u*u*entry.at+2*u*t*b.at+t*t*leave.at});if(j===10)b.s=route.at(-1).s;}
+      }else{line(b);b.s=route.at(-1).s;}
       stops.push(b);
     }
-    for(const p of stops.filter(p=>p.stop!==undefined)){
-      let clearance=innerWidth<=700?150:230;
-      for(const r of quiet){const dx=Math.max(r.x-7-p.x,0,p.x-r.right-7),dy=Math.max(r.y-7-p.y,0,p.y-r.bottom-7);clearance=Math.min(clearance,Math.hypot(dx,dy));}
-      p.radius=Math.max(smallRadius,clearance);
-    }
-    if(!lightPoint){distance=0;settledStop=0;phase='settled';opening=1;}
-    else if(phase!=='travel')distance=stops.find(p=>p.stop===settledStop).s;
+    for(const p of stops.filter(p=>p.stop!==undefined))p.radius=clearanceAt(p,innerWidth<=700?150:230);
+    if(!lightPoint||!paused&&!reduced.matches)distance=scrollTarget();
     else distance=Math.min(distance,route.at(-1).s);
+    if(reduced.matches){const nearest=nearestStop(distance);distance=nearest.s;settledStop=nearest.stop;opening=1;phase='settled';}
     lightPoint=pointAt(distance);
+  }
+  function clearanceAt(p,limit){
+    for(const r of quiet){const dx=Math.max(r.x-7-p.x,0,p.x-r.right-7),dy=Math.max(r.y-7-p.y,0,p.y-r.bottom-7);limit=Math.min(limit,Math.hypot(dx,dy));}
+    return Math.max(smallRadius,limit);
   }
   function pointAt(s){
     let lo=0,hi=route.length-1;
@@ -186,58 +211,50 @@
     const a=route[lo],b=route[hi],t=Math.max(0,Math.min(1,(s-a.s)/(b.s-a.s||1)));
     return {x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t};
   }
-  function scrollTarget(){
-    if(scrollY<=stops[0].at)return 0;
-    if(scrollY>=height-innerHeight-2)return route.at(-1).s;
-    let i=0;while(i<stops.length-2&&scrollY>stops[i+1].at)i++;
-    const a=stops[i],b=stops[i+1],t=Math.max(0,Math.min(1,(scrollY-a.at)/(b.at-a.at)));
+  function scrollTarget(y=scrollY){
+    let lo=0,hi=route.length-1;
+    while(lo+1<hi){const m=(lo+hi)>>1;if(route[m].at<y)lo=m;else hi=m;}
+    const a=route[lo],b=route[hi],t=Math.max(0,Math.min(1,(y-a.at)/(b.at-a.at||1)));
     return a.s+(b.s-a.s)*t;
   }
+  function nearestStop(s){return stops.filter(p=>p.stop!==undefined).reduce((a,b)=>Math.abs(a.s-s)<Math.abs(b.s-s)?a:b);}
   function travel(dt){
     if(!stops.length)return;
     targetDistance=scrollTarget();
     if(!paused&&!reduced.matches){
-      if(phase==='opening'){
-        phaseTime+=dt;opening=smooth(Math.min(1,phaseTime/.85));
-        if(phaseTime>=.85){phase='holding';phaseTime=0;opening=1;}
-      }else if(phase==='holding'){
-        phaseTime+=dt;if(phaseTime>=.6)phase='settled';
-      }else if(phase==='settled'){
-        if(Math.abs(targetDistance-distance)>3){phase='closing';phaseTime=0;}
-      }else if(phase==='closing'){
-        phaseTime+=dt;opening=1-smooth(Math.min(1,phaseTime/.7));
-        if(phaseTime>=.7){phase='travel';opening=0;velocity=0;}
-      }else{
-        const direction=Math.sign(targetDistance-distance);
-        const arrivals=stops.filter(p=>p.stop!==undefined&&direction*(p.s-distance)>.01);
-        const nextStop=direction>0?arrivals[0]:arrivals.at(-1);
-        let destination=targetDistance;
-        if(nextStop&&direction*(targetDistance-nextStop.s)>=0)destination=nextStop.s;
-        const delta=destination-distance;
-        const desired=Math.sign(delta)*Math.min(travelSpeed,Math.sqrt(2*acceleration*Math.abs(delta)));
-        velocity+=Math.max(-acceleration*dt,Math.min(acceleration*dt,desired-velocity));
-        let advance=velocity*dt;
-        if(Math.sign(advance)===Math.sign(delta)&&Math.abs(advance)>=Math.abs(delta)){advance=delta;velocity=0;}
-        distance=Math.max(0,Math.min(route.at(-1).s,distance+advance));
-        if(nextStop&&Math.abs(distance-nextStop.s)<.01){
-          distance=nextStop.s;settledStop=nextStop.stop;phase='opening';phaseTime=0;velocity=0;
-        }
-      }
+      const previous=distance;
+      // A 100ms exponential follows input without a speed cap or queue. Its
+      // smooth finite tail finishes within 300ms of the last native scroll;
+      // otherwise a large flick would leave a visible exponential remainder.
+      const now=performance.now();
+      if(scrollY!==lastScrollPosition){lastScrollPosition=scrollY;lastScrollTime=now;}
+      const age=Math.max(0,(now-lastScrollTime)/1000);
+      const tail=t=>{const u=Math.max(0,Math.min(1,(t-.1)/.2));return (1-u*u)**2;};
+      const residual=Math.exp(-dt/smoothingSeconds)*tail(age)/(tail(Math.max(0,age-dt))||1);
+      distance+=(targetDistance-distance)*(1-residual);
+      if(Math.abs(targetDistance-distance)<.05)distance=targetDistance;
+      velocity=dt?(distance-previous)/dt:0;
+      const stop=nearestStop(distance),gap=Math.abs(distance-stop.s);
+      settledStop=stop.stop;
+      // Shape is scrubbed by the same route coordinate as position. Pausing
+      // halfway or reversing scroll therefore preserves/reverses the opening.
+      opening=1-smooth(Math.min(1,gap/(stop.stop===6?85:mobileOpeningSpan())));
+      phase=opening>.999?'settled':opening>0?'scrub':'travel';
     }
     lightPoint=pointAt(distance);
-    const atStop=phase!=='travel';
-    markerElements.forEach((el,i)=>setMotion(el,'--lit',reduced.matches?.65:atStop&&settledStop===i+2?opening:0));
-    pairElements.forEach((el,i)=>setMotion(el,'--meet',reduced.matches?.4:atStop&&settledStop===i?opening:0));
-    const bloom=reduced.matches?1:atStop&&settledStop===6?opening:0;
+    markerElements.forEach((el,i)=>setMotion(el,'--lit',reduced.matches?.65:settledStop===i+2?opening:0));
+    pairElements.forEach((el,i)=>setMotion(el,'--meet',reduced.matches?.4:settledStop===i?opening:0));
+    const bloom=reduced.matches?1:settledStop===6?opening:0;
     setMotion(restElement,'--bloom',bloom);setMotion(arch,'opacity',.35+bloom*.65);
     const first=stops.find(p=>p.stop===2),last=stops.find(p=>p.stop===5);
     if(!paused||reduced.matches)stemGrowth=reduced.matches?1:Math.max(0,Math.min(1,(distance-first.s)/(last.s-first.s)));
     setMotion(stem,'--growth',stemGrowth);
     drawLight();
   }
+  function mobileOpeningSpan(){return innerWidth<=700?60:70;}
   function drawLight(){
     const stop=stops.find(p=>p.stop===settledStop);
-    lightRadius=smallRadius+(stop.radius-smallRadius)*opening;
+    lightRadius=smallRadius+((opening?Math.min(stop.radius,clearanceAt(lightPoint,stop.radius)):stop.radius)-smallRadius)*opening;
     // Paint an arrival only once. Opening uses compositor scale/opacity, so
     // even the full oval does not need a new canvas raster every frame.
     if(paintedStop!==settledStop){
@@ -293,7 +310,7 @@
     // Keep a predictable animation budget on high-refresh displays. This
     // limits only the living light/cells; document scrolling stays native.
     if(!paused&&!reduced.matches&&lastTick&&now-lastTick<1000/60){raf=requestAnimationFrame(tick);return;}
-    const start=performance.now(),dt=lastTick?Math.min(.032,(now-lastTick)/1000):0;lastTick=now;
+    const start=performance.now(),dt=lastTick?(now-lastTick)/1000:0;lastTick=now;
     travel(dt);
     if(!paused&&!reduced.matches){
       if(now-lastStep>950){evolve();lastStep=now;}
@@ -351,7 +368,7 @@
   new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(measure,100);}).observe(document.querySelector('main'));
   // Read-only diagnostics for preview QA, with no network, tracking or persistence.
   window.gardenDiagnostics=(motionOnly=false)=>{
-    const state={light:lightPoint,stops,motion:{phase,opening,radius:lightRadius,distance,targetDistance,velocity,speedLimit:travelSpeed,settledStop,backgroundDocumentTop:0}};
+    const state={light:lightPoint,stops,route:motionOnly?undefined:route,motion:{phase,opening,radius:lightRadius,distance,targetDistance,velocity,smoothingSeconds,settledStop,target:pointAt(targetDistance),nearestStopDistance:Math.abs(distance-nearestStop(distance).s),backgroundDocumentTop:0}};
     // Frame probes should not count every cell or allocate timing histories.
     return motionOnly?state:{...state,cols,rows,cells:cols*rows,generation,paused,reduced:reduced.matches,paired:metrics.paired||0,pixelRatio:Math.min(devicePixelRatio||1,2),stepMs:[...metrics.stepMs],drawMs:[...metrics.drawMs],species:[world?.filter(v=>v===1).length,world?.filter(v=>v===2).length]};
   };
