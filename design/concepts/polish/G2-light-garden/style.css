@@ -87,3 +87,13 @@ html:not(.js) .motion-pause{display:none}
   .contact-motion{gap:12px}
 }
 @media print{.motion-pause{display:none}}
+
+/* Round 4: quiet document-space garden and a calm arrival light. */
+#garden{position:absolute;inset:0 auto auto 0;height:auto;pointer-events:none}
+#garden canvas{position:absolute;left:0;width:100%;opacity:.14;will-change:transform}
+#journey-light{inset:0;width:100%;height:100%;overflow:hidden;will-change:auto;border-radius:0;background:none;box-shadow:none}
+#journey-light:before{display:none}
+#journey-light canvas{position:absolute;left:0;top:0;width:480px;height:480px;will-change:transform;pointer-events:none}
+#journey-light .light-core{width:64px;height:64px}
+.garden-paused .paired-cell{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.js #journey-light{display:block}}

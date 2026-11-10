@@ -123,3 +123,40 @@ Preserved the supplied after films as r2-390.png and r2-1440.png (plus JSON) bef
 Overwrote and inspected after-390.png and after-1440.png, and ran/inspected 320 once at 4x CPU; all have median 6.1ms and 0% frames over 50ms. Existing qa.cjs passed, including synchronized in-flow Pause, planting, disclosures, early readable rates, contrast (4.75:1 minimum), reduced motion and no JavaScript. A before/after layout comparison confirms identical page copy, unchanged opening rate geometry and unchanged invitation/control positions at all three widths; subsequent sections simply arrive 20px/28px sooner. No HTML, prices, typography, colors or motion code changed.
 
 Evidence stays outside Git under C:/Users/evans/geo/polish-run/film/G2/: final films/JSON, r3-layout-qa.json, r3-interaction-qa.json and planting close-ups. Reviewed the page in this worktree's Orca browser as well. No unresolved Round 3 work; existing supplied-content and launch follow-ups remain.
+
+## Round 4 - calm document-space motion
+
+Read the owner's G12 and G2 review and the completed G12 motion model/evidence. Preserved the supplied Round 3 films as r3-390.png and r3-1440.png before editing. All new scripts, screenshots and raw measurements live outside Git in C:/Users/evans/geo/polish-run/film/G2/round4/.
+
+The old fixed viewport canvas repainted its scroll offset on a 32ms cadence. A real-wheel Edge baseline at 4x CPU measured 24px maximum background alignment error, 20.569px median / 104.617px maximum light movement per moving frame, and 79 movements exceeding 10px.
+
+Adapted the G12 controller to G2's own paired cells, four lesson markers and contact bloom. Document-anchored 512px texture tiles now scroll natively without scroll subtraction or rounded coordinates. Mint and violet sprites are desaturated, blurred 3.5px once at creation, painted at half resolution and displayed at 14% opacity. G2's cream-to-lilac garden, planting bed, species selection and Plant controls remain.
+
+The independent light follows an arc-length route with centred margin passages, rounded corners and a shallow visible tutor crossing. It stays a circular 16px light throughout travel, cruises at no more than 90px/s, accelerates/brakes at 240px/s² and integrates no more than 32ms at a time. Scroll position requests progress without making it race or skip arrivals. Every arrival opens over 850ms, holds for at least 600ms, and closes over 700ms before travelling again. Cached pools scale on the compositor; the single animation loop updates light at up to 60Hz and the quiet cells at about 15Hz. Reduced motion settles a full static pool at the nearest stop, including when toggled during travel.
+
+Initial regression checks pass: synchronized in-flow Pause, stable paused light/generations, both planting paths and species/subject selection, paired response, both biographies, 320px overflow, no-JavaScript content and reduced-motion stillness. All three original text colors retain at least 4.748:1 against the conservative original darkest tint. Exact rendered-copy and element-rectangle comparisons against preserved Round 3 source pass at 390, 1440 and 320px; no wording, prices or layout changed. Final per-frame traces, the 20-capture lesson passage, safety/stress checks and required strips follow below.
+
+### Round 4 - final measured evidence
+
+Final-source Edge runs use the supplied playwright-core, real wheel input and 4x CPU throttling. Frame probes record actual background and tile rectangles plus the light's document/viewport positions, rendered diameter and phase. Light movement is measured in document coordinates so native scrolling is excluded; speed uses elapsed time between moving updates. The table reports moving samples, since the up-to-60Hz light intentionally stays still on intervening frames of this roughly 165Hz monitor.
+
+| Viewport | Samples / duration | Background / tile max error | Reversals | Moving median / max | Maximum speed | Travel diameter | Trace p95 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 10,939 / 71.06s | 0 / 0px | 0 | 1.638 / 2.880px | 90px/s | 16px | 12.0ms |
+| 1440 x 900 | 12,057 / 88.12s | 0 / 0px | 0 | 1.638 / 2.880px | 90px/s | 16px | 18.1ms |
+
+All seven semantic arrivals were visited. Phone pools open to 92px at each tutor cell, 94px at each lesson marker and 122px at contact; desktop pools open to 78px, 72px and 134px respectively. The clear space around G2's own stops determines each full pool size. Travel remains round and never exceeds 2.88px per animation update. Rendered light position differs from route coordinates by less than 0.00035px.
+
+The entire sampled glow footprint clears reading matter: minimum 2px on the phone margin and 7px on desktop. A separate large alternating-wheel stress run measured a 1.647px maximum move over 1,019 frames, then verified reduced-motion settling, a static light during further scrolling and no new cellular generations. Runtime return to normal motion also passes. Pause remains synchronized in page flow, and Plant/species/subject controls retain their original behavior.
+
+Required final strips were regenerated and visually inspected, overwriting after-390.png, after-1440.png and after-320.png plus matching JSON outside Git:
+
+| Viewport | Round 3 / final height | Screens | Median / p95 | Frames over 50ms | Overflow / JS errors |
+| --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 5695 / 5695px | 6.7 | 6.1 / 12.1ms | 0% | 0px / 0 |
+| 1440 x 900 | 3900 / 3900px | 4.3 | 6.1 / 18.2ms | 0% | 0px / 0 |
+| 320 x 568 | 6012 / 6012px | 10.6 | 6.1 / 6.2ms | 0% | 0px / 0 |
+
+Exact copy/geometry comparison passes again on the final source at all three widths. The 20 consecutive lesson captures span 12.86 seconds and show Recap through Wrap Up; lesson-contact-sheet.png displays them together, lesson-sequence.json retains timestamps and phase, and lesson-playback.mp4 preserves the sampled capture timing (not a 60fps recording). README.md contains the measurement tables and reproduction commands; raw frames, motion charts, geometry/safety/stress reports, interaction/results.json and source-sha256.json are all under C:/Users/evans/geo/polish-run/film/G2/round4/.
+
+Round 4 is complete with no unresolved implementation blocker. Changes are confined to this concept's motion code/styles and these notes; no wording, prices, layout, source/v3 files or supplied placeholders changed, no screenshots or diagnostic scripts entered Git, and nothing was pushed. Existing supplied-content and real-device/screen-reader launch follow-ups remain as documented above.
