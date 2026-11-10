@@ -88,3 +88,60 @@ Overwrote and visually inspected after-390.png, after-1440.png and the single re
 | 320 x 568 | 6091px / 10.7 | 6.1 / 6.2ms | 0.1% | 0px / 0 |
 
 Existing qa.cjs passes: synchronized in-flow Pause, frozen travel, all reachable arrivals, keyboard paired response, full-width biographies, early rates/names, contrast, reduced motion and no-JavaScript content. A separate comparison against Round 2 confirms identical rendered copy and text/price/portrait/control geometry at all three widths; evidence is outside Git in film/G12/scratch/r3-geometry.json. Syntax and whitespace checks pass. No remaining Round 3 blocker; supplied-content and real-device launch follow-ups remain as previously recorded.
+
+## Round 4 — motion foundation
+
+Preserved the Round 3 after strips as r3-390.png and r3-1440.png before editing; all diagnostic scripts, frame data and captures are outside Git in film/G12/round4/.
+
+The actual background fault was a fixed viewport canvas subtracting scrollY only on its 32ms paint cadence, while native scrolling continued between paints. Instrumented baseline frames at 4x CPU measured up to 18px offset error; the scroll-mapped traveller moved a median 21.55px and maximum 101.65px per moving sample. There were 117 jumps above 10px in that baseline run.
+
+Replaced the background with a document-anchored canvas: there is no scroll subtraction, rounding or canvas-origin repositioning. Desaturated sprites, 16% texture opacity and a 0.8px softening filter make the cells quiet. A separate, clipped document-space light layer travels by arc length at a maximum 90px/s, with acceleration/braking at 240px/s² and a 32ms maximum animation time step. Its 16px round transit glow never stretches. Every semantic arrival opens over 850ms, holds for at least 600ms, and closes over 700ms before travelling; fast scrolling queues the route rather than speeding it up. The original oval and contact join remain, and reduced motion settles at a stop.
+
+First checks retain exact page heights (5827 / 3942 / 6091px at 390 / 1440 / 320px), zero sideways overflow and zero script errors. Full frame-level measurements, arrival footage and interaction checks are in progress.
+
+### Round 4 — performance refinement and regression checks
+
+The opening/closing pool now uses a cached bitmap with compositor scale and opacity; the small core has its own cached sprite. Texture sprites are blurred once at creation. The background consists of 512px document-space tiles painted at half resolution, with only visible tiles updating; the low-resolution softness is deliberate, while the traveller stays full resolution. This avoids repeatedly uploading a whole-page canvas and preserves exact native scrolling. Redundant style-variable writes are cached, and document height is measured from flow content so closing a biography cannot leave a tall decoration behind.
+
+The initial full traces exposed 24.1ms phone and 30.4ms desktop p95 costs, so those builds were not accepted. After the paint changes, the desktop diagnostic strip reached 18.3ms p95. Final source traces are being rerun below.
+
+The external regression suite passes synchronized in-flow Pause, frozen light and generation, both keyboard cell responses, full-width disclosure geometry and focus, both credentials remaining visible, no-JavaScript content, reduced motion and 320px opening/overflow. Contrast remains 4.748:1 or better against the conservative original dark tint. Exact rendered-copy and text/price/image/control geometry comparisons with the preserved Round 3 source pass at 390, 1440 and 320px. An independent footprint check across the sampled route finds no paint overlap: the smallest text clearance is 2px on the 390px margin and 7px on desktop, with the complete glow radius included.
+
+### Round 4 — final animation budget
+
+Bound light updates to at most 60Hz and quiet cellular repainting to roughly 15Hz, independently of the browser's native scroll compositor. The light still integrates elapsed time, with its 90px/s cruise cap, gentle acceleration/braking and maximum 2.88px animation step. This avoids spending the frame budget updating a small light at the host monitor's roughly 165Hz refresh. The complete desktop motion trace now passes at 18.2ms p95; the source phone trace and final required strips follow.
+
+Frame diagnostics have a lightweight motion-only mode, so instrumentation does not count every simulated cell or copy timing histories on every frame. The raw trace records actual DOM layer positions, tile offsets and transformed light diameter, as well as the animation state; world-coordinate light travel is separate from native viewport scrolling.
+
+### Round 4 — reduced-motion toggle correction
+
+The completion stress run caught an Edge timing edge case: the media-query value could change inside requestAnimationFrame before its change event ran, leaving the light frozen in its travel phase. The loop now reconciles that preference immediately, settles at the nearest arrival and paints the complete still pool in the same update. The explicit event handler remains for resuming motion. Runtime reduce/resume and large alternating wheel input are checked separately from the initial reduced-motion page test.
+
+The first final strips passed at 12.1ms / 18.2ms / 6.2ms p95 for 390 / 1440 / 320px, with unchanged heights, zero overflow and zero errors. Final-source evidence follows below. The trace summary now calculates speed using the elapsed time between moving updates: maximum 90px/s; dividing by intervening monitor-only frames had overstated that derived statistic. The underlying positions and raw frame data were unaffected.
+
+### Round 4 — final measured evidence
+
+Final-source Edge traces use real `mouse.wheel` input in steps of at most 12px, 4x CPU throttling and one sample per browser animation frame. They record actual DOM layer rectangles as well as simulation coordinates, and visit all seven arrivals in order. All measurements below are CSS pixels; light travel is in document coordinates so native page scrolling is not mistaken for light acceleration.
+
+| Viewport | Samples / duration | Background / tile max alignment error | Backward background jumps | Moving-frame median / max | Maximum travel speed | Trace p95 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 10,438 / 72.82s | 0 / 0px | 0 | 1.638 / 2.880px | 90px/s | 12.1ms |
+| 1440 x 900 | 11,298 / 89.39s | 0 / 0px | 0 | 1.638 / 2.880px | 90px/s | 18.2ms |
+
+There are no travel spikes beyond 2.88px, including the curved tutor crossing and rounded margin turns. Median across *all* monitor samples is 0px because the light updates at no more than 60Hz on this approximately 165Hz host; the table explicitly reports moving samples. Rendered position differs from the measured route by less than 0.00036px. The separate reversing-wheel stress test records a 1.647px maximum across 969 samples, then verifies that reduced motion is settled and static with no cellular generations. Runtime reduce/resume also passes.
+
+The travel diameter is exactly 16px throughout both traces; measured DOM diameter differs by less than 0.00004px. Opening grows it to 122px at both tutor cells, 110px on phone lesson stops / about 112px on desktop lesson stops, and 171.844px at contact. Opening and closing remain at the stop: 850ms opening, at least 600ms hold, 700ms closing, with elapsed-time caps slowing an overloaded frame rather than skipping animation. Fast scrolling intentionally leaves the light following the route at its calm pace; it never skips the intermediate arrivals to catch up.
+
+The required final strips were regenerated after the reduced-motion correction and visually inspected:
+
+| Viewport | Page height / screens | Median / p95 | Frames over 50ms | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 x 844 | 5827px / 6.9 | 6.1 / 12.1ms | 0.1% | 0px / 0 |
+| 1440 x 900 | 3942px / 4.4 | 6.1 / 18.2ms | 0.1% | 0px / 0 |
+| 320 x 568 | 6091px / 10.7 | 6.1 / 6.3ms | 0.1% | 0px / 0 |
+
+Final regression, exact Round 3 copy/geometry comparison and full-glow reading-clearance checks all pass. Every text, price, portrait and control rectangle remains identical at 390, 1440 and 320px; minimum measured light clearance is 2px on the phone margin and 7px on desktop. Pause remains synchronized in page flow; keyboard pairing, biography focus, initial and runtime reduced motion, no-JavaScript content, contrast and no 320px overflow pass.
+
+Evidence is outside Git in `C:/Users/evans/geo/polish-run/film/G12/round4/`: `frames-390.json`, `frames-1440.json`, `summary-*.json`, `motion-chart-*.svg`, regression/geometry/safety/stress JSON, and the reproducible scripts. `lesson-01.png` through `lesson-20.png` are consecutive captures spanning 13.82 seconds through all four lesson steps; `lesson-sequence.json` preserves timestamps and state, `lesson-contact-sheet.png` shows them together, and `lesson-playback.mp4` plays those captured frames at their measured pace. The MP4 is sampled playback of the 20 captures, not a 60fps recording. `README.md` indexes the evidence and `source-sha256.json` identifies the measured source. Final `after-*.png` and matching JSON remain in the parent G12 folder, alongside the preserved `r3-390.png` and `r3-1440.png`.
+
+No remaining Round 4 implementation blocker. Changes are confined to motion code/styles and this record; no page copy, prices or layout changed, no screenshots or diagnostic scripts are committed, and nothing was pushed.

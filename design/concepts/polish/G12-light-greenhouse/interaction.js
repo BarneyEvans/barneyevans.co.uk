@@ -1,7 +1,8 @@
 (() => {
   'use strict';
   document.documentElement.classList.add('js');
-  const canvas = document.querySelector('#garden'), ctx = canvas.getContext('2d');
+  const canvas = document.createElement('div'), tiles = [], tileHeight = 512;
+  canvas.id='garden';canvas.setAttribute('aria-hidden','true');document.querySelector('#garden').replaceWith(canvas);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const root = document.documentElement, pauses = [...document.querySelectorAll('.pause')];
   const status = document.querySelector('#garden-status');
@@ -9,11 +10,28 @@
   const pulsar = [];
   [2,3,4,8,9,10].forEach(n => [0,5,7,12].forEach(m => {pulsar.push([n,m],[m,n]);}));
   let cell = 20, cols = 0, rows = 0, world, next, opacity, colour, quietMask;
-  let paused = reduced.matches, raf = 0, lastDraw = 0, lastStep = 0;
+  let reducedState = reduced.matches, paused = reducedState, raf = 0, lastDraw = 0, lastStep = 0, lastTick = 0;
   let stops = [], mainTop = 0, lightPoint = null, markerPoints = [], pairPoints = [], restPoint, stemGrowth = 0;
   const light = document.querySelector("#journey-light");
-  let generation = 0, quiet = [], height = 0, beam = 0, resizeTimer;
-  const sprites = [null,makeSprite('#679977',false),makeSprite('#9b7dbb',true)];
+  // The texture and light both live in document space. Scrolling is composited
+  // by the browser; neither layer subtracts a sampled scrollY from its paint.
+  const lens = document.createElement('canvas'), lensContext = lens.getContext('2d');
+  const coreCanvas = document.createElement('canvas'), coreContext = coreCanvas.getContext('2d');
+  coreCanvas.className='light-core';light.append(lens,coreCanvas);
+  const lensSize = 480, smallRadius = 8, travelSpeed = 90, acceleration = 240;
+  const pairElements = [...document.querySelectorAll('.paired-cell')];
+  const markerElements = [...document.querySelectorAll('.step-orb')];
+  const restElement = document.querySelector('.light-rest');
+  const arch = document.querySelector('.contact-arch'), stem = document.querySelector('.lesson-steps');
+  const motionStyles = new WeakMap();
+  function setMotion(el,name,value){
+    let values=motionStyles.get(el);if(!values){values={};motionStyles.set(el,values);}
+    if(values[name]===value)return;values[name]=value;el.style.setProperty(name,String(value));
+  }
+  let route = [], distance = 0, velocity = 0, targetDistance = 0, phase = 'settled';
+  let phaseTime = 0, opening = 1, settledStop = 0, lightRadius = smallRadius, paintedStop = -1;
+  let generation = 0, quiet = [], height = 0, resizeTimer;
+  const sprites = [null,makeSprite('#a2afa4',false),makeSprite('#b2a9bb',true)];
   const field = document.createElement('canvas');field.width=field.height=512;
   const fieldContext=field.getContext('2d');
   const optical=fieldContext.createRadialGradient(240,220,8,256,256,250);
@@ -24,6 +42,9 @@
     const c = document.createElement('canvas'); c.width = c.height = 64;
     const g = c.getContext('2d'), glow = g.createRadialGradient(32,32,1,32,32,31);
     glow.addColorStop(0,'#fffef8'); glow.addColorStop(.14,tint); glow.addColorStop(.35,tint+'b0'); glow.addColorStop(1,tint+'00');
+    // Blur the tiny cached sprite once, rather than filtering a page-size
+    // canvas again each time the living texture changes.
+    g.filter='blur(2px)';
     g.fillStyle = glow; g.fillRect(0,0,64,64);g.fillStyle=tint;
     g.beginPath();if(diamond){g.moveTo(32,25);g.lineTo(39,32);g.lineTo(32,39);g.lineTo(25,32);}else{g.arc(32,32,6,0,Math.PI*2);}g.fill();
     g.fillStyle='#fffef9';g.beginPath();g.arc(31,30,2,0,Math.PI*2);g.fill();return c;
@@ -37,7 +58,9 @@
   function measure() {
     const old = world, oldColour = colour, oldOpacity = opacity, oldCols = cols, oldRows = rows;
     cell = innerWidth < 600 ? 15 : 20; cols = Math.min(120,Math.ceil(innerWidth/cell));
-    height = Math.max(document.body.scrollHeight,root.scrollHeight); rows = Math.min(700,Math.ceil(height/cell)+2);
+    // Measure real flow content, so an old canvas height cannot keep the page
+    // artificially tall after a biography closes.
+    height = Math.round(document.querySelector('footer').getBoundingClientRect().bottom+scrollY); rows = Math.min(700,Math.ceil(height/cell)+2);
     world = new Uint8Array(cols*rows);next = new Uint8Array(cols*rows);opacity = new Float32Array(cols*rows);colour = new Uint8Array(cols*rows);
     if(old){for(let y=0;y<Math.min(rows,oldRows);y++)for(let x=0;x<Math.min(cols,oldCols);x++){const i=y*cols+x,j=y*oldCols+x;world[i]=old[j];colour[i]=oldColour[j];opacity[i]=oldOpacity[j];}}
     else {
@@ -49,7 +72,27 @@
       put(Math.floor(cols*.4),meeting+20,1);
       for(let y=10;y<30;y+=8)put(Math.floor(cols*.64),y,1);
     }
-    const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(innerWidth*dpr);canvas.height=Math.round(innerHeight*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+    // Fixed document-space tiles keep scroll exact without re-uploading a
+    // page-sized bitmap when a handful of cells change in the visible area.
+    canvas.style.height=height+'px';
+    const count=Math.ceil(height/tileHeight);
+    while(tiles.length>count)tiles.pop().element.remove();
+    for(let i=0;i<count;i++){
+      if(!tiles[i]){const element=document.createElement('canvas');canvas.append(element);tiles.push({element,ctx:element.getContext('2d')});}
+      const tile=tiles[i];tile.top=i*tileHeight;
+      // The deliberately soft texture uses half-resolution paint; positions
+      // remain CSS-pixel floats and the independent light stays full resolution.
+      const size=Math.min(tileHeight,height-tile.top);
+      tile.element.width=Math.ceil(innerWidth/2);tile.element.height=Math.ceil(size/2);
+      tile.element.style.top=tile.top+'px';tile.element.style.height=size+'px';
+      tile.ctx.setTransform(tile.element.width/innerWidth,0,0,tile.element.height/size,0,-tile.top*tile.element.height/size);
+    }
+    const dpr=Math.min(devicePixelRatio||1,2);
+    lens.width=lens.height=lensSize*dpr;lensContext.setTransform(dpr,0,0,dpr,0,0);
+    coreCanvas.width=coreCanvas.height=64*dpr;coreContext.setTransform(dpr,0,0,dpr,0,0);
+    const glow=coreContext.createRadialGradient(32,32,0,32,32,29);
+    glow.addColorStop(0,'#fffef4');glow.addColorStop(.3,'#f9df8b');glow.addColorStop(.58,'#b7be83cc');glow.addColorStop(1,'#d6d9a200');
+    coreContext.fillStyle=glow;coreContext.fillRect(0,0,64,64);paintedStop=-1;
     // Protect real text fragments rather than blank block widths. The sprite's
     // full radius is included, so no colony can paint underneath a glyph.
     quiet=[];
@@ -76,61 +119,140 @@
       });
     }
     measureJourney();
+    drawTexture(true);
     requestDraw();
   }
+  const smooth = t => t*t*t*(t*(t*6-15)+10);
   function measureJourney(){
     mainTop=document.querySelector('#main').getBoundingClientRect().top+scrollY;
     const point=el=>{const r=el.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+scrollY+r.height/2};};
-    const pair=pairPoints=[...document.querySelectorAll('.paired-cell')].map(point);
-    const markers=markerPoints=[...document.querySelectorAll('.step-orb')].map(point);
-    const rest=restPoint=point(document.querySelector('.light-rest'));
-    const lesson=document.querySelector('.lesson-steps').getBoundingClientRect().top+scrollY;
-    const mobile=innerWidth<=700;
-    const start=Math.max(pair[1].y-innerHeight*.42+120,lesson-innerHeight*.7);
-    const meeting=Math.max(40,pair[0].y-innerHeight*.65);
-    stops=[{...pair[0],at:0},{...pair[0],at:meeting},{...pair[1],at:meeting+150},{...pair[1],at:meeting+210}];
-    // A quiet margin passage keeps the travelling light clear of prices and copy.
+    pairPoints=pairElements.map(point);markerPoints=markerElements.map(point);restPoint=point(restElement);
     const subject=document.querySelector('#subjects').getBoundingClientRect();
-    const rail=Math.max(4,subject.left-36);
-    stops.push({x:rail,y:pair[1].y,at:stops.at(-1).at+70});
-    stops.push({x:rail,y:subject.top+scrollY,at:subject.top+scrollY-innerHeight*.4});
-    stops.push({x:rail,y:lesson-40,at:start-70});
-    markers.forEach((p,i)=>{
-      const arrival=mobile?p.y-innerHeight*.48:start+i*115;
-      stops.push({...p,at:arrival},{...p,at:arrival+45});
-    });
-    stops.push({x:rail,y:markers.at(-1).y,at:stops.at(-1).at+70});
-    const review=document.querySelector('#reviews').getBoundingClientRect();
-    stops.push({x:rail,y:review.top+scrollY+40,at:Math.max(stops.at(-1).at+50,review.top+scrollY-innerHeight*.4)});
-    stops.push({x:rail,y:rest.y,at:Math.max(stops.at(-1).at+70,rest.y-innerHeight*.65)});
-    stops.push({...rest,at:Math.max(stops.at(-1).at+100,rest.y-innerHeight*.45)});
-    // Very short viewports and opened details must preserve a monotone journey.
-    for(let i=1;i<stops.length;i++)stops[i].at=Math.max(stops[i].at,stops[i-1].at+35);
-  }
-  function travel(){
-    if(!stops.length)return;
-    if(!paused||!lightPoint){
-      let i=0;while(i<stops.length-2&&scrollY>stops[i+1].at)i++;
-      const a=stops[i],b=stops[i+1],t=Math.max(0,Math.min(1,(scrollY-a.at)/(b.at-a.at))),ease=t*t*(3-2*t);
-      lightPoint={x:a.x+(b.x-a.x)*ease,y:a.y+(b.y-a.y)*ease};
+    const rail=subject.left/2, mobile=innerWidth<=700, first=markerPoints[0], last=markerPoints.at(-1);
+    const meeting=Math.max(0,pairPoints[0].y-innerHeight*.65);
+    const lessonAt=first.y-innerHeight*(mobile?.48:.65);
+    const nodes=[
+      {...pairPoints[0],at:meeting,stop:0},
+      {...pairPoints[1],at:meeting+170,stop:1},
+      {x:rail,y:pairPoints[1].y,at:meeting+300},
+      {x:rail,y:first.y,at:lessonAt-70},
+      ...markerPoints.map((p,i)=>({...p,at:mobile?p.y-innerHeight*.48:lessonAt+i*115,stop:i+2})),
+      {x:rail,y:last.y,at:mobile?last.y-innerHeight*.48+100:lessonAt+445},
+      {x:rail,y:restPoint.y,at:restPoint.y-innerHeight*.65},
+      {...restPoint,at:restPoint.y-innerHeight*.45,stop:6}
+    ];
+    const maxScroll=height-innerHeight;
+    nodes.forEach((p,i)=>{p.at=Math.min(maxScroll,p.at);if(i)p.at=Math.max(p.at,nodes[i-1].at+35);});
+    // Arc-length samples make the travel speed independent of the length of a
+    // scroll interval. Round margin corners; stops themselves remain exact.
+    route=[];stops=[];
+    const append=p=>{const prev=route.at(-1);route.push({...p,s:prev?prev.s+Math.hypot(p.x-prev.x,p.y-prev.y):0});};
+    const line=p=>{
+      const a=route.at(-1),length=Math.hypot(p.x-a.x,p.y-a.y),n=Math.max(1,Math.ceil(length/3));
+      for(let j=1;j<=n;j++){const t=j/n;append({x:a.x+(p.x-a.x)*t,y:a.y+(p.y-a.y)*t});}
+    };
+    append(nodes[0]);nodes[0].s=0;stops.push(nodes[0]);
+    for(let i=1;i<nodes.length;i++){
+      const a=nodes[i-1],b=nodes[i],c=nodes[i+1];
+      if(b.stop===undefined&&c){
+        const before=Math.hypot(b.x-a.x,b.y-a.y),after=Math.hypot(c.x-b.x,c.y-b.y);
+        const r=Math.min(26,before/3,after/3);
+        const entry={x:b.x+(a.x-b.x)*r/before,y:b.y+(a.y-b.y)*r/before};
+        const leave={x:b.x+(c.x-b.x)*r/after,y:b.y+(c.y-b.y)*r/after};
+        line(entry);
+        for(let j=1;j<=24;j++){const t=j/24,u=1-t;append({x:u*u*entry.x+2*u*t*b.x+t*t*leave.x,y:u*u*entry.y+2*u*t*b.y+t*t*leave.y});if(j===12)b.s=route.at(-1).s;}
+      }else{
+        // Tutor-to-tutor movement has a shallow, visible hop in its clear pool.
+        // It is sampled by length, so the curved portion cannot accelerate.
+        const start=route.at(-1),hop=i===1?12:0,n=Math.max(1,Math.ceil(Math.hypot(b.x-start.x,b.y-start.y)/3));
+        for(let j=1;j<=n;j++){const t=j/n;append({x:start.x+(b.x-start.x)*t,y:start.y+(b.y-start.y)*t-hop*Math.sin(Math.PI*t)**2});}
+        b.s=route.at(-1).s;
+      }
+      stops.push(b);
     }
-    light.style.transform=`translate3d(${lightPoint.x-16}px,${lightPoint.y-mainTop-16}px,0)`;
-    document.querySelectorAll('.step-orb').forEach((el,i)=>{
-      const p=markerPoints[i],distance=Math.hypot(lightPoint.x-p.x,lightPoint.y-p.y);
-      el.style.setProperty('--lit',(reduced.matches?.65:Math.max(0,1-distance/110)).toFixed(2));
-    });
-    document.querySelectorAll('.paired-cell').forEach((el,i)=>{
-      const p=pairPoints[i],distance=Math.hypot(lightPoint.x-p.x,lightPoint.y-p.y);
-      el.style.setProperty('--meet',(reduced.matches?.4:Math.max(0,1-distance/115)).toFixed(2));
-    });
-    const bloom=reduced.matches?1:Math.max(0,1-Math.hypot(lightPoint.x-restPoint.x,lightPoint.y-restPoint.y)/200);
-    document.querySelector('.light-rest').style.setProperty('--bloom',bloom.toFixed(2));
-    document.querySelector('.contact-arch').style.opacity=String(.35+bloom*.65);
-    const first=markerPoints[0],last=markerPoints.at(-1);
-    const growth=reduced.matches?1:Math.max(0,Math.min(1,innerWidth<=700?(lightPoint.y-first.y)/(last.y-first.y):(lightPoint.x-first.x)/(last.x-first.x)));
-    const passed=scrollY>=stops.find(p=>p.x===last.x&&p.y===last.y).at;
-    if(!paused||reduced.matches)stemGrowth=reduced.matches||passed?1:growth;
-    document.querySelector('.lesson-steps').style.setProperty('--growth',String(stemGrowth));
+    for(const p of stops.filter(p=>p.stop!==undefined)){
+      let clearance=innerWidth<=700?150:230;
+      for(const r of quiet){const dx=Math.max(r.x-7-p.x,0,p.x-r.right-7),dy=Math.max(r.y-7-p.y,0,p.y-r.bottom-7);clearance=Math.min(clearance,Math.hypot(dx,dy));}
+      p.radius=Math.max(smallRadius,clearance);
+    }
+    if(!lightPoint){distance=0;settledStop=0;phase='settled';opening=1;}
+    else if(phase!=='travel')distance=stops.find(p=>p.stop===settledStop).s;
+    else distance=Math.min(distance,route.at(-1).s);
+    lightPoint=pointAt(distance);
+  }
+  function pointAt(s){
+    let lo=0,hi=route.length-1;
+    while(lo+1<hi){const m=(lo+hi)>>1;if(route[m].s<s)lo=m;else hi=m;}
+    const a=route[lo],b=route[hi],t=Math.max(0,Math.min(1,(s-a.s)/(b.s-a.s||1)));
+    return {x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t};
+  }
+  function scrollTarget(){
+    if(scrollY<=stops[0].at)return 0;
+    if(scrollY>=height-innerHeight-2)return route.at(-1).s;
+    let i=0;while(i<stops.length-2&&scrollY>stops[i+1].at)i++;
+    const a=stops[i],b=stops[i+1],t=Math.max(0,Math.min(1,(scrollY-a.at)/(b.at-a.at)));
+    return a.s+(b.s-a.s)*t;
+  }
+  function travel(dt){
+    if(!stops.length)return;
+    targetDistance=scrollTarget();
+    if(!paused&&!reduced.matches){
+      if(phase==='opening'){
+        phaseTime+=dt;opening=smooth(Math.min(1,phaseTime/.85));
+        if(phaseTime>=.85){phase='holding';phaseTime=0;opening=1;}
+      }else if(phase==='holding'){
+        phaseTime+=dt;if(phaseTime>=.6)phase='settled';
+      }else if(phase==='settled'){
+        if(Math.abs(targetDistance-distance)>3){phase='closing';phaseTime=0;}
+      }else if(phase==='closing'){
+        phaseTime+=dt;opening=1-smooth(Math.min(1,phaseTime/.7));
+        if(phaseTime>=.7){phase='travel';opening=0;velocity=0;}
+      }else{
+        const direction=Math.sign(targetDistance-distance);
+        const arrivals=stops.filter(p=>p.stop!==undefined&&direction*(p.s-distance)>.01);
+        const nextStop=direction>0?arrivals[0]:arrivals.at(-1);
+        let destination=targetDistance;
+        if(nextStop&&direction*(targetDistance-nextStop.s)>=0)destination=nextStop.s;
+        const delta=destination-distance;
+        const desired=Math.sign(delta)*Math.min(travelSpeed,Math.sqrt(2*acceleration*Math.abs(delta)));
+        velocity+=Math.max(-acceleration*dt,Math.min(acceleration*dt,desired-velocity));
+        let advance=velocity*dt;
+        if(Math.sign(advance)===Math.sign(delta)&&Math.abs(advance)>=Math.abs(delta)){advance=delta;velocity=0;}
+        distance=Math.max(0,Math.min(route.at(-1).s,distance+advance));
+        if(nextStop&&Math.abs(distance-nextStop.s)<.01){
+          distance=nextStop.s;settledStop=nextStop.stop;phase='opening';phaseTime=0;velocity=0;
+        }
+      }
+    }
+    lightPoint=pointAt(distance);
+    const atStop=phase!=='travel';
+    markerElements.forEach((el,i)=>setMotion(el,'--lit',reduced.matches?.65:atStop&&settledStop===i+2?opening:0));
+    pairElements.forEach((el,i)=>setMotion(el,'--meet',reduced.matches?.4:atStop&&settledStop===i?opening:0));
+    const bloom=reduced.matches?1:atStop&&settledStop===6?opening:0;
+    setMotion(restElement,'--bloom',bloom);setMotion(arch,'opacity',.35+bloom*.65);
+    const first=stops.find(p=>p.stop===2),last=stops.find(p=>p.stop===5);
+    if(!paused||reduced.matches)stemGrowth=reduced.matches?1:Math.max(0,Math.min(1,(distance-first.s)/(last.s-first.s)));
+    setMotion(stem,'--growth',stemGrowth);
+    drawLight();
+  }
+  function drawLight(){
+    const stop=stops.find(p=>p.stop===settledStop);
+    lightRadius=smallRadius+(stop.radius-smallRadius)*opening;
+    // Paint an arrival only once. Opening uses compositor scale/opacity, so
+    // even the full oval does not need a new canvas raster every frame.
+    if(paintedStop!==settledStop){
+      const g=lensContext,half=lensSize/2,r=stop.radius;
+      g.clearRect(0,0,lensSize,lensSize);g.save();g.translate(half,half);
+      g.drawImage(field,-r,-r,r*2,r*2);
+      g.strokeStyle='#8da07766';g.lineWidth=1;
+      g.beginPath();g.ellipse(0,0,Math.min(r,innerWidth<=700?75:115),Math.min(r*.53,innerWidth<=700?40:65),-.5,0,Math.PI*2);g.stroke();
+      g.strokeStyle='#8e824eaa';g.beginPath();g.ellipse(0,0,27.84,17.98,-.55,0,Math.PI*2);g.stroke();
+      g.restore();paintedStop=settledStop;
+    }
+    const x=lightPoint.x,y=lightPoint.y-mainTop;
+    lens.style.transform='translate3d('+(x-lensSize/2)+'px,'+(y-lensSize/2)+'px,0) scale('+(lightRadius/stop.radius)+')';
+    lens.style.opacity=String(opening);
+    coreCanvas.style.transform='translate3d('+(x-32)+'px,'+(y-32)+'px,0) scale('+((smallRadius+(29-smallRadius)*opening)/29)+')';
   }
   function evolve(){
     const start=performance.now();next.set(world);
@@ -145,56 +267,42 @@
     [world,next]=[next,world];generation++;metrics.generation=generation;
     metrics.stepMs.push(performance.now()-start);if(metrics.stepMs.length>120)metrics.stepMs.shift();
   }
-  function draw(now=performance.now()){
-    const start=performance.now(),sy=scrollY,motionOff=reduced.matches;
-    ctx.clearRect(0,0,innerWidth,innerHeight);
-    travel();
-    const bx=lightPoint?.x||0;beam=lightPoint?.y||0;
-    // The round arrival gently lengthens into a shaft of light in the margin.
-    // Fit its whole ellipse to padded reading space, keeping the same text gap.
-    const arrival=Math.max(...[...pairPoints,...markerPoints,restPoint].map(p=>Math.max(0,1-Math.hypot(bx-p.x,beam-p.y)/150)));
-    const passage=(1-arrival)*(1-arrival)*(1+2*arrival),stretch=1+passage*4;
-    const pool=innerWidth<=700?150:230;
-    let clearance=(pool+(80-pool)*passage)/stretch;
-    for(const r of quiet){
-      const dx=Math.max(r.x-7-bx,0,bx-r.right-7),dy=Math.max(r.y-7-beam,0,beam-r.bottom-7);
-      clearance=Math.min(clearance,Math.hypot(dx,dy/stretch));
-    }
-    const diameter=Math.max(.1,clearance*2);
-    ctx.save();ctx.translate(bx,beam-sy);ctx.scale(1,stretch);
-    ctx.drawImage(field,-diameter/2,-diameter/2,diameter,diameter);
-    // One local optical caustic belongs to the traveller, never a page divider.
-    ctx.strokeStyle='#8da07755';ctx.lineWidth=1;
-    ctx.beginPath();ctx.ellipse(0,0,Math.min(clearance,innerWidth<=700?75:115),Math.min(clearance*.53,innerWidth<=700?40:65),-.5,0,Math.PI*2);ctx.stroke();
-    ctx.restore();
-    const first=Math.max(0,Math.floor(sy/cell)-2),last=Math.min(rows,Math.ceil((sy+innerHeight)/cell)+2);
-    for(let y=first;y<last;y++)for(let x=0;x<cols;x++){
+  function drawTexture(all=false){
+    if(!world)return;
+    const visible=tiles.filter(tile=>all||(tile.top+tileHeight>scrollY-64&&tile.top<scrollY+innerHeight+64));
+    const from=Math.max(0,Math.floor(visible[0].top/cell)-2),to=Math.min(rows,Math.ceil((visible.at(-1).top+tileHeight)/cell)+2);
+    for(let y=from;y<to;y++)for(let x=0;x<cols;x++){
       const i=y*cols+x,target=world[i]?1:0;
-      if(motionOff||paused)opacity[i]=target;else opacity[i]+=(target-opacity[i])*.13;
-      if(opacity[i]<.012)continue;
-      const px=x*cell+cell/2,py=y*cell+cell/2,sp=colour[i]||1;
-      if(quietMask[i])continue;
-      const distance=Math.hypot((px-bx)*.7,py-beam),awake=Math.exp(-distance*distance/68000);
-      ctx.globalAlpha=opacity[i]*(.7+awake*.3);
-      const size=cell*(1.65+awake*.3);ctx.drawImage(sprites[sp],px-size/2,py-sy-size/2,size,size);
+      if(reduced.matches)opacity[i]=target;else if(!paused)opacity[i]+=(target-opacity[i])*.13;
     }
-    ctx.globalAlpha=1;
-    // The traveller and its lens share this canvas and the measured safe radius.
-    // Their soft edges stop before text, controls and photos.
-    if(!motionOff){
-      ctx.save();ctx.translate(bx,beam-sy);ctx.scale(1,stretch);
-      const radius=Math.max(.1,Math.min(29,clearance));
-      const glow=ctx.createRadialGradient(0,0,0,0,0,radius);
-      glow.addColorStop(0,'#fffef4');glow.addColorStop(.3,'#f9df8b');glow.addColorStop(.58,'#b7be83cc');glow.addColorStop(1,'#d6d9a200');
-      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(0,0,radius,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle='#8e824eaa';ctx.beginPath();ctx.ellipse(0,0,radius*.96,radius*.62,-.55,0,Math.PI*2);ctx.stroke();
-      ctx.restore();
+    for(const tile of visible){
+      const ctx=tile.ctx,first=Math.max(0,Math.floor(tile.top/cell)-2),last=Math.min(rows,Math.ceil((tile.top+tileHeight)/cell)+2);
+      ctx.clearRect(0,tile.top,innerWidth,tileHeight);
+      for(let y=first;y<last;y++)for(let x=0;x<cols;x++){
+        const i=y*cols+x;if(opacity[i]<.012||quietMask[i])continue;
+        const px=x*cell+cell/2,py=y*cell+cell/2,size=cell*1.85;
+        ctx.globalAlpha=opacity[i];ctx.drawImage(sprites[colour[i]||1],px-size/2,py-size/2,size,size);
+      }
     }
-
+  }
+  function tick(now){
+    raf=0;if(document.hidden)return;
+    // A media-query change can become visible to this RAF before its change
+    // event is delivered. Settle immediately instead of stopping mid-travel.
+    if(reduced.matches!==reducedState){syncReducedMotion();return;}
+    // Keep a predictable animation budget on high-refresh displays. This
+    // limits only the living light/cells; document scrolling stays native.
+    if(!paused&&!reduced.matches&&lastTick&&now-lastTick<1000/60){raf=requestAnimationFrame(tick);return;}
+    const start=performance.now(),dt=lastTick?Math.min(.032,(now-lastTick)/1000):0;lastTick=now;
+    travel(dt);
+    if(!paused&&!reduced.matches){
+      if(now-lastStep>950){evolve();lastStep=now;}
+      if(now-lastDraw>=64){drawTexture();lastDraw=now;}
+      raf=requestAnimationFrame(tick);
+    }
     metrics.drawMs.push(performance.now()-start);if(metrics.drawMs.length>240)metrics.drawMs.shift();
   }
-  function tick(now){raf=0;if(document.hidden)return;if(now-lastDraw>=32){if(!paused&&!reduced.matches&&now-lastStep>950){evolve();lastStep=now;}draw(now);lastDraw=now;}if(!paused&&!reduced.matches)raf=requestAnimationFrame(tick);}
-  function requestDraw(){if(document.hidden)return;if(!raf)raf=requestAnimationFrame(now=>{raf=0;draw(now);if(!paused&&!reduced.matches)raf=requestAnimationFrame(tick);});}
+  function requestDraw(){if(!document.hidden&&!raf)raf=requestAnimationFrame(tick);}
   function updatePause(){
     pauses.forEach(pause=>{
       pause.innerHTML=paused?'&#9654; <span>Resume</span>':'&#8545; <span>Pause</span>';
@@ -204,7 +312,7 @@
       if(reduced.matches){pause.innerHTML='&#10003; <span>Still garden</span>';pause.setAttribute('aria-label','Still garden');}
     });
     root.classList.toggle('garden-paused',paused);
-    cancelAnimationFrame(raf);raf=0;requestDraw();
+    cancelAnimationFrame(raf);raf=0;lastTick=0;requestDraw();
   }
   pauses.forEach(pause=>pause.addEventListener('click',()=>{paused=!paused;updatePause();status.textContent=paused?'Garden paused.':'Garden growing.';}));
   document.querySelectorAll('.paired-cell').forEach(button=>button.addEventListener('click',()=>{
@@ -225,10 +333,26 @@
   }));
   document.querySelectorAll('details').forEach(el=>el.addEventListener('toggle',measure));
   addEventListener('scroll',requestDraw,{passive:true});addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(measure,150);});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{lastStep=performance.now();requestDraw();}});
-  reduced.addEventListener('change',()=>{paused=reduced.matches;updatePause();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{lastStep=performance.now();lastTick=0;requestDraw();}});
+  function syncReducedMotion(){
+    const requested=reduced.matches;
+    if(requested===reducedState)return;
+    reducedState=requested;paused=requested;
+    if(requested){
+      const nearest=stops.filter(p=>p.stop!==undefined).sort((a,b)=>Math.abs(a.s-distance)-Math.abs(b.s-distance))[0];
+      distance=nearest.s;settledStop=nearest.stop;phase='settled';opening=1;velocity=0;paintedStop=-1;
+      travel(0);
+      drawTexture(true);
+    }
+    updatePause();
+  }
+  reduced.addEventListener('change',syncReducedMotion);
   addEventListener('load',()=>{measure();updatePause();});
   new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(measure,100);}).observe(document.querySelector('main'));
   // Read-only diagnostics for preview QA, with no network, tracking or persistence.
-  window.gardenDiagnostics=()=>({cols,rows,cells:cols*rows,generation,paused,reduced:reduced.matches,paired:metrics.paired||0,light:lightPoint,stops,pixelRatio:Math.min(devicePixelRatio||1,2),stepMs:[...metrics.stepMs],drawMs:[...metrics.drawMs],species:[world?.filter(v=>v===1).length,world?.filter(v=>v===2).length]});
+  window.gardenDiagnostics=(motionOnly=false)=>{
+    const state={light:lightPoint,stops,motion:{phase,opening,radius:lightRadius,distance,targetDistance,velocity,speedLimit:travelSpeed,settledStop,backgroundDocumentTop:0}};
+    // Frame probes should not count every cell or allocate timing histories.
+    return motionOnly?state:{...state,cols,rows,cells:cols*rows,generation,paused,reduced:reduced.matches,paired:metrics.paired||0,pixelRatio:Math.min(devicePixelRatio||1,2),stepMs:[...metrics.stepMs],drawMs:[...metrics.drawMs],species:[world?.filter(v=>v===1).length,world?.filter(v=>v===2).length]};
+  };
 })();

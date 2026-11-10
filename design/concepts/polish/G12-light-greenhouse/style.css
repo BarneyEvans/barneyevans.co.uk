@@ -122,3 +122,12 @@ html:not(.js) .pause{display:none}
   .lesson-heading{margin-bottom:32px}
 }
 @media(max-width:350px){.lesson-steps li{padding-left:92px}.step-orb{left:10px}.lesson-steps:before,.lesson-steps:after{left:35px}}
+
+/* Round 4: document-anchored texture and a separately composited light. */
+#garden{position:absolute;inset:0 auto auto 0;height:auto;pointer-events:none}
+#garden canvas{position:absolute;left:0;width:100%;opacity:.16;will-change:transform}
+#journey-light{inset:0;width:100%;height:100%;overflow:hidden;will-change:auto;border-radius:0}
+#journey-light:before{display:none}
+#journey-light canvas{position:absolute;left:0;top:0;width:480px;height:480px;will-change:transform;pointer-events:none}
+#journey-light .light-core{width:64px;height:64px}
+@media(prefers-reduced-motion:reduce){.js #journey-light{display:block}}
