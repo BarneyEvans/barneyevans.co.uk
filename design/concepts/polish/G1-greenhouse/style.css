@@ -110,3 +110,11 @@ html{scroll-padding-top:24px}
 .sunbeam{transform:none;opacity:.16}.pane{transform:skew(-24deg);opacity:.28}.daylight:after{opacity:.025}
 #garden{position:absolute;inset:0 auto auto 0;height:auto;overflow:hidden}
 #garden canvas{position:absolute;left:0;width:100%;opacity:.16;will-change:transform}
+
+/* Round 5: one document-space light, scroll-scrubbed into each golden pool. */
+.journey-light{position:absolute;inset:0 auto auto 0;width:100%;height:100%;overflow:hidden;will-change:auto;border-radius:0;transform:none;background:none;opacity:1;z-index:2}
+.journey-light:after{display:none}
+.journey-light canvas{position:absolute;left:0;top:0;width:480px;height:480px;will-change:transform;pointer-events:none}
+.journey-light .light-core{width:64px;height:64px}
+.js .lesson-path:after,.js .contact-sun{display:none}
+@media(prefers-reduced-motion:reduce){.js .journey-light{display:block}.js .glass-arch:after{display:none}}

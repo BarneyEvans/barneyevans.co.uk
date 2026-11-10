@@ -106,3 +106,44 @@ Final background-only source verification: the original verify.cjs passes (Plant
 | 320 | 7289px / 12.8 | 12.1ms | 0px / 0 |
 
 The new scroll-linked light specification remains the only Round 4 follow-up, as directed by the coordinator.
+
+## Round 5 — scroll-linked golden light
+
+Preserved Round 4's final strips as `r4-390.png` and `r4-1440.png` before editing; an external `round5/baseline/` preserves the source. Reused G12 Round 5's arc-length scroll map, rounded corners, 100ms exponential response and finite easing tail that ends within 300ms of native scrolling stopping. The same route coordinate opens and closes the pool, so upward scrolling reverses both travel and opening; there is no travel speed cap, arrival queue or timed opening sequence.
+
+Adapted the route to G1's portrait crowns, planting bed, stacked lesson markers and contact crown. Desktop uses the clear right rail around the headline/prices and the central tutor/review gutter; phone uses the 11px left rail. Every horizontal crossing is budgeted at 1.19 route pixels per scroll pixel. A short desktop vertical rail catch-up uses the subject chapter's available scroll; the exact peak is being measured. Full opening size follows actual text, image and control clearance, retaining G1's warm gold, oval and split seed. The Round 4 faded document-space background, Plant/species controls, profile reveals, Pause, copy, prices and flow layout are retained. Reduced motion shows one static settled light and a complete lesson stem.
+
+Evidence scripts are copied/adapted from G12 in `C:/Users/evans/geo/polish-run/film/G1/round5/`; no evidence images, scripts or traces enter Git. The final measurements and evidence follow.
+
+### Round 5 — close stops and settling
+
+G1's lesson markers are stacked only 114.58px apart on phone and 94.98px on desktop. Capped each opening span at 42% of the nearest stop gap (48.12px / 39.89px respectively), so the pool fully gathers into the 16px round light between every pair. The light physically reaches all eight stops; the full lesson pools reach 54px phone / 62px desktop, preserving the warm gold oval and split seed within their reading clearance. The planting pool reaches 116px phone / 300px desktop and the contact pool 131.81px. There is no independent opening timeline.
+
+Kept the 100ms exponential response and 60Hz paint budget. The finite easing tail now ends at 280ms to reserve one paint interval within the 300ms settling target. This only bounds smoothing after scroll input; travel and opening remain reversible functions of the current scroll target, without a queue or speed cap. Pause freezes position, opening and growth; reduced motion settles at one stop and remains still even when scrolling.
+
+### Round 5 — final measured evidence
+
+Final Edge traces use the supplied playwright-core, 4x CPU and real mouse.wheel input: reading at 24px every 120ms, an interior reading stop, upward 36px wheels, and 720/960px flicks. Each RAF records actual DOM position/diameter, document-space background alignment and lag against the current scroll target.
+
+| Viewport | Samples | Background / tile max error | Reading lag median / max | Fast lag median / max | Settle to 1px: reading / flick | Trace p95 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 390 × 844 | 6206 | 0 / 0px | 14.90 / 46.22px | 64.50 / 1030.98px | 248.5 / 278.9ms | 12.1ms |
+| 1440 × 900 | 4120 | 0 / 0px | 17.35 / 79.96px | 68.79 / 1259.77px | 236.4 / 290.9ms | 12.2ms |
+
+Peak flick lag is the instantaneous error after a large wheel impulse; the light follows the current target and settles without waiting for earlier arrivals. Fast error falls by 95% in 224.3ms phone / 236.3ms desktop. Reverse-scroll lag is 14.51 / 52.62px median/max phone and 18.72 / 67.24px desktop, settling to 1px in 236.4 / 230.4ms. A prior desktop trace is retained as `*-1440-host-stall.json`: a 90.8ms host frame stall delayed one reverse-stop sample to 327.3ms; the final repeat above passed. These are throttled local-browser results.
+
+Maximum route pixels per scroll pixel are 1.5000 phone and 2.4895 desktop. The desktop exception occupies approximately scrollY 399–1018 along the clear right rail (x1352), borrowing the long subject chapter's scroll to reach the planting bed without changing layout or accelerating a horizontal crossing. Maximum viewport movement is 1.5544px per scroll pixel. Every 50px horizontal window, checked from 1px starting increments, stays at or below 59.5px; zero jumps exceed 60px. This is the deliberate geometry trade-off in favour of even crossings and physical visits.
+
+Transit diameter is exactly 16px in the route model; actual rendered transit differs by less than 0.00004px. Rendered position error is below 0.001px. The full footprint retains at least 5px reading clearance on phone / 7px desktop in both the 1px-scroll sweep and actual trace checks; text, portraits, prices, names and buttons are protected. `stress.json` checks all eight physical arrivals, fully small transit between adjacent lesson stops, reversible partial opening, Pause, runtime reduced motion and large flick/reversal without a queue.
+
+| Viewport | Round 4 / Round 5 height | Screens | Round 4 / Round 5 p95 | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 × 844 | 6838 / 6838px | 8.1 | 12.2 / 12.1ms | 0px / 0 |
+| 1440 × 900 | 4754 / 4754px | 5.3 | 12.2 / 12.2ms | 0px / 0 |
+| 320 × 568 | 7289 / 7289px | 12.8 | 12.1 / 12.1ms | 0px / 0 |
+
+The final supplied-tool strips overwrite all three `after-*.png` files only after preserving Round 4; median frame spacing is 6.1ms and frames over 50ms are 0.1% throughout. All three strips, the Orca worktree desktop preview and both lesson contact sheets were opened and visually inspected. Each lesson sheet has 20 evenly spaced scroll captures: about 25.47px per step at 390 and 22.37px at 1440, captured after real wheels and a 380ms settle; the individual PNGs and sequence JSON retain actual scroll positions.
+
+Exact rendered copy, text/price/image/control rectangles and page heights match the preserved Round 4 source at 390/1440/320. The repository `verify.cjs` passes both profile reveals, Plant/species controls, synchronised in-flow Pause/resume, cumulative chapter seeds, the phone opening hierarchy, 320px reduced motion, no-JavaScript profiles/actions and no errors. Safety checks also confirm that closing a biography restores the original page height. The Round 4 faded, document-anchored background and all wording, prices and layout remain unchanged.
+
+The external `round5/README.md` indexes the table, raw frames, summaries, source SHA-256 hashes, reproducible G12-derived scripts, regression/geometry/stress/safety JSON and both 20-frame sheets. Source milestones are `ec7fc63` and `3905566`, followed by this final evidence record. No Round 5 implementation blocker remains; the existing marked Eugene details and final enquiry route still require supplied content before launch. Nothing was pushed and no evidence artifacts were committed.
