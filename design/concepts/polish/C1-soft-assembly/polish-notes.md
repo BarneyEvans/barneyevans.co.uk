@@ -89,3 +89,42 @@ Saved the previous films as `r2-390.png` and `r2-1440.png` before editing. On ph
 | 320 x 568 | 7444px / 13.1 screens | 7348px / 12.9 screens | 6.2ms / 0px / 0 |
 
 Overwrote and visually reviewed all three required films at 4x CPU (6.1ms median, 0% over 50ms), plus focused review/contact captures and an Orca browser capture. Recovered 96px at both phone widths. External `director-r3-verification.json` confirms unchanged opening/subjects/tutors/lessons geometry and all text widths, sizes, line heights and colours, full-width reviews, two-line phone contact heading, early rates and equal portraits, Pause, keyboard rearrangement and settled reduced motion. No implementation issue remains; existing content placeholders still need the tutors' final details.
+
+## Round 4: slower, contained, once-only assemblies
+
+Preserved the incoming `after-390.png` and `after-1440.png` as external `r3-390.png` and `r3-1440.png` before any edits. Kept every HTML string, price, placeholder, layout dimension, type size and colour token unchanged.
+
+- Adopted the coordinator's once-only proposal: the bridge, lesson stairs, quotations and doorway now start when their own scene enters view, play on a finite elapsed-time clock, and never unwind on return scrolling. Off-screen and hidden scenes suspend their clocks rather than doing invisible work.
+- Slowed the bridge to 3.6 seconds, each lesson construction to 4 seconds, quotations to 3.8 seconds and contact to 5.4 seconds. Staggered pieces use quintic easing with zero endpoint velocity and acceleration. Rearrange also blends colours smoothly rather than switching halfway through.
+- Replaced off-canvas flight origins with contained paths. Every arc reserves enough space for the full rotated tile, including the bridge beneath the tutor heading; no overflow masking or extra page spacing is needed.
+- Reworked the review pieces into paired, hooked opening quotation marks rather than rigid vertical stamps. Their full flights and final shapes fit the existing review areas.
+- Door frames and leaves build first, hold closed briefly, then the two leaves open in perspective over 2.16 seconds. Artwork remains in the existing reserved scene, clear of names, emails and actions.
+- One requestAnimationFrame schedules all drawing. Geometry is cached and read together only when dimensions change; scrolling reads the scroll position once and never alternates layout reads with canvas writes. Pause and reduced motion settle all scenes; idle drawing stops.
+
+### Round 4 final films and per-frame evidence
+
+Ran the required `tools/strip.cjs` with Edge at 4x CPU throttle, overwriting and visually reviewing all three `after` strips. Page heights are identical to Round 3; no spacing was added.
+
+| Viewport | Page height / screens | Round 3 strip p95 | Round 4 strip p95 | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 x 844 | 7065px / 8.4 | 6.2ms | 6.2ms | 0px / 0 |
+| 1440 x 900 | 4832px / 5.4 | 6.2ms | 6.3ms | 0px / 0 |
+| 320 x 568 | 7348px / 12.9 | 6.2ms | 6.2ms | 0px / 0 |
+
+Every strip recorded a 6.1ms median and 0% frames over 50ms. Also recorded every requestAnimationFrame during a separate 24-second smooth scripted scroll per viewport using the specified `playwright-core` package, Edge (`msedge`) and CDP 4x CPU throttling, with no screenshots interrupting measurement:
+
+| Viewport | Measured frames (after 5 warm-up frames) | Frame p95 | Maximum frame | Canvas draw p95 | Frames over 50ms |
+| --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 3804 | 6.3ms | 18.6ms | 2.9ms | 0 |
+| 1440 x 900 | 3742 | 12.0ms | 24.3ms | 3.3ms | 0 |
+| 320 x 568 | 3879 | 6.2ms | 18.3ms | 2.5ms | 0 |
+
+External evidence, all under `C:/Users/evans/geo/polish-run/film/C1/`:
+
+- `round4-frames-390.json`, `round4-frames-1440.json`, `round4-frames-320.json`: raw timestamp, interval, scroll position, draw time, scene progress and tile bounds for every sampled frame. All three `round4-bounds-*.json` files contain zero clipping violations, including full rotated square bounds.
+- `round4-verification.json` and reproducible `round4-qa.cjs`: all viewports pass once-only progress, no idle drawing, in-flow Pause, keyboard rearrangement, reduced motion settled on load and through scrolling, early equal portraits and rates, minimum 13px labels, zero overflow and zero JavaScript errors.
+- `round4-layout.json` / `round4-layout.cjs`: no text glyph intersects any bridge, lesson, quotation or door scene at any tested width; both contact mail actions and noindex remain intact.
+- `round4-parents-20/` contains 20 successive PNGs at a 200ms cadence (5fps), covering the 3.8-second assembly; `round4-door-opening-20/` contains 20 at a 125ms cadence (8fps), covering the closed-to-open movement from about 3.2 to 5.4 seconds. Each has actual timestamps and progress in `frames.json`; matching `round4-parents-20.png` and `round4-door-opening-20.png` contact sheets were visually reviewed. `round4-capture.cjs` reproduces them at Edge 4x CPU.
+- `round4-orca.jpg`: the required live Orca browser inspection, alongside focused reduced-motion contact and review captures at all three widths. Final phone and desktop strips were opened and reviewed.
+
+Only animation code and its documentation changed. All approved wording, prices, visible placeholders, layout, readable sizes, contrast colours and in-flow controls are unchanged. No implementation blocker remains; the existing tutor details and enquiry-form placeholders remain as supplied.

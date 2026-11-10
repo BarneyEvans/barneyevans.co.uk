@@ -14,9 +14,9 @@ The lesson and contact colour changes remain, with smaller corner radii and less
 
 ## Motion and controls
 
-Native scroll assembles the geometry without hiding or moving any information. Four independent stair scenes align with the four real lesson rows and settle as each enters view; equal shapes do not imply proportional timings. Pointer input lightly perturbs the portrait composition. The in-flow Rearrange the mosaic button works with touch, Enter and Space and swaps decorative colour arrangements in 700ms. Pause motion shows settled compositions and suppresses scroll/pointer animation, with an accessible pressed state.
+Native scroll starts each assembly once, without hiding or moving any information. The bridge takes 3.6 seconds, each of the four actual lesson constructions takes 4 seconds, and paired opening quotation marks take 3.8 seconds. Pieces follow contained, softly eased paths; completed structures stay built on return scrolling. The 5.4-second contact sequence builds the doorway, holds it closed briefly and then opens both leaves smoothly over 2.16 seconds. Equal lesson shapes do not imply proportional timings. Pointer input lightly perturbs the portrait composition. The in-flow Rearrange the mosaic button works with touch, Enter and Space and blends decorative colours over 1.1 seconds. Pause motion shows settled compositions and suppresses scroll/pointer animation, with an accessible pressed state.
 
-Reduced motion renders fully settled compositions, including complete stairs and the open doorway. Rearranging then changes colour immediately. No animation runs while idle; hidden tabs cancel drawing and IntersectionObserver excludes off-screen scenes. Canvas pixel ratio is capped at 2. Without JavaScript all copy, anchor links and disclosures remain accessible, with decorative areas blank.
+Reduced motion renders fully settled compositions, including complete stairs and the open doorway. Rearranging then changes colour immediately. One requestAnimationFrame clock handles all drawing, with cached geometry read together before canvas writes. No animation runs while idle; hidden tabs cancel drawing and off-screen scenes suspend their clocks. Canvas pixel ratio is capped at 2. Without JavaScript all copy, anchor links and disclosures remain accessible, with decorative areas blank.
 
 ## Verification and boundaries
 
