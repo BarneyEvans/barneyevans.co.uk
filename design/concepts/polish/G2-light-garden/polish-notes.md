@@ -160,3 +160,48 @@ Required final strips were regenerated and visually inspected, overwriting after
 Exact copy/geometry comparison passes again on the final source at all three widths. The 20 consecutive lesson captures span 12.86 seconds and show Recap through Wrap Up; lesson-contact-sheet.png displays them together, lesson-sequence.json retains timestamps and phase, and lesson-playback.mp4 preserves the sampled capture timing (not a 60fps recording). README.md contains the measurement tables and reproduction commands; raw frames, motion charts, geometry/safety/stress reports, interaction/results.json and source-sha256.json are all under C:/Users/evans/geo/polish-run/film/G2/round4/.
 
 Round 4 is complete with no unresolved implementation blocker. Changes are confined to this concept's motion code/styles and these notes; no wording, prices, layout, source/v3 files or supplied placeholders changed, no screenshots or diagnostic scripts entered Git, and nothing was pushed. Existing supplied-content and real-device/screen-reader launch follow-ups remain as documented above.
+
+## Round 5 - scroll-linked light
+
+Preserved Round 4 after strips as r4-390.png and r4-1440.png before editing. Reused G12 Round 5's reversible scroll-to-route mapping, 100ms exponential smoothing with a finite 300ms settle tail, rounded route sampling, scroll-scrubbed opening and moving-footprint clearance. Removed the independent speed cap, queued arrivals and timed opening/hold/closing phases; the light now stops at the current scroll target and reverses with upward scroll.
+
+Kept G2's cream/mint/lilac palette, document-anchored faded background tiles, paired cells, four lesson markers, contact pool, Plant/species/subject controls and synchronized Pause. Desktop starts at Eugene and meets Barney before reaching the margin, reducing redundant horizontal travel; each horizontal segment receives at least its distance / 1.19 scroll pixels. Phone follows its own stacked lesson route. Full pools adapt to the real text and control clearance, with a round 16px core between stops. No wording, prices, HTML or layout changes.
+
+Evidence and adapted G12 measurement scripts are outside Git under C:/Users/evans/geo/polish-run/film/G2/round5/. Baseline source is preserved there for exact rendered copy/geometry comparison; final 4x CPU Edge traces, equal-scroll contact sheets and strips are in progress.
+
+### Round 5 - route and first measurements
+
+The initial borrowed approach intersected G2's planting invitation, so its corner now reaches the margin above that invitation and the Plant controls. A transient integration error in the first probe was corrected before final measurement. The revised desktop trace passes: 0px background/tile error, 2.555 maximum route pixels per scroll pixel in the short approach catch-up, 59.5px maximum horizontal movement per 50px of scroll (zero violations), exactly 16px transit diameter, 7px minimum full-footprint clearance and zero errors. Reading-stop / fast-flick settling to 1px is 248.5 / 297ms; trace p95 is 18.3ms at 4x CPU. Phone and final regressions/films follow.
+
+### Round 5 - phone and interaction checks
+
+Final phone trace: 5,356 RAF samples, 0px background/tile error, reading lag median/max 13.91/37.47px, flick lag median/max 70.05/861.33px, reading-stop/flick settle to 1px 187.9/290.9ms, maximum route ratio 1.19, maximum horizontal movement 59.5px per 50px scroll with zero violations, 16px transit diameter and 12.1ms p95 at 4x CPU. Its full light footprint retains at least 2px clearance. Desktop trace has 3,154 samples, reading lag 19.19/66.59px, flick lag 60.42/1329.49px and at least 7px clearance. Large initial flick errors are transient smoothing lag; they converge within 300ms without queued stops.
+
+Updated qa.cjs passes physical visits to all seven stops, full pool arrivals, part-open stillness, upward-scroll reopening, synchronized in-flow Pause, planting/species/subject choice, paired response, both biographies, exposed credentials, minimum contrast 4.748:1, no-JavaScript content, reduced motion and 320px overflow. Separate stress checks at 390/1440 confirm Pause freezes position/opening/generation; runtime reduced motion settles into a static pool and resumes correctly; large flick/reversal reaches the current target within 400ms with no queue. Baseline rendered copy and geometry remain identical at 390/1440/320.
+
+### Round 5 - paint budget
+
+The desktop strip initially measured 24.2ms p95. A saved trace isolated repeated media-query reads inside the background opacity loop; caching that state once per paint reduces the required final desktop strip to 18.1ms p95, with 0% frames over 50ms, zero overflow and zero errors. This retains the existing texture cadence and appearance. Final source measurements and evidence packaging follow.
+
+### Round 5 - final evidence
+
+Final-source Edge runs at 4x CPU use G12's adapted scripts and real mouse.wheel input: 24px at 120ms for reading, an interior reading stop, reversing 36px wheels, and 720/960px fast flicks. Lag is document-space distance from the current scroll target, including the immediate error after an abrupt input. Settling is measured from the last actual scroll change to within 1px of the target.
+
+| Viewport | RAF samples | Background / tile error | Reading lag median / max | Fast lag median / max | Reading / fast settle | Route ratio max | Horizontal max per 50px scroll | Trace p95 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 390 x 844 | 5,440 | 0 / 0px | 13.968 / 38.003px | 66.836 / 877.232px | 181.9 / 291ms | 1.19 | 59.5px, zero violations | 6.8ms |
+| 1440 x 900 | 3,489 | 0 / 0px | 20.421 / 63.972px | 34.680 / 1155.324px | 266.7 / 290.9ms | 2.555 | 59.5px, zero violations | 12.2ms |
+
+Reversal settles within 254.5ms on phone and 272.7ms on desktop. Both traces measure exactly 16px during transit, below 0.001px rendered position error, zero errors and minimum full-footprint clearance of 2px / 7px. The large initial flick lag is the immediate smoothing response to a large scroll input; it clears within 300ms without waiting for earlier stops. G2's desktop lesson markers span 891px horizontally, so their physical visits use 748.74px of scroll and the available viewport height; the brief clear-margin approach is the only route portion above 2px per scroll pixel. This preserves even horizontal pace and every arrival without changing layout.
+
+The required final strips were overwritten and visually inspected:
+
+| Viewport | Page height / screens | Median / p95 | Frames over 50ms | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 x 844 | 5695px / 6.7 | 6.1 / 6.3ms | 0.1% | 0px / 0 |
+| 1440 x 900 | 3900px / 4.3 | 6.1 / 18.1ms | 0% | 0px / 0 |
+| 320 x 568 | 6012px / 10.6 | 6.1 / 6.4ms | 0.1% | 0px / 0 |
+
+Final qa.cjs, geometry, stress and safety reruns all pass. Pause freezes position/opening/generations, reduced motion settles and stays static, all seven stops are physically reached, and rendered copy/geometry remain identical to Round 4 at all three widths. Both final 20-frame contact sheets were visually inspected.
+
+All evidence remains outside Git in C:/Users/evans/geo/polish-run/film/G2/round5/: README.md tables, raw frame measurements, two 20-frame equal-scroll lesson contact sheets (390 and 1440), individual captures, diameter and safety reports, regression/geometry/stress results and measured-source hashes. The preserved Round 4 strips remain r4-390.png and r4-1440.png in the parent G2 evidence folder. No wording, prices, HTML, layout or background anchoring/fade changed; the controls, garden species and colours remain G2's. Nothing was pushed and no implementation blocker remains; previously documented supplied-content and real-device/screen-reader launch follow-ups remain.
