@@ -104,3 +104,9 @@ html{scroll-padding-top:24px}
 @media(prefers-reduced-motion:reduce){
  .glass-arch:after{width:112px;height:112px;top:-17px;left:calc(50% - 56px);border:0;background:url("assets/sun-centre.svg") center/48px 60px no-repeat,radial-gradient(ellipse,#edc56d8c,#f1d58d66 28%,#edce8500 72%)}
 }
+
+/* Round 4: quiet native document-space background; light awaits a new scroll-linked brief. */
+.daylight{position:absolute;inset:0 auto auto 0;width:100%;height:100%;opacity:.55}
+.sunbeam{transform:none;opacity:.16}.pane{transform:skew(-24deg);opacity:.28}.daylight:after{opacity:.025}
+#garden{position:absolute;inset:0 auto auto 0;height:auto;overflow:hidden}
+#garden canvas{position:absolute;left:0;width:100%;opacity:.16;will-change:transform}

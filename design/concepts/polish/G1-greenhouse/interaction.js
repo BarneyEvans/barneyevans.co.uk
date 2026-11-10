@@ -3,8 +3,8 @@
 (() => {
   'use strict';
   document.documentElement.classList.add('js');
-  const canvas = document.querySelector('#garden');
-  const ctx = canvas.getContext('2d');
+  const canvas = document.createElement('div'), tiles = [], tileHeight = 512;
+  canvas.id='garden';canvas.setAttribute('aria-hidden','true');document.querySelector('#garden').replaceWith(canvas);
   const media = matchMedia('(prefers-reduced-motion: reduce)');
   const pauses = [...document.querySelectorAll('[data-pause]')];
   const speciesButton = document.querySelector('#species');
@@ -16,10 +16,13 @@
   const archLight = document.querySelector('.glass-arch span');
   const contactSun = document.querySelector('.contact-sun');
   const lessonPath = document.querySelector('.lesson-path');
-  let lightStops = [];
+  let lightStops=[];
+  let quiet=[],quietMask,dirty=true,allDirty=true,lastTick=0,lastStep=0,reducedState=media.matches;
+  const sprites=[null,makeSprite('#a9b6a0',false),makeSprite('#b8afc6',true)];
+  function makeSprite(tint,round){const c=document.createElement('canvas');c.width=c.height=48;const g=c.getContext('2d');g.filter='blur(1.7px)';g.fillStyle=tint;g.beginPath();g.roundRect(10,10,28,28,round?13:4);g.fill();return c;}
   let chapterGeometry = [], stepTops = [], pageHeight = 0;
   let cells, next, previous, cell, cols, rows, width, height;
-  let chosen = 0, planting = 1, paused = media.matches, raf = 0, timer = 0;
+  let chosen = 0, planting = 1, paused = media.matches, raf = 0;
   let changedAt = 0, generation = 0, pointer = null, seeded = new Set();
   let day = 0, lastDraw = 0;
   const metrics = { solverMs: [], drawMs: [], generations: 0, planted: 0, chapterSeeds: [] };
@@ -62,32 +65,38 @@
     changedAt = performance.now();
   }
 
-  function setup() {
-    const old = cells, oldCols = cols, oldRows = rows;
-    width = innerWidth; height = innerHeight;
-    cell = Math.max(width<760 ? 14 : 22, Math.ceil(width/140), Math.ceil(document.documentElement.scrollHeight/900));
-    cols = Math.ceil(width/cell)+1;
-    rows = Math.ceil(document.documentElement.scrollHeight/cell)+2;
-    cells = new Uint8Array(cols*rows); next = new Uint8Array(cells.length);
-    if (old) {
-      for(let y=0;y<Math.min(rows,oldRows);y++)
-        for(let x=0;x<Math.min(cols,oldCols);x++) cells[y*cols+x]=old[y*oldCols+x];
-    } else {
-      // Sparse morning seedlings; the fuller beds are planted by the scroll story.
-      put(2,Math.floor(235/cell),1);
-      put(cols-15,Math.floor(440/cell),2);
-      put(2,Math.floor(690/cell),1);
-      if(media.matches) chapters.forEach(seedChapter);
+  function setup(){
+    const old=cells,oldCols=cols,oldRows=rows;
+    width=innerWidth;height=innerHeight;
+    pageHeight=Math.round(document.querySelector('footer').getBoundingClientRect().bottom+scrollY);
+    cell=Math.max(width<760?14:22,Math.ceil(width/140),Math.ceil(pageHeight/900));
+    cols=Math.ceil(width/cell)+1;rows=Math.ceil(pageHeight/cell)+2;
+    cells=new Uint8Array(cols*rows);next=new Uint8Array(cells.length);
+    if(old){for(let y=0;y<Math.min(rows,oldRows);y++)for(let x=0;x<Math.min(cols,oldCols);x++)cells[y*cols+x]=old[y*oldCols+x];}
+    else{put(2,Math.floor(235/cell),1);put(cols-15,Math.floor(440/cell),2);put(2,Math.floor(690/cell),1);if(media.matches)chapters.forEach(seedChapter);}
+    previous=cells.slice();
+    canvas.style.height=pageHeight+'px';day
+    const count=Math.ceil(pageHeight/tileHeight);
+    while(tiles.length>count)tiles.pop().element.remove();
+    for(let i=0;i<count;i++){
+      if(!tiles[i]){const element=document.createElement('canvas');canvas.append(element);tiles.push({element,ctx:element.getContext('2d')});}
+      const tile=tiles[i];tile.top=i*tileHeight;const size=Math.min(tileHeight,pageHeight-tile.top);
+      tile.element.width=Math.ceil(width/2);tile.element.height=Math.ceil(size/2);tile.element.style.top=tile.top+'px';tile.element.style.height=size+'px';
+      tile.ctx.setTransform(tile.element.width/width,0,0,tile.element.height/size,0,-tile.top*tile.element.height/size);
     }
-    previous = cells.slice();
-    const dpr = Math.min(devicePixelRatio||1,2);
-    canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    measureJourney(); scrollStory(); requestDraw();
+    quiet=[];
+    const walker=document.createTreeWalker(document.querySelector('main'),NodeFilter.SHOW_TEXT);
+    while(walker.nextNode()){
+      const node=walker.currentNode;if(!node.textContent.trim()||node.parentElement.closest('.sr-only,.step-seed,.tutor-card:not(.flipped) .tutor-back,.tutor-card.flipped .tutor-front'))continue;
+      const range=document.createRange();range.selectNodeContents(node);
+      for(const r of range.getClientRects())if(r.width&&r.height)quiet.push({x:r.left,y:r.top+scrollY,right:r.right,bottom:r.bottom+scrollY});
+    }
+    document.querySelectorAll('img,a.button,button,footer').forEach(el=>{const r=el.getBoundingClientRect();if(r.width&&r.height)quiet.push({x:r.left,y:r.top+scrollY,right:r.right,bottom:r.bottom+scrollY});});
+    quietMask=new Uint8Array(cols*rows);const pad=cell+5;
+    for(const r of quiet){const x0=Math.max(0,Math.floor((r.x-pad)/cell)),x1=Math.min(cols-1,Math.ceil((r.right+pad)/cell)),y0=Math.max(0,Math.floor((r.y-pad)/cell)),y1=Math.min(rows-1,Math.ceil((r.bottom+pad)/cell));for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)quietMask[y*cols+x]=1;}
+    measureJourney();dirty=allDirty=true;requestDraw();
   }
 
-  // One sun greets the two portraits, traces the lesson stem, then rests at contact.
-  // Cache geometry at layout changes; the scroll frame only interpolates transforms.
   function measureJourney() {
     pageHeight=document.documentElement.scrollHeight;
     chapterGeometry=chapters.map(el=>({el,top:documentY(el)}));
@@ -149,15 +158,11 @@
   }
 
   function evolve() {
-    // Recheck the preference at work boundaries as well as its change event.
-    if(media.matches || paused || document.hidden) {
-      if(media.matches) paused=true;
-      schedule(); scrollStory(); return;
-    }
     const begin = performance.now();
-    next.fill(0);
-    for(let y=1;y<rows-1;y++) for(let x=1;x<cols-1;x++) {
-      const i=y*cols+x;
+    next.set(cells);
+    const from=Math.max(1,Math.floor(scrollY/cell)-8),to=Math.min(rows-1,Math.ceil((scrollY+height)/cell)+8);
+    for(let y=from;y<to;y++) for(let x=1;x<cols-1;x++) {
+      const i=y*cols+x;next[i]=0;
       let count=0,sage=0;
       for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++) {
         if(!dx&&!dy) continue;
@@ -172,46 +177,26 @@
     changedAt=performance.now();
     metrics.solverMs.push(changedAt-begin);
     if(metrics.solverMs.length>120) metrics.solverMs.shift();
-    requestDraw();
+    // The running tick owns the next frame; evolution only invalidates paint.
+    dirty=true;
   }
 
-  function roundedCell(x,y,size,species,alpha,scale) {
-    ctx.globalAlpha=alpha;
-    ctx.fillStyle=species===1?'#a8bea0':'#bcaed0';
-    const s=(size-3)*scale, inset=(size-s)/2;
-    ctx.beginPath();
-    ctx.roundRect(x+inset,y+inset,s,s,species===1?Math.min(3,s*.2):s*.46);
-    ctx.fill();
-  }
-
-  function draw(now) {
-    const start=performance.now();
-    ctx.clearRect(0,0,width,height);
-    const t=media.matches||paused?1:clamp((now-changedAt)/560,0,1);
-    const eased=t*t*(3-2*t);
-    const first=Math.max(0,Math.floor(scrollY/cell)-1);
-    const end=Math.min(rows,Math.ceil((scrollY+height)/cell)+1);
-    for(let y=first;y<end;y++) for(let x=0;x<cols;x++) {
-      const i=y*cols+x, s=cells[i], old=previous[i];
-      if(!s&&!old) continue;
-      const active=s||old;
-      const selection=chosen && active!==chosen ? .22 : chosen ? .95 : .65;
-      const alpha=(s ? old ? 1 : eased : 1-eased)*selection;
-      if(alpha<.005) continue;
-      const scale=s&&!old ? .58+.42*eased : !s ? 1-.22*eased : 1;
-      roundedCell(x*cell,y*cell-scrollY,cell,active,alpha,scale);
+  function draw(now,all=false){
+    const start=performance.now(),t=media.matches||paused?1:clamp((now-changedAt)/560,0,1),eased=t*t*(3-2*t);
+    const visible=tiles.filter(tile=>all||(tile.top+tileHeight>scrollY-64&&tile.top<scrollY+height+64));
+    for(const tile of visible){
+      const ctx=tile.ctx;ctx.clearRect(0,tile.top,width,tileHeight);
+      const first=Math.max(0,Math.floor(tile.top/cell)-1),end=Math.min(rows,Math.ceil((tile.top+tileHeight)/cell)+1);
+      for(let y=first;y<end;y++)for(let x=0;x<cols;x++){
+        const i=y*cols+x,s=cells[i],old=previous[i];if((!s&&!old)||quietMask[i])continue;
+        const active=s||old,selection=chosen&&active!==chosen?.22:chosen?.95:.65;
+        const alpha=(s?old?1:eased:1-eased)*selection;if(alpha<.005)continue;
+        ctx.globalAlpha=alpha;const size=cell*1.24;ctx.drawImage(sprites[active],x*cell+(cell-size)/2,y*cell+(cell-size)/2,size,size);
+      }
     }
-    ctx.globalAlpha=1;
-    lastDraw=performance.now()-start;
-    metrics.drawMs.push(lastDraw);
-    if(metrics.drawMs.length>240) metrics.drawMs.shift();
-    if(t<1&&!paused&&!media.matches&&!document.hidden) requestDraw();
+    lastDraw=performance.now()-start;metrics.drawMs.push(lastDraw);if(metrics.drawMs.length>240)metrics.drawMs.shift();
+    dirty=t<1&&!paused&&!media.matches;
   }
-
-  function requestDraw() {
-    if(!raf&&!document.hidden) raf=requestAnimationFrame(now=>{raf=0;draw(now);});
-  }
-
   function scrollStory() {
     if(!cells) return;
     if(media.matches && !paused) {paused=true;schedule();}
@@ -233,18 +218,28 @@
     contactSun.style.setProperty('--arrival',contactArrival.toFixed(3));
     stepEls.forEach((el,i)=>el.classList.toggle('active',media.matches||stepTops[i]-scrollY<height*.55));
     moveLight();
-    requestDraw();
   }
 
-  function schedule() {
-    clearInterval(timer); timer=0;
-    pauses.forEach(pause=>{
-    pause.textContent=media.matches?'Motion off':paused?'Grow ▷':'Pause Ⅱ';
-    pause.setAttribute('aria-pressed',String(paused));
-    pause.setAttribute('aria-label',media.matches?'Motion off: reduced motion preference':paused?'Resume garden growth':'Pause garden growth');
-    });
-    if(!paused&&!media.matches&&!document.hidden) timer=setInterval(evolve,1050);
-    if(document.hidden&&raf){cancelAnimationFrame(raf);raf=0;}
+  function tick(now){
+    raf=0;if(document.hidden||!cells)return;
+    if(media.matches!==reducedState){syncReducedMotion();return;}
+    if(!paused&&!media.matches&&lastTick&&now-lastTick<1000/60){raf=requestAnimationFrame(tick);return;}
+    const dt=lastTick?Math.min(.032,(now-lastTick)/1000):0;lastTick=now;
+    scrollStory();
+    if(!paused&&!media.matches&&now-lastStep>1050){evolve();lastStep=now;}
+    if(allDirty||(paused&&dirty)||(now-lastDrawAt>=64&&(dirty||!paused))){draw(now,allDirty);allDirty=false;lastDrawAt=now;}
+    if(!paused&&!media.matches)raf=requestAnimationFrame(tick);
+  }
+  let lastDrawAt=0;
+  function requestDraw(){dirty=true;if(!raf&&!document.hidden)raf=requestAnimationFrame(tick);}
+  function schedule(){
+    pauses.forEach(pause=>{pause.textContent=media.matches?'Motion off':paused?'Grow ▷':'Pause Ⅱ';pause.setAttribute('aria-pressed',String(paused));pause.setAttribute('aria-label',media.matches?'Motion off: reduced motion preference':paused?'Resume garden growth':'Pause garden growth');});
+    if(raf){cancelAnimationFrame(raf);raf=0;}lastTick=0;requestDraw();
+  }
+  function syncReducedMotion(){
+    const requested=media.matches;if(requested===reducedState)return;reducedState=requested;paused=requested;
+    if(requested){chapters.forEach(seedChapter);allDirty=true;}
+    schedule();
   }
   pauses.forEach(pause=>pause.addEventListener('click',()=>{
     if(media.matches) { status.textContent='Motion is off. You can still choose a tutor and plant a still pattern.'; return; }
@@ -324,14 +319,14 @@
     if(Math.hypot(event.clientX-p.x,event.clientY-p.y)<9&&Math.abs(scrollY-p.scroll)<9&&!getSelection().toString())plant(event.clientX,event.clientY+scrollY);
   },{passive:true});
   document.addEventListener('pointercancel',()=>pointer=null,{passive:true});
-  let scrollFrame=0;
-  addEventListener('scroll',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(()=>{scrollFrame=0;scrollStory();});},{passive:true});
+  addEventListener('scroll',()=>{if(!raf&&!document.hidden)raf=requestAnimationFrame(tick);},{passive:true});
   let resizeTimer;
   addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(setup,140);});
   document.querySelectorAll('.tutor-back details').forEach(el=>el.addEventListener('toggle',setup));
   document.addEventListener('visibilitychange',()=>{schedule();if(!document.hidden){scrollStory();requestDraw();}});
-  media.addEventListener('change',()=>{if(media.matches){paused=true;chapters.forEach(seedChapter);}schedule();scrollStory();requestDraw();});
+  media.addEventListener('change',syncReducedMotion);
   // Small read-only diagnostics for reproducible local performance checks.
   window.greenhouse={snapshot:()=>({generation,paused,chosen,planting,cols,rows,cell,day,live:cells.reduce((n,c)=>n+!!c,0),sage:cells.reduce((n,c)=>n+(c===1),0),lavender:cells.reduce((n,c)=>n+(c===2),0),metrics:JSON.parse(JSON.stringify(metrics))})};
   addEventListener('load',()=>{setup();schedule();});
+  new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(setup,120);}).observe(document.querySelector('main'));
 })();

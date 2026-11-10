@@ -128,3 +128,37 @@ External evidence, all under `C:/Users/evans/geo/polish-run/film/C1/`:
 - `round4-orca.jpg`: the required live Orca browser inspection, alongside focused reduced-motion contact and review captures at all three widths. Final phone and desktop strips were opened and reviewed.
 
 Only animation code and its documentation changed. All approved wording, prices, visible placeholders, layout, readable sizes, contrast colours and in-flow controls are unchanged. No implementation blocker remains; the existing tutor details and enquiry-form placeholders remain as supplied.
+
+## Round 5: reversible scroll-scrubbed assemblies
+
+Replaced Round 4's rejected once-only elapsed-time assemblies with progress derived from each scene's own viewport position. Every scene starts as its top enters the bottom of the viewport and completes after travelling 40% of the viewport height (337.6px at 390, 360px on desktop, 227.2px at 320). Scrolling up reverses the construction and closes the door. The contained flight paths, hooked quotation shapes, quintic tile easing, opening leaves, single requestAnimationFrame and cached geometry are unchanged.
+
+A 110ms exponential filter absorbs wheel steps. A quintic window closes its residual tail over 280ms after the last target change; the shorter window allows for browser input/frame delivery and measured settling stays below 285ms after scrolling stops. Pause now freezes the current frame, pointer offset and colour blend rather than jumping to a completed construction. Resume follows the current viewport smoothly. Reduced motion still shows all scenes fully built with the door open. Idle and off-screen scenes do not draw; hidden tabs cancel the frame loop.
+
+### Edge 4× CPU: real wheel input
+
+Used the specified `playwright-core` package with Edge (`msedge`). Normal reading used 32px wheel steps with 100ms waits; fast flicks used 550px with 60ms waits down and back up. Recorded every frame's timestamp, scroll position, independent scroll target, app target/drawn progress, draw time and conservative rotated-tile bounds. No screenshots interrupted these measurements.
+
+| Viewport | Actual normal / fast speed | Normal / fast frame p95 | Normal lag median / p95 | Fast lag p95 | Worst exact settle | Clipping / JS errors |
+| --- | --- | --- | --- | --- | --- | --- |
+| 390 × 844 | 243 / 5640px/s | 12.2 / 12.1ms | 99.8 / 158.1ms | 200.7ms | 284.8ms | 0 / 0 |
+| 1440 × 900 | 267 / 4444px/s | 12.0 / 12.1ms | 99.9 / 157.7ms | 153.2ms | 284.9ms | 0 / 0 |
+| 320 × 568 | 278 / 5593px/s | 6.2 / 6.2ms | 100.3 / 176.0ms | 80.0ms | 279.0ms | 0 / 0 |
+
+Tracking lag measures when the scroll target passed each drawn progress value within the current direction of travel; the evidence README describes endpoint exclusions and the exact calculation. Separate partial wheel-stop probes cover all eight assemblies at all three widths: stop around 72%, settle exactly to target, then reverse to around 27%. All 24 probes pass. Pause freezes progress and colour through wheel/Rearrange input; Resume, keyboard Rearrange, idle shutdown and fully built reduced motion pass. `safety.json` checks every drawn artwork bound against actual text glyph rectangles across 11,358 recorded normal/flick frames: zero intersections, including portrait names. No horizontal overflow or labels below 13px; equal portraits and separate rates remain within the first two phone screens.
+
+### Round 5 final films
+
+Copied the incoming `after-390.png` and `after-1440.png` to external `r4-390.png` and `r4-1440.png` before overwriting them. Ran the required `tools/strip.cjs` at all three widths and visually reviewed every final strip:
+
+| Viewport | Page height / screens | Round 4 strip p95 | Round 5 strip p95 | Overflow / JS errors |
+| --- | --- | --- | --- | --- |
+| 390 × 844 | 7065px / 8.4 | 6.2ms | 6.2ms | 0px / 0 |
+| 1440 × 900 | 4832px / 5.4 | 6.3ms | 6.2ms | 0px / 0 |
+| 320 × 568 | 7348px / 12.9 | 6.2ms | 6.2ms | 0px / 0 |
+
+All strips retain the Round 4 page heights, record 6.1ms median and 0% frames over 50ms, and preserve readable names, prices and contact actions. Also opened the worktree in Orca's browser and reviewed its capture.
+
+All Round 5 evidence lives outside Git at `C:/Users/evans/geo/polish-run/film/C1/round5/`: `README.md` with tables and reproduction instructions, raw `normal-*.json` / `fast-*.json`, 24 settling traces, `verification.json`, `safety.json`, measurement/capture scripts, and the Orca capture. `parents-20-390.png`, `door-20-390.png`, `parents-20-1440.png` and `door-20-1440.png` each show 20 EVEN scroll samples (18px steps on phone, 19px on desktop), with matching raw PNGs, viewport screenshots and actual scroll/progress metadata. All four contact sheets were visually reviewed; they preserve the quotation hooks and show the door assembling, holding closed and opening with scroll.
+
+Only `interaction.js`, `pitch.md` and these notes changed. HTML, CSS, wording, prices and layout remain unchanged. No implementation blocker remains; existing tutor details and enquiry-route placeholders remain as supplied. These are throttled Edge measurements on this machine, not physical-phone measurements.

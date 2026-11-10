@@ -73,3 +73,36 @@ Preserved the previous final strips as `r2-390.png` and `r2-1440.png` before edi
 Overwrote all three `after-*.png` strips and inspected them, the arrival captures and the worktree's Orca desktop preview. Median frame spacing is 6.1ms throughout; frames over 50ms are 0.2%, 0.1% and 0.2% respectively at 4× CPU throttle. These are local browser measurements.
 
 `verify.cjs` passes, including opening rates, both profile reveals, planting, synchronised Pause/resume, reduced motion and no-JavaScript content. An external audit compared every main heading, paragraph, link, button and rate rectangle against Round 2 at all three widths: identical positions and page heights. Its 31-position sweeps found no fixed/sticky controls, overflow, labels below 13px or contact-centre/text intersections; reduced-motion opening, lesson and contact screenshots were byte-identical after 1.1 seconds. Rendered-background sampling at two lesson and two contact positions at 390/1440 found a minimum 4.566:1 contrast. Scripts, captures and reports are in the external film folder's `scratch/round3-*` and `scratch/r3-*` files. Nothing remains from this refinement; the existing marked Eugene details and final enquiry route still need supplied content before launch.
+
+
+## Round 4 — motion foundation
+
+Preserved after-390.png and after-1440.png as r3-390.png and r3-1440.png before editing. The external round4/baseline folder also preserves the Round 3 source for exact copy and geometry comparison. All scripts, captures and frame data remain outside Git in C:/Users/evans/geo/polish-run/film/G1/round4/.
+
+Adapted G12's document-space motion model to the Greenhouse: 512px native-scrolling texture tiles at half resolution, cached softened sage/lavender sprites at 16% opacity, and quiet static document-space glass panes. There is no sampled scroll subtraction or rounded positioning. One requestAnimationFrame loop handles growth, texture painting and the independent gold light.
+
+The 16px round travelling light follows an arc-length route at a 90px/s maximum, with 240px/s² acceleration/braking and a 32ms maximum time step. Both portrait crowns, the planting bed, each of the four lesson markers and the contact crown open into the warm pool and split gold seed: 850ms opening, at least 600ms holding and 700ms closing. Fast scrolling queues the route without skipping arrivals or accelerating it. Full pool sizes are limited by reading clearance; the margin remains centred and round. Pause freezes both travel and growth, and reduced motion settles at a stop. Plant and tutor controls remain.
+
+The first desktop 4x CPU strip is 12.0ms p95, with unchanged 4754px height, zero overflow and zero JavaScript errors. A full-route footprint check found lesson approaches crossing reading matter; these now use the clear phone stem and desktop inter-column corridor. Final traces, strips and regressions follow.
+
+### Round 4 — frame ownership and phone trace
+
+Removed the inherited evolution callback's extra RAF scheduling: the running tick owns the next frame, while evolution only invalidates paint. Texture repainting remains limited to roughly 15Hz and light updates to 60Hz; scrolling itself is native. The core's opening size is also capped by each stop's available pool radius.
+
+The final-source phone trace records 14,218 samples over 89.90 seconds at 4x CPU, with zero background/tile alignment error, zero backward snaps, 1.638px median moving-frame travel, 2.880px maximum, 90px/s maximum speed and an exact 16px transit diameter. Trace p95 is 6.2ms. All eight arrivals are visited; the 20 consecutive lesson captures span 13.09 seconds through Recap, Live Teaching, Practice and Wrap Up. Final desktop and regression measurements follow.
+
+### Round 4 — owner redirect: background retained, light deferred
+
+The coordinator's STOP/change-of-direction message reports that the owner rejected G12/G2's time-based 90px/s traveller and timed opening/holding/closing. The measurements above document that rejected experiment, not the final accepted light. Removed that entire timed traveller and restored G1's Round 3 scroll-linked light and existing still reduced-motion presentation, ready for the separately specified follow-up. Restored the original verification assertion as well.
+
+Retained only this round's background work: native document-space tiles, faded and softened sage/lavender cells and static quiet glass panes, with one RAF owner for visible-row growth, painting and the existing light update. The background code measured zero alignment error/reversals in both traces; the prior timed-light numbers and lesson sheet are historical experiment evidence only. Final light refinement and its fresh evidence remain for the new dispatch. Copy, prices and layout remain unchanged.
+
+Final background-only source verification: the original verify.cjs passes (Plant/species controls, both reveals, synchronised Pause, chapter seeding, 320px reduced motion, no-JavaScript content and no errors). Refreshed all three after strips; rejected-model strips are separately preserved outside Git.
+
+| Width | Final height / screens | Final p95 | Overflow / errors |
+| --- | --- | --- | --- |
+| 390 | 6838px / 8.1 | 12.2ms | 0px / 0 |
+| 1440 | 4754px / 5.3 | 12.2ms | 0px / 0 |
+| 320 | 7289px / 12.8 | 12.1ms | 0px / 0 |
+
+The new scroll-linked light specification remains the only Round 4 follow-up, as directed by the coordinator.

@@ -1,4 +1,4 @@
-/* One shared, finite animation clock. Assemblies play once and stay built. */
+/* One shared frame loop. Each assembly follows its own viewport position. */
 (() => {
   'use strict';
   document.documentElement.classList.add('js');
@@ -7,11 +7,11 @@
   const scenes = [...document.querySelectorAll('.motion-scene')].map(el => ({
     el, canvas: el.querySelector('canvas'), ctx: el.querySelector('canvas').getContext('2d'),
     kind: Number(el.dataset.scene), width: 0, height: 0, top: 0,
-    progress: 0, elapsed: 0, started: false, dirty: true, bounds: null
+    progress: 0, targetProgress: 0, targetTime: 0, tail: 1, dirty: true, bounds: null
   }));
   let raf = 0, swap = 0, target = 0, start = 0, origin = 0, active = false;
   let pointer = 0, pointerX = null, paused = false, geometryDirty = true, lastTime = 0;
-  const durations = [2200, 3600, 4000, 3800, 5400];
+  const smoothingMs = 110, settleMs = 280, scrollSpan = .40;
   const timings = [], paints = [0,0,0,0,0];
   const clamp = n => Math.max(0, Math.min(1, n));
   const ease = n => n * n * n * (10 + n * (-15 + n * 6));
@@ -137,16 +137,28 @@
       scenes.forEach((s,i)=>{const r=rects[i];s.top=r.top+y;s.left=r.left;s.width=r.width;s.height=r.height;s.dirty=true;});
       geometryDirty=false;
     }
-    pointer=pointerX===null?0:Math.max(-.5,Math.min(.5,(pointerX-scenes[0].left)/Math.max(1,scenes[0].width)-.5));
+    if(!paused)pointer=pointerX===null?0:Math.max(-.5,Math.min(.5,(pointerX-scenes[0].left)/Math.max(1,scenes[0].width)-.5));
     const changing=active;
     if(active){const t=clamp((time-start)/1100);swap=lerp(origin,target,ease(t));active=t<1;}
     let running=active;
     for(const s of scenes){
       const top=s.top-y, w=s.width,h=s.height, previous=s.progress;
-      if(reduced.matches||paused){s.progress=1;s.elapsed=durations[s.kind];s.started=true;}
-      if(top+h<0||top>viewport||!w||!h)continue;
-      if(!s.started&&top<viewport*.90){s.started=true;s.dirty=true;}
-      if(s.started&&s.progress<1){s.elapsed+=dt;s.progress=clamp(s.elapsed/durations[s.kind]);running=s.progress<1||running;}
+      const next=reduced.matches?1:clamp((viewport-top)/(viewport*scrollSpan));
+      if(next!==s.targetProgress){s.targetProgress=next;s.targetTime=time;s.tail=1;}
+      const visible=top+h>=0&&top<=viewport&&w&&h;
+      if(reduced.matches||(!paused&&!visible)){s.progress=next;s.tail=1;}
+      else if(!paused&&s.progress!==next){
+        // A 110ms exponential filter absorbs wheel steps. Close its tiny tail
+        // with a quintic window, finishing smoothly within 300ms of the last
+        // target change rather than leaving an endless exponential drift.
+        const tail=1-ease(clamp((time-s.targetTime-settleMs/2)/(settleMs/2)));
+        const decay=s.tail?Math.exp(-dt/smoothingMs)*tail/s.tail:0;
+        s.progress=next+(s.progress-next)*decay;s.tail=tail;
+        if(tail===0||Math.abs(s.progress-next)<.0001)s.progress=next;
+        running=s.progress!==next||running;
+      }
+      if(s.progress!==previous)s.dirty=true;
+      if(!visible)continue;
       if(!s.dirty&&s.progress===previous&&!changing)continue;
       if(s.canvas.width!==Math.round(w*dpr)||s.canvas.height!==Math.round(h*dpr)){
         s.canvas.width=Math.round(w*dpr);s.canvas.height=Math.round(h*dpr);
@@ -170,18 +182,24 @@
   const button=document.querySelector('.rearrange');
   button.setAttribute('aria-pressed','false');
   button.addEventListener('click',()=>{
-    target=target?0:1;origin=swap;start=performance.now();active=!reduced.matches&&!paused;if(!active)swap=target;
+    target=target?0:1;origin=swap;start=performance.now();active=!reduced.matches&&!paused;if(reduced.matches)swap=target;
     scenes.forEach(s=>s.dirty=true);button.setAttribute('aria-pressed',String(!!target));request();
   });
   const pauseButton=document.querySelector('.pause');
-  pauseButton.addEventListener('click',()=>{paused=!paused;active=false;swap=target;pointerX=null;scenes.forEach(s=>s.dirty=true);pauseButton.setAttribute('aria-pressed',String(paused));pauseButton.textContent=paused?'Resume motion':'Pause motion';request();});
+  pauseButton.addEventListener('click',()=>{
+    paused=!paused;active=!paused&&!reduced.matches&&swap!==target;
+    origin=swap;start=performance.now();lastTime=0;
+    scenes.forEach(s=>{s.targetTime=start;s.tail=1;});
+    pauseButton.setAttribute('aria-pressed',String(paused));pauseButton.textContent=paused?'Resume motion':'Pause motion';request();
+  });
   const portrait=document.querySelector('.portrait-stage');
   portrait.addEventListener('pointermove',e=>{
     if(reduced.matches||paused||e.pointerType==='touch')return;
     pointerX=e.clientX;scenes[0].dirty=true;request();
   },{passive:true});
-  portrait.addEventListener('pointerleave',()=>{pointerX=null;scenes[0].dirty=true;request();},{passive:true});
+  portrait.addEventListener('pointerleave',()=>{if(paused)return;pointerX=null;scenes[0].dirty=true;request();},{passive:true});
   // Read-only instrumentation for reproducible local QA.
   window.conceptMotion={snapshot:()=>({mode,paints:[...paints],drawMs:[...timings],active,swap,paused,reduced:reduced.matches,pixelRatio:Math.min(devicePixelRatio||1,2),progress:scenes.map(s=>s.progress),pending:!!raf,
-    scenes:scenes.map(s=>({kind:s.kind,progress:s.progress,duration:durations[s.kind],width:s.width,height:s.height,bounds:s.bounds}))})};
+    smoothingMs,settleMs,scrollSpan,
+    scenes:scenes.map(s=>({kind:s.kind,progress:s.progress,targetProgress:s.targetProgress,top:s.top,scrollStart:s.top-innerHeight,scrollEnd:s.top-innerHeight*(1-scrollSpan),width:s.width,height:s.height,bounds:s.bounds}))})};
 })();
